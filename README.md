@@ -1,36 +1,122 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Smooth Scroll Next.js App
 
-## Getting Started
+A Next.js application with buttery-smooth scrolling using Lenis, fully integrated with GSAP ScrollTrigger support.
 
-First, run the development server:
+## Features
+
+- ✨ Smooth scrolling with Lenis
+- 🎨 GSAP ScrollTrigger integration (optional)
+- 📱 Responsive design with TailwindCSS
+- ⚡ TypeScript support
+- 🎯 Clean, scalable architecture
+
+## Installation
+
+The project comes with all dependencies pre-configured:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the smooth scrolling in action.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Architecture
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### SmoothScrollProvider
 
-## Learn More
+The core of the smooth scrolling implementation is the `SmoothScrollProvider` component located at `components/SmoothScrollProvider.tsx`. It:
 
-To learn more about Next.js, take a look at the following resources:
+- Initializes Lenis with optimized settings (`lerp: 0.08`)
+- Automatically connects to `requestAnimationFrame` for smooth updates
+- Optionally integrates with GSAP ScrollTrigger if available
+- Properly cleans up on unmount
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Global CSS Configuration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The `app/globals.css` file includes:
 
-## Deploy on Vercel
+- Tailwind CSS imports
+- Lenis CSS imports
+- Essential smooth scroll styles (`overflow: hidden` on html/body)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Layout Integration
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The main layout (`app/layout.tsx`) wraps the entire application with the `SmoothScrollProvider`, ensuring all pages have smooth scrolling.
+
+## GSAP Integration
+
+The provider automatically detects and integrates with GSAP ScrollTrigger if it's installed. To use GSAP animations:
+
+1. Install GSAP: `npm install gsap`
+2. Import ScrollTrigger in your components:
+
+```tsx
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
+// Your animations will work seamlessly with smooth scrolling
+```
+
+## Customization
+
+### Lenis Configuration
+
+Modify the Lenis settings in `SmoothScrollProvider.tsx`:
+
+```tsx
+const lenis = new Lenis({
+  lerp: 0.08,           // Smoothness (0-1, lower = smoother)
+  smoothWheel: true,    // Enable smooth wheel scrolling
+  // Add more options as needed
+})
+```
+
+### CSS Customization
+
+The global styles can be extended in `app/globals.css`:
+
+```css
+@layer base {
+  html,
+  body {
+    height: auto;
+    overflow: hidden;
+    /* Add your custom styles here */
+  }
+}
+```
+
+## Performance
+
+- Optimized `requestAnimationFrame` loop
+- Minimal bundle size impact
+- Efficient scroll event handling
+- Compatible with React 18+ features
+
+## Browser Support
+
+- Chrome 61+
+- Firefox 60+
+- Safari 12+
+- Edge 79+
+
+## Troubleshooting
+
+### Scrolling doesn't work
+- Ensure `overflow: hidden` is applied to html/body
+- Check that no parent elements have conflicting scroll properties
+
+### GSAP animations are jumpy
+- Make sure ScrollTrigger is properly registered
+- Verify the scroller proxy is correctly configured
+
+### Performance issues
+- Reduce the `lerp` value for less smoothing
+- Check for conflicting CSS animations
+
+## License
+
+MIT # Updated for deployment
