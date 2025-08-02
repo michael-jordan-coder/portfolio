@@ -207,34 +207,143 @@ export default function ChatViewSection() {
           
           {/* Design Inspiration */}
           <div className="bg-blue-50 rounded-2xl p-8 border border-blue-200 max-w-7xl mx-auto mb-12">
-            <div className="grid grid-cols-2 gap-2 h-[900px]">
-              <div className="bg-red-400 rounded-xl flex items-center justify-center overflow-hidden">
-                <img 
-                  src="/tuqqi/shdcn-chat.webp" 
-                  alt="Shadcn Chat Reference" 
-                  className="w-full h-full object-cover"
-                />
+            <div className="grid grid-cols-2 gap-8 h-[400px] mb-8">
+              {/* Old UI - Left Side */}
+              <div className="relative group cursor-pointer rounded-xl overflow-hidden shadow-lg border border-red-200" style={{ backgroundColor: '#E7E7E7' }}>
+                <div className="w-full h-full flex items-center justify-center p-4">
+                  <img 
+                    src="/tuqqi/old-chat.svg" 
+                    alt="Old Tuqqi Chat Interface" 
+                    className="w-full h-full object-contain transition-all duration-300 group-hover:blur-sm group-hover:scale-105"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center p-6">
+                    <h4 className="text-white text-xl font-bold mb-3">Old UI Design</h4>
+                    <p className="text-white/90 text-sm leading-relaxed max-w-xs">
+                      The original interface had outdated visual elements, poor color contrast, and lacked modern design patterns. Users found it difficult to navigate and visually unappealing.
+                    </p>
+                  </div>
+                </div>
+                <div className="absolute top-4 left-4 bg-red-200 text-red-700 px-3 py-1 rounded-full text-sm font-medium">
+                  Before
+                </div>
               </div>
-              <div className="bg-blue-400 rounded-xl flex items-center justify-center overflow-hidden">
-                <img 
-                  src="/tuqqi/imessages.webp" 
-                  alt="iMessages Reference" 
-                  className="w-full h-full object-cover"
-                />
+              
+              {/* New UI - Right Side */}
+              <div className="relative group cursor-pointer rounded-xl overflow-hidden shadow-lg border border-green-200" style={{ backgroundColor: '#E7E7E7' }}>
+                <div className="w-full h-full flex items-center justify-center p-4">
+                  <img 
+                    src="/tuqqi/new-chat.svg" 
+                    alt="New Tuqqi Chat Interface" 
+                    className="w-full h-full object-contain transition-all duration-300 group-hover:blur-sm group-hover:scale-105"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center p-6">
+                    <h4 className="text-white text-xl font-bold mb-3">New UI Design</h4>
+                    <p className="text-white/90 text-sm leading-relaxed max-w-xs">
+                      The redesigned interface features modern aesthetics, improved visual hierarchy, better color schemes, and enhanced user experience with cleaner chat bubbles and intuitive navigation.
+                    </p>
+                  </div>
+                </div>
+                <div className="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  After
+                </div>
               </div>
-              <div className="bg-green-400 rounded-xl flex items-center justify-center overflow-hidden">
-                <img 
-                  src="/tuqqi/whatsapp.png" 
-                  alt="WhatsApp Reference" 
-                  className="w-full h-full object-cover"
-                />
+            </div>
+            
+            {/* Second Pair of Containers */}
+            <div className="grid grid-cols-2 gap-8 h-[400px] mb-8">
+              {/* Second Old UI - Left Side */}
+              <div className="relative group cursor-pointer rounded-xl overflow-hidden shadow-lg border border-red-200" style={{ backgroundColor: '#E7E7E7' }}>
+                <div className="w-full h-full flex items-center justify-center p-4">
+                  <img 
+                    src="/tuqqi/tuqqi-old.svg" 
+                    alt="Old Tuqqi Interface" 
+                    className="w-full h-full object-contain transition-all duration-300 group-hover:blur-sm group-hover:scale-105"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center p-6">
+                    <h4 className="text-white text-xl font-bold mb-3">Old Tuqqi Interface</h4>
+                    <p className="text-white/90 text-sm leading-relaxed max-w-xs">
+                      The original Tuqqi interface design that needed modernization and improved user experience.
+                    </p>
+                  </div>
+                </div>
+                <div className="absolute top-4 left-4 bg-red-200 text-red-700 px-3 py-1 rounded-full text-sm font-medium">
+                  Before
+                </div>
               </div>
-              <div className="bg-purple-400 rounded-xl flex items-center justify-center overflow-hidden">
-                <img 
-                  src="/tuqqi/chat-new.png" 
-                  alt="Modern Chat Interface" 
-                  className="w-full h-full object-cover"
-                />
+              
+              {/* Second New UI - Right Side */}
+              <div className="relative group cursor-pointer rounded-xl overflow-hidden shadow-lg border border-green-200" style={{ backgroundColor: '#E7E7E7' }}>
+                <div className="w-full h-full flex items-center justify-center p-4">
+                  <img 
+                    src="/tuqqi/tuqqi-new.svg" 
+                    alt="New Tuqqi Interface" 
+                    className="w-full h-full object-contain transition-all duration-300 group-hover:blur-sm group-hover:scale-105"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center p-6">
+                    <h4 className="text-white text-xl font-bold mb-3">New Tuqqi Interface</h4>
+                    <p className="text-white/90 text-sm leading-relaxed max-w-xs">
+                      The redesigned Tuqqi interface with modern aesthetics, improved functionality, and enhanced user experience.
+                    </p>
+                  </div>
+                </div>
+                <div className="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  After
+                </div>
+              </div>
+            </div>
+            
+            {/* Third Pair of Containers */}
+            <div className="grid grid-cols-2 gap-8 h-[400px]">
+              {/* Third Old UI - Left Side */}
+              <div className="relative group cursor-pointer rounded-xl overflow-hidden shadow-lg border border-red-200" style={{ backgroundColor: '#E7E7E7' }}>
+                <div className="w-full h-full flex items-center justify-center p-4">
+                  <img 
+                    src="/tuqqi/whole-chat-old.png" 
+                    alt="Old Complete Chat Interface" 
+                    className="w-full h-full object-contain transition-all duration-300 group-hover:blur-sm group-hover:scale-105"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center p-6">
+                    <h4 className="text-white text-xl font-bold mb-3">Old Complete Chat Interface</h4>
+                    <p className="text-white/90 text-sm leading-relaxed max-w-xs">
+                      The complete original chat interface showing the full conversation flow and user interaction design.
+                    </p>
+                  </div>
+                </div>
+                <div className="absolute top-4 left-4 bg-red-200 text-red-700 px-3 py-1 rounded-full text-sm font-medium">
+                  Before
+                </div>
+              </div>
+              
+              {/* Third New UI - Right Side */}
+              <div className="relative group cursor-pointer rounded-xl overflow-hidden shadow-lg border border-green-200" style={{ backgroundColor: '#E7E7E7' }}>
+                <div className="w-full h-full flex items-center justify-center p-4">
+                  <img 
+                    src="/tuqqi/whole-chat-new.png" 
+                    alt="New Complete Chat Interface" 
+                    className="w-full h-full object-contain transition-all duration-300 group-hover:blur-sm group-hover:scale-105"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center p-6">
+                    <h4 className="text-white text-xl font-bold mb-3">New Complete Chat Interface</h4>
+                    <p className="text-white/90 text-sm leading-relaxed max-w-xs">
+                      The redesigned complete chat interface with improved layout, modern design elements, and enhanced user experience.
+                    </p>
+                  </div>
+                </div>
+                <div className="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  After
+                </div>
               </div>
             </div>
           </div>
