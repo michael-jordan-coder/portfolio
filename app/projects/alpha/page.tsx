@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import ChatViewSection from './ChatViewSection';
 import ImageComparisonSlider from './ImageComparisonSlider';
+import NextProjectButton from '../../../components/NextProjectButton';
 
 export default function AlphaPage() {
   useEffect(() => {
@@ -79,6 +80,13 @@ export default function AlphaPage() {
 
         {/* Detailed Process Section */}
         <ChatViewSection />
+        
+        {/* Next Project Button */}
+        <NextProjectButton
+          nextProjectPath="/projects/gamma"
+          nextProjectTitle="Dashboard OS"
+          nextProjectDescription="A comprehensive design system that brings modern dashboard interfaces to life with interactive components and design tokens."
+        />
       </main>
     </>
   );

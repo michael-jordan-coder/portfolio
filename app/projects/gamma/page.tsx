@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { DotPattern } from '@/components/DotPattern';
+import NextProjectButton from '../../../components/NextProjectButton';
 
 
 
@@ -189,6 +190,14 @@ export default function DashboardOSPage() {
             </div>
           </div>
         </section>
+        
+        {/* Next Project Button */}
+        <NextProjectButton
+          nextProjectPath="/projects/alpha"
+          nextProjectTitle="Tuqqi Chat Interface Redesign"
+          nextProjectDescription="A comprehensive design refresh to modernize the chat interface and enhance user experience with interactive prototypes."
+          className="bg-black"
+        />
       </main>
     </>
   );
