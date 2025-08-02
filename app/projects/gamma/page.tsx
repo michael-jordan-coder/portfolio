@@ -149,47 +149,40 @@ export default function DashboardOSPage() {
           </div>
         </section>
 
-        {/* Call to Action */}
-        <section className="relative z-10 px-4 pb-20">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center bg-black rounded-2xl p-8 border border-white/10">
-              <h3 className="text-2xl font-semibold text-white mb-4">
-                Dive Into the Complete Experience
-              </h3>
-              <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-                Immerse yourself in the full Dashboard OS design system—where every component tells a story and every interaction feels natural.
+        {/* Figma Design System Embed */}
+        <section className="relative z-10 px-4 py-24">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-white mb-4">
+                Design System in Action
+              </h2>
+              <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+                Explore the complete Dashboard OS design system directly in Figma. Every component, token, and interaction is meticulously crafted for modern dashboard experiences.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="https://emit-cane-34282110.figma.site/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50"
-                >
-                  Launch Preview
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M18 13V19A2 2 0 0 1 16 21H6A2 2 0 0 1 4 19V5A2 2 0 0 1 6 3H13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M15 2L21 8L15 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M10 14L21 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </a>
-                <a
-                  href="https://emit-cane-34282110.figma.site"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-white/10 text-white px-6 py-3 rounded-full font-semibold hover:bg-white/20 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 border border-white/20"
-                >
-                  Explore System
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </a>
-              </div>
+            </div>
+            
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black">
+              <iframe 
+                style={{ border: '1px solid rgba(0, 0, 0, 0.1);' }} 
+                width="100%" 
+                height="800"
+                src="https://embed.figma.com/design/h44eIHQnytwjebACQ0XL2J/Sales-Dashboard-ui-kit?node-id=16-1371&embed-host=share" 
+                allowFullScreen
+                title="Dashboard OS - Figma Design System"
+                className="w-full"
+              />
+            </div>
+            
+            <div className="text-center mt-8">
+              <p className="text-gray-400 text-sm">
+                Interactive Figma design system with all components, tokens, and prototypes
+              </p>
             </div>
           </div>
         </section>
+
+       
+       
         
         {/* Next Project Button */}
         <div className="pb-12"> 
