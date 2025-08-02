@@ -41,7 +41,7 @@ const nextConfig = {
   },
   
   // Explicitly configure static file serving
-  webpack: (config, { isServer }) => {
+  webpack: (config: any, { isServer }: { isServer: boolean }) => {
     // Ensure static files are copied to output
     if (!isServer) {
       config.resolve.fallback = {

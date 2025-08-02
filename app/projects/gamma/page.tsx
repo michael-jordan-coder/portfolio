@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { DotPattern } from '@/components/DotPattern';
 
 
 
 export default function DashboardOSPage() {
-  const [previewWidth, setPreviewWidth] = useState('web');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -15,7 +15,7 @@ export default function DashboardOSPage() {
   return (
     <>
       {/* Navigation */}
-      <nav className="fixed top-6 right-6 z-40">
+      <nav className="fixed top-6 right-6 z-50">
         <Link
           href="/"
           className="px-4 py-2 rounded-full bg-black/90 text-white font-semibold shadow-lg hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200 backdrop-blur-sm"
@@ -26,164 +26,83 @@ export default function DashboardOSPage() {
       </nav>
 
       {/* Main Content */}
-      <main className="min-h-screen bg-black">
+      <main className="min-h-screen bg-black relative overflow-hidden">
+        {/* Dot Pattern Background */}
+        <DotPattern 
+          width={25} 
+          height={25} 
+          cx={1} 
+          cy={1} 
+          cr={1} 
+          className="opacity-60 text-white/40" 
+        />
+        {/* Radial Fade Overlay - Fixed to viewport center */}
+        <div 
+          className="fixed inset-0 pointer-events-none z-0"
+          style={{
+            background: `radial-gradient(ellipse 70% 50% at 50% 50%, transparent 0%, transparent 15%, rgba(0, 0, 0, 0.3) 35%, rgba(0, 0, 0, 0.7) 55%, rgba(0, 0, 0, 0.9) 75%, rgba(0, 0, 0, 0.98) 100%)`
+          }}
+        />
         {/* Hero Section */}
-        <section className="pt-24 pb-16 px-4">
+        <section className="relative z-10 pt-32 pb-24 px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Dashboard OS
-            </h1>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8">
-              A living UI kit experience for modern dashboard interfaces
-            </p>
-                        <div className="mb-12">
-            <div className="inline-block bg-black text-white text-sm px-4 py-2 rounded-full font-medium border border-white/20">
+            <div className="mb-16">
+              <div className="inline-block bg-black text-white text-sm px-4 py-2 rounded-full font-medium border border-white/20">
                 Design System
               </div>
-            
-            {/* Responsive Preview Controls */}
-            <div className="mt-6 mb-4 flex flex-wrap gap-3 justify-center">
-              <button 
-                onClick={() => setPreviewWidth('web')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                  previewWidth === 'web' 
-                    ? 'bg-white text-black' 
-                    : 'bg-white/10 text-white hover:bg-white/20'
-                }`}
-              >
-                Web (1872px)
-              </button>
-              <button 
-                onClick={() => setPreviewWidth('tablet')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                  previewWidth === 'tablet' 
-                    ? 'bg-white text-black' 
-                    : 'bg-white/10 text-white hover:bg-white/20'
-                }`}
-              >
-                Tablet (768px)
-              </button>
-              <button 
-                onClick={() => setPreviewWidth('phone')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                  previewWidth === 'phone' 
-                    ? 'bg-white text-black' 
-                    : 'bg-white/10 text-white hover:bg-white/20'
-                }`}
-              >
-                Phone (402px)
-              </button>
             </div>
-
-            <div className="mt-4 relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black w-auto">
-              <div className={`mx-auto transition-all duration-500 ${
-                previewWidth === 'web' ? 'w-[1872px]' :
-                previewWidth === 'tablet' ? 'w-[768px]' :
-                previewWidth === 'phone' ? 'w-[402px]' : 'w-full'
-              }`}>
-                <iframe 
-                  style={{ border: '1px solid rgba(255, 255, 255, 0.1);' }} 
-                  width="100%" 
-                  height="700"
-                  src="https://emit-cane-34282110.figma.site/" 
-                  allowFullScreen
-                  title="Dashboard OS - Live Preview"
-                  className="w-full"
-                />
-              </div>
-            </div>
-          </div>
-
-
-           
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-12">
+              Dashboard OS
+            </h1>
+            <p className="text-2xl text-gray-300 max-w-2xl mx-auto ">
+              A comprehensive design system that brings modern dashboard interfaces to life
+            </p>
           </div>
         </section>
 
-        {/* Project Overview */}
-        <section className="px-4 pb-12">
+        {/* Live Preview - Main Showcase */}
+        <section className="relative z-10  ">
+          <div className="max-w-7xl mx-auto">
+           
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black">
+              <iframe 
+                style={{ border: '1px solid rgba(255, 255, 255, 0.1);' }} 
+                width="100%" 
+                height="600"
+                src="https://emit-cane-34282110.figma.site" 
+                allowFullScreen
+                title="Dashboard OS - Design System"
+                className="w-full"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Project Overview & Features */}
+        <section className="relative z-10 px-4 py-24">
           <div className="max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
-                <h2 className="text-3xl font-bold text-white mb-4">
-                  Project Overview
-                </h2>
-                <p className="text-gray-300 mb-6">
-                  Dashboard OS is a comprehensive design system and UI kit for modern dashboard interfaces. 
-                  Built with Figma, it provides a complete set of components, design tokens, and interactive prototypes.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-white/10 text-white text-sm rounded-full">Figma</span>
-                  <span className="px-3 py-1 bg-white/10 text-white text-sm rounded-full">Design System</span>
-                  <span className="px-3 py-1 bg-white/10 text-white text-sm rounded-full">UI Kit</span>
-                  <span className="px-3 py-1 bg-white/10 text-white text-sm rounded-full">Dashboard</span>
-                </div>
-              </div>
-              <div className="bg-black rounded-xl p-6 border border-white/10">
-                <h3 className="text-lg font-semibold text-white mb-4">Key Features</h3>
-                <ul className="space-y-3 text-gray-300">
-                  <li className="flex items-center gap-2">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-green-400">
-                      <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    Component Library
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-green-400">
-                      <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    Design Tokens
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-green-400">
-                      <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    Interactive Prototypes
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-green-400">
-                      <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    Live Preview
-                  </li>
-                </ul>
+            <div className="text-center max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold text-white mb-8">
+                The Journey
+              </h2>
+              <p className="text-gray-300 mb-12 text-lg leading-relaxed">
+                It all started with shadcn/ui—a solid foundation that I decided to push beyond its basic capabilities. I wanted to transform it into something more sophisticated, tailored specifically for complex SaaS systems and enterprise dashboards. As I evolved the components and design patterns, the idea emerged: why not make this accessible to designers through Figma? That's how Dashboard OS was born—a bridge between development and design.
+              </p>
+              <div className="flex flex-wrap gap-3 justify-center">
+                <span className="px-4 py-2 bg-white/10 text-white text-sm rounded-full">shadcn/ui</span>
+                <span className="px-4 py-2 bg-white/10 text-white text-sm rounded-full">SaaS</span>
+                <span className="px-4 py-2 bg-white/10 text-white text-sm rounded-full">Figma</span>
+                <span className="px-4 py-2 bg-white/10 text-white text-sm rounded-full">Design System</span>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Interactive Showcase */}
-        <section className="px-4 pb-12">
-          <div className="max-w-5xl mx-auto">
-         
-            
-            {/* Live Preview - Primary */}
-           
-
-            {/* Figma Design System */}
-            <div className="mb-12">
-              <h3 className="text-xl font-semibold text-white mb-4 text-center">
-                Design System Components
-              </h3>
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black">
-                <iframe 
-                  style={{ border: '1px solid rgba(255, 255, 255, 0.1);' }} 
-                  width="100%" 
-                  height="600"
-                  src="https://emit-cane-34282110.figma.site" 
-                  allowFullScreen
-                  title="Dashboard OS - Design System"
-                  className="w-full"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Features Grid */}
-        <section className="px-4 pb-12">
+        {/* Technical Features Grid */}
+        <section className="relative z-10 px-4 pb-12">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold text-white mb-8 text-center">
-              Design System Features
+              Technical Excellence
             </h2>
             <div className="grid md:grid-cols-3 gap-6 mb-12">
               <div className="bg-black rounded-xl p-6 border border-white/10 shadow-sm">
@@ -196,7 +115,7 @@ export default function DashboardOSPage() {
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">Component Library</h3>
                 <p className="text-gray-300 text-sm">
-                  Comprehensive set of reusable UI components designed for dashboard interfaces
+                  A comprehensive collection of modular, reusable UI components engineered specifically for modern dashboard interfaces
                 </p>
               </div>
 
@@ -209,7 +128,7 @@ export default function DashboardOSPage() {
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">Design Tokens</h3>
                 <p className="text-gray-300 text-sm">
-                  Consistent color palette, typography, and spacing system for cohesive design
+                  Systematic design tokens ensuring consistent color palettes, typography hierarchies, and spacing systems across all components
                 </p>
               </div>
 
@@ -222,7 +141,7 @@ export default function DashboardOSPage() {
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">Interactive Prototype</h3>
                 <p className="text-gray-300 text-sm">
-                  Live Figma prototype showcasing the complete dashboard experience
+                  Fully functional Figma prototype demonstrating the complete dashboard experience with real interactions
                 </p>
               </div>
             </div>
@@ -230,14 +149,14 @@ export default function DashboardOSPage() {
         </section>
 
         {/* Call to Action */}
-        <section className="px-4 pb-20">
+        <section className="relative z-10 px-4 pb-20">
           <div className="max-w-4xl mx-auto">
             <div className="text-center bg-black rounded-2xl p-8 border border-white/10">
               <h3 className="text-2xl font-semibold text-white mb-4">
-                Experience the Full Design System
+                Dive Into the Complete Experience
               </h3>
               <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-                Explore the complete Dashboard OS design system with interactive components, design tokens, and real-world examples.
+                Immerse yourself in the full Dashboard OS design system—where every component tells a story and every interaction feels natural.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
@@ -246,7 +165,7 @@ export default function DashboardOSPage() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50"
                 >
-                  Live Preview
+                  Launch Preview
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M18 13V19A2 2 0 0 1 16 21H6A2 2 0 0 1 4 19V5A2 2 0 0 1 6 3H13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     <path d="M15 2L21 8L15 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -259,7 +178,7 @@ export default function DashboardOSPage() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-white/10 text-white px-6 py-3 rounded-full font-semibold hover:bg-white/20 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 border border-white/20"
                 >
-                  View Design System
+                  Explore System
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
