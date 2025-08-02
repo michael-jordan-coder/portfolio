@@ -12,6 +12,28 @@ export default function AlphaPage() {
 
   return (
     <>
+      {/* Schema for Alpha Project */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CreativeWork",
+            "name": "Tuqqi Chat Interface Redesign",
+            "description": "Redesigned chat interface for Tuqqi work management platform",
+            "author": {
+              "@type": "Person",
+              "name": "Daniel Gur Arye"
+            },
+            "dateCreated": "2024",
+            "genre": "UX Design",
+            "keywords": "chat interface, UX design, work management, user experience, Tuqqi",
+            "url": "https://danielgurarye.com/projects/alpha",
+            "image": "/tuqqi/chat-new.png"
+          })
+        }}
+      />
+      
       {/* Navigation */}
       <nav className="fixed top-6 right-6 z-40">
         <Link

@@ -14,6 +14,28 @@ export default function DashboardOSPage() {
 
   return (
     <>
+      {/* Schema for Gamma Project */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CreativeWork",
+            "name": "Dashboard OS Design System",
+            "description": "Comprehensive design system for modern dashboard interfaces with component library and design tokens",
+            "author": {
+              "@type": "Person",
+              "name": "Daniel Gur Arye"
+            },
+            "dateCreated": "2024",
+            "genre": "Design System",
+            "keywords": "design system, component library, dashboard, UI kit, Figma, shadcn/ui",
+            "url": "https://danielgurarye.com/projects/gamma",
+            "image": "/dashboard-os/dashboard-os.png"
+          })
+        }}
+      />
+      
       {/* Navigation */}
       <nav className="fixed top-6 right-6 z-50">
         <Link

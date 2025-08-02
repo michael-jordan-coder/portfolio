@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://danielgurarye.com/sitemap.xml
+
+# Disallow crawling of admin or private areas (if any)
+# Disallow: /admin/
+# Disallow: /private/
+
+# Allow all crawlers access to CSS and JS files
+Allow: /_next/static/
+Allow: /favicon.svg
+Allow: /og-image.jpg
+Allow: /twitter-card.jpg
