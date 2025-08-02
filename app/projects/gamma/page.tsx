@@ -4,14 +4,13 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { DotPattern } from '@/components/DotPattern';
 import NextProjectButton from '../../../components/NextProjectButton';
+import { useScrollRestoration } from '@/lib/utils';
 
 
 
 export default function DashboardOSPage() {
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  useScrollRestoration();
 
   return (
     <>

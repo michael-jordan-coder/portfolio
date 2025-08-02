@@ -3,11 +3,10 @@
 import Link from 'next/link';
 import { useEffect } from 'react';
 import NextProjectButton from '../../../components/NextProjectButton';
+import { useScrollRestoration } from '@/lib/utils';
 
 export default function BetaPage() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  useScrollRestoration();
 
   return (
     <>

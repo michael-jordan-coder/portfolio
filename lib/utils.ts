@@ -1,6 +1,6 @@
-import { type ClassValue, clsx } from 'clsx'
-import { twMerge } from 'tailwind-merge'
-import { useState, useEffect } from 'react'
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+import { useEffect, useState } from "react"
 
 /**
  * Utility function to merge Tailwind CSS classes
@@ -8,6 +8,72 @@ import { useState, useEffect } from 'react'
  */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+// Utility function to ensure scroll to top
+export function scrollToTop() {
+  if (typeof window !== 'undefined') {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+}
+
+// Custom hook for scroll restoration
+export function useScrollToTop() {
+  if (typeof window !== 'undefined') {
+    // Scroll to top immediately
+    window.scrollTo(0, 0);
+    
+    // Also scroll to top after a short delay to ensure it works
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+    
+    // Additional scroll to top after component mount
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 500);
+  }
+}
+
+// Enhanced scroll restoration for Next.js navigation
+export function ensureScrollToTop() {
+  if (typeof window !== 'undefined') {
+    // Immediate scroll
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant'
+    });
+    
+    // Delayed scroll to ensure it works with Next.js navigation
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'instant'
+      });
+    }, 50);
+    
+    // Final scroll after component is fully mounted
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'instant'
+      });
+    }, 200);
+  }
+}
+
+// React hook for automatic scroll restoration
+export function useScrollRestoration() {
+  useEffect(() => {
+    ensureScrollToTop();
+  }, []);
 }
 
 /**

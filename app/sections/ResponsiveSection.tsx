@@ -2,7 +2,11 @@ import { ScrollToButton } from '@/components/ScrollToButton'
 import React from 'react'
 import Link from 'next/link'
 
-const ResponsiveSection: React.FC = () => (
+interface ResponsiveSectionProps {
+  onOpenContact?: () => void;
+}
+
+const ResponsiveSection: React.FC<ResponsiveSectionProps> = ({ onOpenContact }) => (
   <section
     id="responsive"
     className="relative h-auto bg-gradient-to-b from-black via-[#060607] to-black flex items-center justify-center px-4 sm:px-8 overflow-visible p-6 pt-[20vh] pb-[20vh]"
@@ -24,12 +28,12 @@ const ResponsiveSection: React.FC = () => (
         >
           Back to Top
         </ScrollToButton>
-        <Link 
-          href="/about" 
+        <button 
+          onClick={onOpenContact}
           className="border-2 border-white text-white px-6 py-3 rounded-full font-semibold transition-colors hover:bg-white/10"
         >
-          About Me
-        </Link>
+          Let's Connect
+        </button>
       </div>
     </div>
   </section>

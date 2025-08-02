@@ -27,7 +27,7 @@ export default function Home() {
         <HeroSection />
         <SmoothSection />
         <GsapSection />
-        <ResponsiveSection />
+        <ResponsiveSection onOpenContact={() => setIsContactModalOpen(true)} />
       </main>
       <ContactModal 
         isOpen={isContactModalOpen} 

@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ScrollToButton } from '@/components/ScrollToButton';
 import { useRouter } from 'next/navigation';
 import { Button } from '../../components/Button';
+import { ensureScrollToTop } from '@/lib/utils';
 
 // Project data structure
 interface Project {
@@ -53,8 +54,16 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
   const handleProjectClick = () => {
     if (project.id === 'alpha') {
       router.push('/projects/alpha');
+      // Ensure scroll to top after navigation
+      setTimeout(() => {
+        ensureScrollToTop();
+      }, 100);
     } else if (project.id === 'gamma') {
       router.push('/projects/gamma');
+      // Ensure scroll to top after navigation
+      setTimeout(() => {
+        ensureScrollToTop();
+      }, 100);
     } else {
       window.open(project.url, '_blank', 'noopener,noreferrer');
     }
@@ -146,8 +155,16 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                 e.stopPropagation();
                 if (project.id === 'alpha') {
                   router.push('/projects/alpha');
+                  // Ensure scroll to top after navigation
+                  setTimeout(() => {
+                    ensureScrollToTop();
+                  }, 100);
                 } else if (project.id === 'gamma') {
                   router.push('/projects/gamma');
+                  // Ensure scroll to top after navigation
+                  setTimeout(() => {
+                    ensureScrollToTop();
+                  }, 100);
                 } else {
                   window.open(project.url, '_blank', 'noopener,noreferrer');
                 }

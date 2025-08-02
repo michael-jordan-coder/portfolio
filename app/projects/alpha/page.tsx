@@ -5,11 +5,10 @@ import { useEffect } from 'react';
 import ChatViewSection from './ChatViewSection';
 import ImageComparisonSlider from './ImageComparisonSlider';
 import NextProjectButton from '../../../components/NextProjectButton';
+import { useScrollRestoration } from '@/lib/utils';
 
 export default function AlphaPage() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  useScrollRestoration();
 
   return (
     <>
