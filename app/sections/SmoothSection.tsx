@@ -37,11 +37,11 @@ const PROJECTS: Project[] = [
   },
   {
     id: 'beta',
-    title: 'Project Beta',
+    title: 'Beta',
     description: 'Mobile-first responsive design with smooth animations and intuitive navigation',
     image: '/projects/ink.svg',
     url: '/projects/beta',
-    category: 'consept project'
+    category: 'Coming Soon!'
   },
   
   

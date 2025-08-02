@@ -80,10 +80,10 @@ const HeroSection: React.FC = () => {
     .to(buttonsRef.current, {
       opacity: 1,
       y: 0,
-      duration: 0.6,
-      stagger: 0.15,
+      duration: 0.4,
+      stagger: 0.1,
       ease: "back.out(1.7)"
-    }, "-=0.2");
+    }, "-=0.1");
 
     return () => {
       tl.kill();
