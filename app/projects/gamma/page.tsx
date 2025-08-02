@@ -192,12 +192,14 @@ export default function DashboardOSPage() {
         </section>
         
         {/* Next Project Button */}
+        <div className="pb-12"> 
         <NextProjectButton
           nextProjectPath="/projects/alpha"
           nextProjectTitle="Tuqqi Chat Interface Redesign"
           nextProjectDescription="A comprehensive design refresh to modernize the chat interface and enhance user experience with interactive prototypes."
           className="bg-black"
         />
+        </div>
       </main>
     </>
   );
