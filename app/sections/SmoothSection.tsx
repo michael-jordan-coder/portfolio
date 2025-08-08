@@ -37,11 +37,11 @@ const PROJECTS: Project[] = [
   },
   {
     id: 'beta',
-    title: 'Beta',
-    description: 'Mobile-first responsive design with smooth animations and intuitive navigation',
+    title: 'Design System (Figma)',
+    description: 'A modern, production-ready design system published on Figma Community.',
     image: '/projects/ink.svg',
     url: '/projects/beta',
-    category: 'Coming Soon!'
+    category: 'Design System'
   },
   
   
@@ -61,6 +61,11 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
     } else if (project.id === 'gamma') {
       router.push('/projects/gamma');
       // Ensure scroll to top after navigation
+      setTimeout(() => {
+        ensureScrollToTop();
+      }, 100);
+    } else if (project.id === 'beta') {
+      router.push('/projects/beta');
       setTimeout(() => {
         ensureScrollToTop();
       }, 100);
@@ -102,10 +107,10 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
         ) : isFigma ? (
           <div className="w-full h-full overflow-hidden relative">
             <iframe
-              src="https://gig-tamp-71175298.figma.site/"
+              src="https://www.figma.com/community/file/1535743654409682396/design-system"
               className="w-full h-full object-fill scale-[1.15] -translate-y-4"
               style={{ pointerEvents: 'none', border: 'none', minHeight: '100%', minWidth: '100%' }}
-              title="Project Beta Figma Site"
+              title="Design System Figma Community File"
               scrolling="no"
             />
             <style jsx>{`
@@ -162,6 +167,11 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                 } else if (project.id === 'gamma') {
                   router.push('/projects/gamma');
                   // Ensure scroll to top after navigation
+                  setTimeout(() => {
+                    ensureScrollToTop();
+                  }, 100);
+                } else if (project.id === 'beta') {
+                  router.push('/projects/beta');
                   setTimeout(() => {
                     ensureScrollToTop();
                   }, 100);

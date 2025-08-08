@@ -1,7 +1,6 @@
 "use client";
 
 import Link from 'next/link';
-import { useEffect } from 'react';
 import NextProjectButton from '../../../components/NextProjectButton';
 import { useScrollRestoration } from '@/lib/utils';
 
@@ -24,35 +23,51 @@ export default function BetaPage() {
       {/* Main Content */}
       <main className="min-h-screen bg-gray-50">
         {/* Hero Section */}
-        <section className="pt-24 pb-16 px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-              Beta Project
+        <section className="pt-24 pb-10 px-4">
+          <div className="max-w-5xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
+              Design System (Figma)
             </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              This project is currently under development
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+              A modern, production-ready design system published on Figma Community.
             </p>
+            <div className="mt-6">
+              <a
+                href="https://www.figma.com/community/file/1535743654409682396/design-system"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black text-white font-semibold hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
+                aria-label="Open Figma Community file in a new tab"
+              >
+                Open in Figma ↗
+              </a>
+            </div>
           </div>
         </section>
 
-        {/* Placeholder Content */}
+        {/* Figma Embed */}
         <section className="px-4 pb-20">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="bg-white rounded-2xl p-12 border border-gray-200 shadow-sm">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                Coming Soon
-              </h2>
-              <p className="text-gray-600 mb-8">
-                This project is currently being developed. Check back soon for updates.
-              </p>
-              <div className="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-6 flex items-center justify-center">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400">
-                  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+          <div className="max-w-5xl mx-auto">
+            <div className="relative w-full rounded-2xl overflow-hidden shadow-sm border border-gray-200 bg-white">
+              {/* 16:9 responsive frame */}
+              <div className="relative pt-[56.25%]">
+                <iframe
+                  title="Figma Design System"
+                  src={
+                    `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(
+                      'https://www.figma.com/community/file/1535743654409682396/design-system'
+                    )}`
+                  }
+                  className="absolute inset-0 w-full h-full"
+                  style={{ border: '0' }}
+                  allowFullScreen
+                  loading="lazy"
+                />
               </div>
             </div>
+            <p className="text-sm text-gray-500 mt-3 text-center">
+              If the embed does not load, use the button above to open the file on Figma.
+            </p>
           </div>
         </section>
 
