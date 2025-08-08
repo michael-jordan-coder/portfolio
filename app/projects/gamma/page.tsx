@@ -77,7 +77,7 @@ export default function DashboardOSPage() {
               Dashboard OS
             </h1>
             <p className="text-2xl text-gray-300 max-w-2xl mx-auto ">
-              A comprehensive design system that brings modern dashboard interfaces to life
+             A full design+code experiance with ai tools and shadcn/ui
             </p>
           </div>
         </section>
@@ -90,8 +90,8 @@ export default function DashboardOSPage() {
               <iframe 
                 style={{ border: '1px solid rgba(255, 255, 255, 0.1);' }} 
                 width="100%" 
-                height="600"
-                src="https://emit-cane-34282110.figma.site" 
+                height="700"
+                src="https://zip-inside-82351266.figma.site/" 
                 allowFullScreen
                 title="Dashboard OS - Design System"
                 className="w-full"
