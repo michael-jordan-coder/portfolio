@@ -17,6 +17,7 @@ const HeroSection: React.FC = () => {
   const heroRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
+  const accentRef = useRef<HTMLDivElement>(null);
   
   // Parallax scroll tracking
   const { scrollYProgress } = useScroll({
@@ -32,61 +33,75 @@ const HeroSection: React.FC = () => {
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
 
   useEffect(() => {
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
-    // Split the heading text into characters and words
+    // Split into lines and words for a refined, premium cascade
     const splitHeading = new SplitText(headingRef.current, { 
-      type: "chars, words",
-      charsClass: "char",
-      wordsClass: "word"
+      type: "lines, words",
+      wordsClass: "word",
+      linesClass: "line"
     });
-    const chars = splitHeading.chars;
     const words = splitHeading.words;
+    const lines = splitHeading.lines;
+    const lastWord = words[words.length - 1];
 
     // Set initial states
-    gsap.set([chars, buttonsRef.current], {
-      opacity: 0,
-      y: 100
-    });
+    gsap.set(lines, { display: 'block', overflow: 'hidden' });
+    gsap.set(words, { opacity: 0, yPercent: 110 });
+    gsap.set(buttonsRef.current, { opacity: 0, y: 16 });
+    // Soft focus pull and slightly expanded letter spacing for emotional depth
+    gsap.set(headingRef.current, { filter: 'blur(6px)', letterSpacing: '0.01em' });
+    gsap.set(accentRef.current, { scaleX: 0, transformOrigin: 'left center' });
 
-    // Create the enhanced reveal sequence
-    tl.to(chars, {
+    // Create a refined reveal: masked rise per word with gentle skew settle
+    tl.to(words, {
       opacity: 1,
-      y: 0,
-      duration: 0.8,
-      stagger: 0.03,
-      ease: "back.out(1.7)"
+      yPercent: 0,
+      duration: 0.7,
+      stagger: 0.01,
+      ease: 'power4.out'
     })
-    .to(words, {
+    // Focus pull and letter-spacing settle in parallel
+    .to(headingRef.current, {
+      filter: 'blur(0px)',
+      letterSpacing: '0em',
       duration: 0.6,
-      stagger: 0.1,
-      ease: "power2.out",
-      scale: 1.05,
+      ease: 'power1.out'
+    }, '<0.1')
+    // Gentle emphasis on the last word to land the message
+    .to(lastWord, {
+      color: '#ffffff',
+      scale: 1.03,
+      duration: 0.25,
       yoyo: true,
-      repeat: 0
-    }, "-=0.5")
-    .to(chars, {
-      duration: 0.3,
-      ease: "power2.out",
-      scale: 1,
-      opacity: 1
-    }, "-=0.2")
-    .to(words, {
-      duration: 0.2,
-      ease: "power2.out",
-      scale: 1,
-      opacity: 1
-    }, "-=0.1")
+      repeat: 1,
+      transformOrigin: '50% 70%'
+    }, '-=0.2')
+    // Underline accent sweep
+    .to(accentRef.current, {
+      scaleX: 1,
+      duration: 0.5,
+      ease: 'power2.out'
+    }, '-=0.1')
     .to(buttonsRef.current, {
       opacity: 1,
       y: 0,
-      duration: 0.4,
-      stagger: 0.1,
-      ease: "back.out(1.7)"
-    }, "-=0.1");
+      duration: 0.35,
+      ease: "power2.out"
+    }, "-=0.05");
+
+    // Ambient breathing to keep the hero feeling alive, extremely subtle
+    const ambient = gsap.to(headingRef.current, {
+      scale: 1.006,
+      duration: 6,
+      yoyo: true,
+      repeat: -1,
+      ease: 'sine.inOut'
+    });
 
     return () => {
       tl.kill();
+      ambient.kill();
       splitHeading.revert();
     };
   }, []);
@@ -120,15 +135,15 @@ const HeroSection: React.FC = () => {
         {/* Main heading with improved typography */}
         <h1 
           ref={headingRef} 
-          className="text-7xl md:text-7xl mb-8 text-center tracking-tight w-full px-4 mx-auto" 
+          className="text-5xl md:text-6xl mb-8 text-center tracking-tight w-full px-4 mx-auto" 
           style={{ 
             wordSpacing: '-0.03em', 
             lineHeight: '0.95',
             textShadow: '0 0 30px rgba(255,255,255,0.1)'
           }}
         >
-          <div className="font-bold mb-4"> I focus on finding problems</div>
-          <div className="font-normal text-6xl text-gray-300">And solving them beautifully.</div>
+          <div className="font-bold mb-4">Sensitive. Human. Passionate.</div>
+          <div className="font-normal text-4xl text-gray-300">Im Daniel, and this is my portfolio.</div>
         </h1>
         
         {/* Subtitle with better spacing and typography */}
@@ -150,7 +165,8 @@ const HeroSection: React.FC = () => {
         >
           <Button 
             variant="primary"
-            className="bg-white text-black font-semibold text-lg tracking-wide transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-105 hover:shadow-xl hover:-translate-y-1 focus:ring-white/60"
+            size="lg"
+            className="bg-white text-black font-semibold tracking-wide !px-10 !py-5 text-xl sm:text-2xl transition-transform duration-300 ease-out hover:scale-110 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-white/25 hover:bg-white/95 focus:ring-white/60 focus-visible:ring-4 focus-visible:ring-white/60 active:scale-100"
             onClick={() => {
               const element = document.getElementById('smooth');
               if (element) {
@@ -161,17 +177,7 @@ const HeroSection: React.FC = () => {
             Explore Projects
           </Button>
 
-          <Link
-            href="/about"
-            className="inline-block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-105 hover:shadow-xl hover:-translate-y-1 focus:ring-white/60"
-          >
-            <Button 
-              variant="primary"
-              className="border-2 border-white text-white font-semibold text-lg tracking-wide transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-105 hover:shadow-xl hover:-translate-y-1 hover:bg-white/10 focus:ring-white/60"
-            >
-              About Me
-            </Button>
-          </Link>
+         
         </div>
       </motion.div>
     </section>

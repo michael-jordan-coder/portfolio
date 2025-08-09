@@ -31,7 +31,7 @@ const PROJECTS: Project[] = [
     id: 'gamma',
     title: 'Dashboard OS',
     description: 'A comprehensive design system for modern dashboard interfaces with component library and design tokens',
-    image: '/dashboard-os/dashboard-os.png',
+    image: '/dashboard-os/dashboard-osi.png',
     url: '/projects/gamma',
     category: 'Design System'
   },
@@ -97,7 +97,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
       <div className="relative w-full h-full">
         {isVideo ? (
           <iframe
-            src="https://www.youtube.com/embed/Vymd01oztPg?autoplay=1&mute=1&controls=0&modestbranding=1&showinfo=0&rel=0&loop=1&playlist=Vymd01oztPg"
+            src="https://cdn.prod.website-files.com/60d03c10d0238c6fa34380ed/613a35257ffdb0165af59a37_5ea165795e0858637285a37e_LogoGraph1200_630.png"
             className="w-full h-full object-fill"
             style={{ pointerEvents: 'none', border: 'none' }}
             allow="autoplay; encrypted-media"

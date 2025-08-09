@@ -91,7 +91,7 @@ export default function DashboardOSPage() {
                 style={{ border: '1px solid rgba(255, 255, 255, 0.1);' }} 
                 width="100%" 
                 height="700"
-                src="https://zip-inside-82351266.figma.site/" 
+                src="https://rose-sport-33569561.figma.site/" 
                 allowFullScreen
                 title="Dashboard OS - Design System"
                 className="w-full"
