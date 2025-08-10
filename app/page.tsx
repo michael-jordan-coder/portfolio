@@ -9,6 +9,7 @@ import GsapSection from './sections/GsapSection'
 import ResponsiveSection from './sections/ResponsiveSection'
 import Navbar from '../components/Navbar'
 import ContactModal from '../components/ContactModal'
+import Link from 'next/link'
 
 export default function Home() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -33,6 +34,13 @@ export default function Home() {
         isOpen={isContactModalOpen} 
         onClose={() => setIsContactModalOpen(false)} 
       />
+      <Link
+        href="/ai"
+        className="fixed bottom-6 right-6 z-40 px-4 py-2 rounded-full bg-blue-600 text-white font-semibold shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+        aria-label="Open AI Demo page"
+      >
+        AI Demo
+      </Link>
     </>
   )
 }
