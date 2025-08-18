@@ -7,6 +7,27 @@ import { useScrollRestoration } from '@/lib/utils'
 // Accent brand color for AI sections (Tuqqi touch)
 const ACCENT = '#3b82f6' // Tailwind blue-500
 
+// Coming Soon Overlay Component
+function ComingSoonOverlay() {
+  return (
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center">
+      <div className="bg-white rounded-3xl p-12 max-w-md mx-6 text-center shadow-2xl">
+        <div className="text-6xl mb-6">🚀</div>
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">Coming Soon</h2>
+        <p className="text-gray-600 mb-8 leading-relaxed">
+          The AI demo functionality is currently under development. We're working hard to bring you an amazing AI-powered experience!
+        </p>
+        <Link
+          href="/"
+          className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors duration-200"
+        >
+          ← Back to Home
+        </Link>
+      </div>
+    </div>
+  )
+}
+
 function SectionHeader({
   eyebrow,
   title,
@@ -202,6 +223,9 @@ export default function Page() {
 
   return (
     <>
+      {/* Coming Soon Overlay */}
+      <ComingSoonOverlay />
+      
       {/* Navigation */}
       <nav className="fixed top-6 right-6 z-40">
         <Link

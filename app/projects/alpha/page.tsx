@@ -20,14 +20,14 @@ export default function AlphaPage() {
             "@context": "https://schema.org",
             "@type": "CreativeWork",
             "name": "Tuqqi Chat Interface Redesign",
-            "description": "Redesigned chat interface for Tuqqi work management platform",
+            "description": "Comprehensive chat interface redesign for Tuqqi work management platform, enhancing user experience and modernizing the visual design",
             "author": {
               "@type": "Person",
               "name": "Daniel Gur Arye"
             },
             "dateCreated": "2024",
             "genre": "UX Design",
-            "keywords": "chat interface, UX design, work management, user experience, Tuqqi",
+            "keywords": "chat interface, UX design, work management, user experience, Tuqqi, interface redesign",
             "url": "https://danielgurarye.com/projects/alpha",
             "image": "/tuqqi/chat-new.png"
           })
@@ -54,7 +54,7 @@ export default function AlphaPage() {
               Tuqqi Chat Interface Redesign
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              A comprehensive design refresh to modernize the chat interface and enhance user experience
+              A comprehensive design transformation that modernizes the chat interface, enhances user experience, and elevates the overall product quality
             </p>
           </div>
         </section>
@@ -86,11 +86,11 @@ export default function AlphaPage() {
             <div className="flex justify-center gap-8 mt-8">
               <div className="flex items-center gap-3 bg-red-100 px-4 py-2 rounded-lg border border-red-200">
                 <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                <span className="text-gray-800 font-medium">Old Design</span>
+                <span className="text-gray-800 font-medium">Original Design</span>
               </div>
               <div className="flex items-center gap-3 bg-green-100 px-4 py-2 rounded-lg border border-green-200">
                 <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                <span className="text-gray-800 font-medium">New Design</span>
+                <span className="text-gray-800 font-medium">Redesigned Interface</span>
               </div>
             </div>
           </div>

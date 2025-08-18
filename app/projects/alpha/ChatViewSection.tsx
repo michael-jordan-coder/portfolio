@@ -75,9 +75,9 @@ export default function ChatViewSection() {
             <span className="inline-block bg-red-100 text-red-700 text-sm px-4 py-2 rounded-full font-medium mb-4">
               Step 1: Current State
             </span>
-            <h3 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">Mapping the Problem</h3>
+            <h3 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">Analyzing the Current Interface</h3>
             <p className="text-gray-600 text-xl font-semibold max-w-3xl mx-auto">
-              "The current chat interface needs a complete visual refresh. It looks outdated and doesn't reflect the quality of our product."
+              "The existing chat interface requires a comprehensive visual redesign to align with modern design standards and improve overall user experience."
             </p>
           </header>
           
@@ -197,11 +197,11 @@ export default function ChatViewSection() {
         <article className="mb-20">
           <header className="text-center mb-12">
             <span className="inline-block bg-blue-100 text-blue-700 text-sm px-4 py-2 rounded-full font-medium mb-4">
-              Step 2: #uiHacking
+              Step 2: Design Transformation
             </span>
-            <h3 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">Its time to hack the UI</h3>
+            <h3 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">Redesigning the Interface</h3>
             <p className="text-gray-600 text-lg max-w-3xl mx-auto">
-              I'm going to hack the UI of the chat interface to make it more modern and clean.
+              Transforming the chat interface with modern design principles, improved visual hierarchy, and enhanced user experience patterns.
             </p>
           </header>
           
@@ -219,9 +219,9 @@ export default function ChatViewSection() {
                 </div>
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center p-6">
-                    <h4 className="text-white text-xl font-bold mb-3">Old UI Design</h4>
+                    <h4 className="text-white text-xl font-bold mb-3">Original Interface Design</h4>
                     <p className="text-white/90 text-sm leading-relaxed max-w-xs">
-                      The original interface had outdated visual elements, poor color contrast, and lacked modern design patterns. Users found it difficult to navigate and visually unappealing.
+                      The initial interface featured outdated visual elements, insufficient color contrast, and lacked contemporary design patterns. Users experienced navigation difficulties and found the visual presentation unappealing.
                     </p>
                   </div>
                 </div>
@@ -241,9 +241,9 @@ export default function ChatViewSection() {
                 </div>
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center p-6">
-                    <h4 className="text-white text-xl font-bold mb-3">New UI Design</h4>
+                    <h4 className="text-white text-xl font-bold mb-3">Redesigned Interface</h4>
                     <p className="text-white/90 text-sm leading-relaxed max-w-xs">
-                      The redesigned interface features modern aesthetics, improved visual hierarchy, better color schemes, and enhanced user experience with cleaner chat bubbles and intuitive navigation.
+                      The redesigned interface incorporates contemporary aesthetics, enhanced visual hierarchy, optimized color schemes, and improved user experience with refined chat elements and intuitive navigation patterns.
                     </p>
                   </div>
                 </div>
@@ -266,9 +266,9 @@ export default function ChatViewSection() {
                 </div>
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center p-6">
-                    <h4 className="text-white text-xl font-bold mb-3">Old Tuqqi Interface</h4>
+                    <h4 className="text-white text-xl font-bold mb-3">Original Tuqqi Interface</h4>
                     <p className="text-white/90 text-sm leading-relaxed max-w-xs">
-                      The original Tuqqi interface design that needed modernization and improved user experience.
+                      The initial Tuqqi interface design that required modernization and enhanced user experience optimization.
                     </p>
                   </div>
                 </div>
@@ -288,9 +288,9 @@ export default function ChatViewSection() {
                 </div>
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center p-6">
-                    <h4 className="text-white text-xl font-bold mb-3">New Tuqqi Interface</h4>
+                    <h4 className="text-white text-xl font-bold mb-3">Modernized Tuqqi Interface</h4>
                     <p className="text-white/90 text-sm leading-relaxed max-w-xs">
-                      The redesigned Tuqqi interface with modern aesthetics, improved functionality, and enhanced user experience.
+                      The redesigned Tuqqi interface featuring contemporary aesthetics, improved functionality, and enhanced user experience design.
                     </p>
                   </div>
                 </div>
@@ -313,9 +313,9 @@ export default function ChatViewSection() {
                 </div>
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center p-6">
-                    <h4 className="text-white text-xl font-bold mb-3">Old Complete Chat Interface</h4>
+                    <h4 className="text-white text-xl font-bold mb-3">Complete Original Chat Interface</h4>
                     <p className="text-white/90 text-sm leading-relaxed max-w-xs">
-                      The complete original chat interface showing the full conversation flow and user interaction design.
+                      The comprehensive original chat interface demonstrating the complete conversation flow and user interaction design patterns.
                     </p>
                   </div>
                 </div>
