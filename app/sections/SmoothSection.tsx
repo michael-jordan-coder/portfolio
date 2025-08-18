@@ -20,14 +20,6 @@ interface Project {
 // Sample projects data
 const PROJECTS: Project[] = [
   {
-    id: 'alpha',
-    title: 'Tuqqi chat view refreshed Design',
-    description: 'A refreshed design for the chat view in Tuqqi, a work management platform',
-    image: '/projects/tuqqi.svg',
-    url: '/projects/alpha',
-    category: 'Web App - B2B'
-  },
-  {
     id: 'gamma',
     title: 'Dashboard OS',
     description: 'A comprehensive design system for modern dashboard interfaces with component library and design tokens',
@@ -37,15 +29,20 @@ const PROJECTS: Project[] = [
   },
   {
     id: 'beta',
-    title: 'Design System (Figma)',
-    description: 'A modern, production-ready design system published on Figma Community.',
-    image: '/projects/ink.svg',
+    title: '3D Hand Tracking Interface',
+    description: 'Real-time hand gesture recognition with 3D visualization and interactive controls.',
+    image: '/image.png',
     url: '/projects/beta',
-    category: 'Design System'
+    category: 'Interactive Experience'
   },
-  
-  
- 
+  {
+    id: 'alpha',
+    title: 'Tuqqi chat view refreshed Design',
+    description: 'A refreshed design for the chat view in Tuqqi, a work management platform',
+    image: '/projects/tuqqi.svg',
+    url: '/projects/alpha',
+    category: 'Web App - B2B'
+  },
 ];
 
 // Project Card Component
@@ -77,6 +74,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
   // Detect if this is the first, second, or third project and render special content
   const isVideo = project.id === 'alpha';
   const isFigma = project.id === 'beta';
+  const isHandTracking = project.id === 'beta';
 
   return (
     <div
@@ -104,20 +102,15 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
             allowFullScreen
             title="Project Alpha Video"
           />
-        ) : isFigma ? (
-          <div className="w-full h-full overflow-hidden relative">
-            <iframe
-              src="https://www.figma.com/community/file/1535743654409682396/design-system"
-              className="w-full h-full object-fill scale-[1.15] -translate-y-4"
-              style={{ pointerEvents: 'none', border: 'none', minHeight: '100%', minWidth: '100%' }}
-              title="Design System Figma Community File"
-              scrolling="no"
-            />
-            <style jsx>{`
-              iframe::-webkit-scrollbar { display: none; }
-              iframe { scrollbar-width: none; }
-            `}</style>
-          </div>
+        ) : isHandTracking ? (
+          <motion.img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover will-change-transform"
+            initial={{ scale: 1, y: 0, boxShadow: '0 0 0 rgba(0,0,0,0)' }}
+            whileHover={{ scale: 1.08, y: -10, boxShadow: '0 8px 32px rgba(80,90,228,0.15)' }}
+            transition={{ type: 'spring', stiffness: 200, damping: 18 }}
+          />
         ) : (
           <motion.img
             src={project.image}

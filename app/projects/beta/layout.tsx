@@ -1,13 +1,13 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Project Beta - Concept Design | Daniel Gur Arye Portfolio',
-  description: 'Mobile-first responsive design concept with smooth animations and intuitive navigation. Exploring modern design patterns and user interactions.',
-  keywords: ['concept project', 'mobile design', 'responsive design', 'UI concept', 'design exploration', 'interactive design'],
+  title: '3D Hand Tracking Interface - Interactive Experience | Daniel Gur Arye Portfolio',
+  description: 'Real-time hand gesture recognition with 3D visualization and interactive controls using computer vision and web technologies.',
+  keywords: ['hand tracking', 'computer vision', '3D visualization', 'web technologies', 'HTML5', 'CSS3', 'JavaScript', 'real-time interaction', 'interactive experience'],
   openGraph: {
-    title: 'Project Beta - Design Concept',
-    description: 'Mobile-first responsive design concept with modern interactions.',
-    images: ['/projects/beta-og.jpg'],
+    title: '3D Hand Tracking Interface - Interactive Experience',
+    description: 'Real-time hand gesture recognition with 3D visualization using computer vision and web technologies.',
+    images: ['/image.png'],
   },
 }
 

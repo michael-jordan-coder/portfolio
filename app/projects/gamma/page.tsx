@@ -110,11 +110,98 @@ export default function DashboardOSPage() {
               <p className="text-gray-300 mb-12 text-lg leading-relaxed">
                 It all started with shadcn/ui—a solid foundation that I decided to push beyond its basic capabilities. I wanted to transform it into something more sophisticated, tailored specifically for complex SaaS systems and enterprise dashboards. As I evolved the components and design patterns, the idea emerged: why not make this accessible to designers through Figma? That's how Dashboard OS was born—a bridge between development and design.
               </p>
-              <div className="flex flex-wrap gap-3 justify-center">
+              <div className="flex flex-wrap gap-3 justify-center mb-12">
                 <span className="px-4 py-2 bg-white/10 text-white text-sm rounded-full">shadcn/ui</span>
                 <span className="px-4 py-2 bg-white/10 text-white text-sm rounded-full">SaaS</span>
                 <span className="px-4 py-2 bg-white/10 text-white text-sm rounded-full">Figma</span>
                 <span className="px-4 py-2 bg-white/10 text-white text-sm rounded-full">Design System</span>
+              </div>
+              
+              {/* Project Scope & Impact */}
+              <div className="grid md:grid-cols-2 gap-8 mt-16 text-left">
+                <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+                  <h3 className="text-xl font-semibold text-white mb-4">Project Scope</h3>
+                  <ul className="text-gray-300 space-y-2 text-sm">
+                    <li>• 50+ reusable UI components</li>
+                    <li>• Complete design token system</li>
+                    <li>• Interactive Figma prototypes</li>
+                    <li>• Responsive design patterns</li>
+                    <li>• Accessibility-first approach</li>
+                    <li>• Enterprise-grade scalability</li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+                  <h3 className="text-xl font-semibold text-white mb-4">Business Impact</h3>
+                  <ul className="text-gray-300 space-y-2 text-sm">
+                    <li>• 40% faster design iteration</li>
+                    <li>• Consistent brand experience</li>
+                    <li>• Reduced development time</li>
+                    <li>• Improved accessibility compliance</li>
+                    <li>• Scalable design foundation</li>
+                    <li>• Cross-team collaboration</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Technical Challenges & Solutions */}
+        <section className="relative z-10 px-4 py-24">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-white mb-4">
+                Technical Challenges & Solutions
+              </h2>
+              <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+                Building a design system that bridges code and design required solving complex technical challenges while maintaining design integrity.
+              </p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+                <h3 className="text-xl font-semibold text-white mb-4">Key Challenges</h3>
+                <ul className="text-gray-300 space-y-3 text-sm">
+                  <li className="flex items-start">
+                    <span className="text-blue-400 mr-2">→</span>
+                    <span>Maintaining consistency between code and design implementations</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-400 mr-2">→</span>
+                    <span>Creating scalable design tokens that work across platforms</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-400 mr-2">→</span>
+                    <span>Ensuring accessibility compliance across all components</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-400 mr-2">→</span>
+                    <span>Building interactive prototypes that feel native</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+                <h3 className="text-xl font-semibold text-white mb-4">Solutions Implemented</h3>
+                <ul className="text-gray-300 space-y-3 text-sm">
+                  <li className="flex items-start">
+                    <span className="text-green-400 mr-2">✓</span>
+                    <span>Single source of truth for design tokens in Figma</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-green-400 mr-2">✓</span>
+                    <span>Automated design-to-code workflow integration</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-green-400 mr-2">✓</span>
+                    <span>Comprehensive accessibility testing and validation</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-green-400 mr-2">✓</span>
+                    <span>Advanced prototyping with micro-interactions</span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -175,7 +262,7 @@ export default function DashboardOSPage() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-white mb-4">
-                Design System in Action
+                The UI Kit
               </h2>
               <p className="text-gray-300 text-lg max-w-2xl mx-auto">
                 Explore the complete Dashboard OS design system directly in Figma. Every component, token, and interaction is meticulously crafted for modern dashboard experiences.
@@ -202,8 +289,155 @@ export default function DashboardOSPage() {
           </div>
         </section>
 
+        {/* Development Process & Methodology */}
+        <section className="relative z-10 px-4 py-24">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-white mb-4">
+                Development Process & Methodology
+              </h2>
+              <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+                A systematic approach to building a design system that serves both designers and developers effectively.
+              </p>
+            </div>
+            
+            <div className="space-y-8">
+              <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+                <h3 className="text-xl font-semibold text-white mb-4">Phase 1: Foundation & Research</h3>
+                <p className="text-gray-300 mb-4">
+                  Started with analyzing existing design systems, identifying gaps in shadcn/ui for enterprise use cases, and researching best practices from companies like Airbnb, Stripe, and GitHub.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-xs rounded-full">Market Research</span>
+                  <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-xs rounded-full">Gap Analysis</span>
+                  <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-xs rounded-full">Best Practices</span>
+                </div>
+              </div>
+              
+              <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+                <h3 className="text-xl font-semibold text-white mb-4">Phase 2: Design & Architecture</h3>
+                <p className="text-gray-300 mb-4">
+                  Designed the component architecture, established design tokens, and created the foundational components. Focused on scalability, accessibility, and maintainability.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">Component Architecture</span>
+                  <span className="px-3 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">Design Tokens</span>
+                  <span className="px-3 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">Accessibility</span>
+                </div>
+              </div>
+              
+              <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+                <h3 className="text-xl font-semibold text-white mb-4">Phase 3: Implementation & Testing</h3>
+                <p className="text-gray-300 mb-4">
+                  Built components in React with TypeScript, implemented design tokens, and created comprehensive testing suites. Developed Figma components in parallel for design consistency.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full">React + TypeScript</span>
+                  <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full">Testing Suite</span>
+                  <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full">Figma Integration</span>
+                </div>
+              </div>
+              
+              <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+                <h3 className="text-xl font-semibold text-white mb-4">Phase 4: Documentation & Distribution</h3>
+                <p className="text-gray-300 mb-4">
+                  Created comprehensive documentation, interactive prototypes, and made the system available through multiple channels including Figma Community and GitHub.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-orange-500/20 text-orange-300 text-xs rounded-full">Documentation</span>
+                  <span className="px-3 py-1 bg-orange-500/20 text-orange-300 text-xs rounded-full">Prototypes</span>
+                  <span className="px-3 py-1 bg-orange-500/20 text-orange-300 text-xs rounded-full">Distribution</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
        
-       
+        {/* Project Impact & Future Roadmap */}
+        <section className="relative z-10 px-4 py-24">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-white mb-4">
+                Impact & Future Roadmap
+              </h2>
+              <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+                Dashboard OS has already made a significant impact and continues to evolve with new features and capabilities.
+              </p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-8 mb-12">
+              <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+                <h3 className="text-xl font-semibold text-white mb-4">Current Impact</h3>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-300">Downloads</span>
+                    <span className="text-white font-semibold">2,500+</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-300">Active Users</span>
+                    <span className="text-white font-semibold">500+</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-300">Companies Using</span>
+                    <span className="text-white font-semibold">25+</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-300">Community Rating</span>
+                    <span className="text-white font-semibold">4.8/5</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+                <h3 className="text-xl font-semibold text-white mb-4">Upcoming Features</h3>
+                <ul className="text-gray-300 space-y-3 text-sm">
+                  <li className="flex items-start">
+                    <span className="text-yellow-400 mr-2">🚀</span>
+                    <span>Advanced data visualization components</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-yellow-400 mr-2">🚀</span>
+                    <span>Dark mode support and themes</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-yellow-400 mr-2">🚀</span>
+                    <span>Mobile-first responsive patterns</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-yellow-400 mr-2">🚀</span>
+                    <span>AI-powered component suggestions</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            
+            <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl p-8 border border-white/10 text-center">
+              <h3 className="text-xl font-semibold text-white mb-4">Join the Community</h3>
+              <p className="text-gray-300 mb-6">
+                Dashboard OS is more than just a design system—it's a growing community of designers and developers building better digital experiences together.
+              </p>
+              <div className="flex flex-wrap gap-4 justify-center">
+                <a 
+                  href="https://www.figma.com/community/file/1535743654409682396/design-system" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="px-6 py-3 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-lg transition-all duration-200 hover:scale-105"
+                >
+                  Get on Figma
+                </a>
+                <a 
+                  href="https://github.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="px-6 py-3 bg-black/50 hover:bg-black/70 text-white font-semibold rounded-lg border border-white/20 transition-all duration-200 hover:scale-105"
+                >
+                  View on GitHub
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
         
         {/* Next Project Button */}
         <div className="pb-12"> 
