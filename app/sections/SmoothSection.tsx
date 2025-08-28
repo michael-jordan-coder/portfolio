@@ -78,7 +78,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
 
   return (
     <div
-      className="w-full h-[400px] rounded-[40px] overflow-hidden 
+      className="w-[200%] h-[500px] rounded-[40px] overflow-hidden 
                  shadow-2xl bg-white/10 backdrop-blur-lg border border-white/20 
                  will-change-transform cursor-pointer transition-all duration-300
                  hover:bg-white/20 hover:shadow-2xl group"
@@ -205,7 +205,7 @@ const AnimatedCard: React.FC<{ project: Project; index: number }> = ({ project, 
   return (
     <motion.div
       ref={cardRef}
-      className="h-[60vh] flex items-center justify-center px-8"
+      className="h-[70vh] flex items-center justify-center px-4"
       style={{
         y,
         opacity,
