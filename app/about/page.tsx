@@ -26,10 +26,10 @@ const AboutSection: React.FC = () => {
       src: "https://www.usatoday.com/gcdn/authoring/authoring-images/2025/03/06/USAT/81787689007-usatgraphics-beatles-topper.png?crop=2666,1997,x552,y0",
     },
     {
-      quote: "Daniel's designs don't just look good—they feel right. Every interaction is thoughtful and purposeful.",
-      name: "Emily Watson",
-      designation: "Operations Director at CloudScale",
-      src: "https://images.unsplash.com/photo-1623582854588-d60de57fa33f?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      quote: "I find myself drawn to the intersection of technology and creativity. Whether it's coding, designing, or exploring new tools, I love discovering how things work and finding elegant solutions to complex problems.",
+      name: "Technology",
+      designation: "always learning, always building",
+      src: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=1000&q=80",
     },
   ];
 
@@ -96,7 +96,7 @@ const AboutSection: React.FC = () => {
                 </div>
                 
                 <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-8 lg:p-12 border border-white/10">
-                  <AnimatedTestimonials testimonials={testimonials} autoplay={true} />
+                  <AnimatedTestimonials testimonials={testimonials} autoplay={false} />
                 </div>
               </div>
             </AnimatedContent>
