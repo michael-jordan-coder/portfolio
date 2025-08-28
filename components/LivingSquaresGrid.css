@@ -78,6 +78,7 @@
 /* Simple hover effect - combine with parallax */
 .square:hover {
   transform: translateY(-6px) scale(1.02);
+  cursor: none; /* Hide default cursor when custom cursor is shown */
 }
 
 .square:hover .square-image {

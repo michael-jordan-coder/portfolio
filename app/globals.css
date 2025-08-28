@@ -18,6 +18,11 @@
 } 
 
 @layer utilities {
+  /* Custom cursor for tech stack section */
+  .tech-stack-cursor {
+    cursor: none;
+  }
+  
   .animate-cta {
     animation: cta-pulse 1.2s cubic-bezier(0.4,0,0.2,1) 0.2s 1 both;
   }

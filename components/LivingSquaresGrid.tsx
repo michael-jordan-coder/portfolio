@@ -6,6 +6,8 @@ import "./LivingSquaresGrid.css";
 interface LivingSquaresGridProps {
   items?: string[];
   gridSize?: number;
+  onToolHover?: (toolPath: string) => void;
+  onToolLeave?: () => void;
 }
 
 // Inline SVG fallbacks for common tech logos
@@ -49,6 +51,8 @@ const fallbackKeys = ['gemini', 'cursor', 'figma', 'tailwind', 'gsap', 'claude',
 export default function LivingSquaresGrid({
   items = [],
   gridSize = 3,
+  onToolHover,
+  onToolLeave,
 }: LivingSquaresGridProps): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
   const squaresRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -244,8 +248,19 @@ export default function LivingSquaresGrid({
               '--row': row,
               '--col': col,
             } as React.CSSProperties}
-            onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() => setHoveredIndex(null)}
+                         onMouseEnter={() => {
+               setHoveredIndex(index);
+               if (onToolHover) {
+                 const imageUrl = getImageForIndex(index);
+                 onToolHover(imageUrl);
+               }
+             }}
+            onMouseLeave={() => {
+              setHoveredIndex(null);
+              if (onToolLeave) {
+                onToolLeave();
+              }
+            }}
           >
             <div className="square-content">
               {imageUrl && !hasImageError ? (
