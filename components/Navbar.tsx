@@ -80,9 +80,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
   // Navigation items
   const navItems = [
     { name: 'Home', href: '/', isScrollTo: true, targetId: 'hero' },
-    { name: 'About', href: '/about', isScrollTo: false },
     { name: 'Projects', href: '/projects', isScrollTo: true, targetId: 'smooth' },
-   
+    { name: 'About', href: '/about', isScrollTo: false },
   ];
 
   return (

@@ -1,13 +1,15 @@
 'use client';
 
 import Link from 'next/link'
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { AnimatedTestimonials } from '@/components/ui/animated-testimonials';
 import AnimatedContent from '@/components/AnimatedContent';
+import ContactModal from '@/components/ContactModal';
 
 const AboutSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   // Testimonials data
   const testimonials = [
@@ -174,18 +176,18 @@ const AboutSection: React.FC = () => {
                     Let's create something together.
                   </p>
                   <div className="flex justify-center gap-8">
-                    <Link
-                      href="/projects"
+                    <button
+                      onClick={() => window.location.href = '/'}
                       className="px-8 py-4 text-lg md:text-xl bg-white/10 hover:bg-white/20 transition-all duration-300 rounded-full text-white font-bold backdrop-blur-xl border border-white/20 hover:border-white/40"
                     >
-                      View My Work
-                    </Link>
-                    <Link
-                      href="/contact"
-                      className="px-8 py-4 text-lg md:text-xl bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 transition-all duration-300 rounded-full text-white font-bold"
+                      Back to Projects
+                    </button>
+                    <button
+                      onClick={() => setIsContactModalOpen(true)}
+                      className="px-8 py-4 text-lg md:text-xl bg-white hover:bg-gray-100 transition-all duration-300 rounded-full text-black font-bold"
                     >
                       Get In Touch
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </AnimatedContent>
@@ -193,6 +195,12 @@ const AboutSection: React.FC = () => {
           </div>
         </div>
       </div>
+      
+      {/* Contact Modal */}
+      <ContactModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+      />
     </section>
   );
 };
