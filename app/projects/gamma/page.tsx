@@ -36,16 +36,17 @@ export default function DashboardOSPage() {
         }}
       />
       
-      {/* Navigation */}
-      <nav className="fixed top-6 right-6 z-50">
-        <Link
-          href="/"
-          className="px-4 py-2 rounded-full bg-black/90 text-white font-semibold shadow-lg hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200 backdrop-blur-sm"
-          aria-label="Back to home"
-        >
-          ← Back
-        </Link>
-      </nav>
+      {/* Back to home button */}
+      <Link
+        href="/"
+        aria-label="back"
+        className="fixed top-8 right-8 z-50 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-full px-6 py-4 shadow-2xl backdrop-blur-xl border border-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500/50 flex items-center gap-2"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+        <span className="text-white font-medium">back</span>
+      </Link>
 
       {/* Main Content */}
       <main className="min-h-screen bg-black relative overflow-hidden">

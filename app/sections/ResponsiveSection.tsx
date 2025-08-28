@@ -19,8 +19,8 @@ const ResponsiveSection: React.FC<ResponsiveSectionProps> = ({ onOpenContact }) 
       // border-2 border-cyan-200 (uncomment for debug)
     />
     <div className="text-center text-white max-w-2xl mx-auto py-12">
-      <h2 className="text-5xl font-bold mb-4">This is the end, but now you can get to know me better</h2>
-      <p className="text-lg mb-6">either way, you can go back to the top or learn more about me</p>
+      <h2 className="text-5xl font-bold mb-4">Ready to build scalable solutions that drive impact?</h2>
+      <p className="text-lg mb-6">Let's discuss how we can solve your toughest technical challenges</p>
       <div className="flex flex-row gap-4 items-center justify-center">
         <ScrollToButton 
           target="#hero" 
