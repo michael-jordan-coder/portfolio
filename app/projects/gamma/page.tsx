@@ -142,12 +142,12 @@ export default function GammaPage() {
             </div>
           </div>
           
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-black tracking-[-2.16px] leading-[1.2] max-w-5xl">
-            Reducing user action for better performance
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-black tracking-[-2.16px] leading-[1.2] max-w-4xl">
+            Optimizing user workflows for enhanced performance
           </h1>
           
-          <p className="text-xl md:text-2xl font-medium text-neutral-600 tracking-[-0.48px] leading-[1.3] max-w-4xl">
-            A case study on optimizing the note creation flow in Inbox app by reducing user actions from 8 seconds to 4 seconds through strategic UX improvements.
+          <p className="text-xl md:text-2xl font-medium text-neutral-600 tracking-[-0.48px] leading-[1.3] max-w-6xl">
+            A strategic UX optimization initiative focused on streamlining the note creation workflow, achieving a 50% reduction in task completion time through data-driven design decisions.
           </p>
         </div>
       </Section>
@@ -162,11 +162,11 @@ export default function GammaPage() {
                   Overview
                 </h2>
                 <div className="space-y-6">
-                  <p className="text-xl md:text-2xl font-semibold text-[#2a2a2a] tracking-[-0.48px] leading-[1.2]">
-                    Inbox app is an iOS thought capturing platform meant for catching your ideas in an organized way
+                  <p className="text-xl md:text-2xl font-medium text-[#2a2a2a] tracking-[-0.48px] leading-[1.2]">
+                    Inbox is a productivity-focused iOS application designed to capture and organize thoughts efficiently
                   </p>
-                  <p className="text-xl md:text-2xl font-semibold text-[#2a2a2a] tracking-[-0.48px] leading-[1.2]">
-                    This video shows the current "create note" user flow that the app is providing
+                  <p className="text-xl md:text-2xl font-medium text-[#2a2a2a] tracking-[-0.48px] leading-[1.2]">
+                    The following demonstrates the existing note creation workflow and identifies opportunities for optimization
                   </p>
                 </div>
               </div>
@@ -199,8 +199,8 @@ export default function GammaPage() {
                 priority
               />
             </div>
-            <p className="text-xl md:text-2xl font-semibold text-[#2a2a2a] tracking-[-0.48px] leading-[1.2] max-w-2xl">
-              Although it's a traditional create note user flow, the idea is to maximize the performance with minimum actions
+            <p className="text-xl md:text-2xl font-medium text-[#2a2a2a] tracking-[-0.48px] leading-[1.2] max-w-2xl">
+              While the current workflow follows conventional patterns, our objective is to optimize user efficiency by minimizing required interactions
             </p>
           </div>
         </div>
@@ -212,10 +212,10 @@ export default function GammaPage() {
           <div className="space-y-10">
             <div className="space-y-4">
               <h2 className="text-3xl md:text-5xl font-bold text-black tracking-[-0.96px] leading-[1.2]">
-                Hacking better approach
+                Strategic approach analysis
               </h2>
-              <p className="text-xl md:text-2xl font-semibold text-[#2a2a2a] tracking-[-0.48px] leading-[1.2]">
-                When seeing apps like Lovable, Base 44, Bolt and more, I have noticed an interesting idea: they all put the most important interaction - writing the first prompt - in the very first screen, making it the fastest CTA kind of approach. I was inspired by that and thought how I could implement it to my own app
+              <p className="text-xl md:text-2xl font-medium text-[#2a2a2a] tracking-[-0.48px] leading-[1.2]">
+                Competitive analysis of Lovable, Base 44, and Bolt revealed a key pattern: prioritizing the primary user action on the initial screen creates a more efficient experience.
               </p>
             </div>
             
@@ -265,7 +265,7 @@ export default function GammaPage() {
         <div className="border-b border-[#c6c6c8] pb-16">
           <div className="space-y-10">
             <h2 className="text-3xl md:text-5xl font-bold text-black tracking-[-0.96px] leading-[1.2]">
-              Advanced user flow approach
+              Optimized user flow implementation
             </h2>
             <div className="w-full rounded-xl overflow-hidden shadow-sm">
               <OptimizedImage
@@ -275,8 +275,8 @@ export default function GammaPage() {
                 height={600}
               />
             </div>
-            <p className="text-xl md:text-2xl font-semibold text-[#2a2a2a] tracking-[-0.48px] leading-[1.2] max-w-4xl">
-              First action is the main thing that the user is doing, making it obvious to put it on the very first screen of my app
+            <p className="text-xl md:text-2xl font-medium text-[#2a2a2a] tracking-[-0.48px] leading-[1.2] max-w-4xl">
+              By prioritizing the primary user action on the initial screen, we create a more intuitive and efficient user experience that aligns with user expectations and reduces cognitive load
             </p>
           </div>
         </div>
@@ -323,6 +323,12 @@ export default function GammaPage() {
                 <h3 className="text-xl md:text-2xl font-semibold text-black tracking-[-0.48px] leading-[1.2] max-w-2xl">
                   Advanced first screen with an instant input field for thought capturing
                 </h3>
+                {/* New Screen Badge */}
+                <div className="mt-4">
+                  <span className="inline-block bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                    NEW SCREEN
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -354,8 +360,8 @@ export default function GammaPage() {
               <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-black tracking-[-2.16px] leading-[1.2]">
                 Key performance metrics
               </h2>
-              <p className="text-xl md:text-2xl font-semibold text-[#2a2a2a] tracking-[-0.48px] leading-[1.2] max-w-3xl mx-auto">
-                Our indicator for this test is to measure the time (seconds) that the user has completed the task
+              <p className="text-xl md:text-2xl font-medium text-[#2a2a2a] tracking-[-0.48px] leading-[1.2] max-w-3xl mx-auto">
+                Success metrics focused on task completion time to quantify the impact of our optimization efforts
               </p>
             </div>
 
