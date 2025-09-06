@@ -21,11 +21,11 @@ interface Project {
 const PROJECTS: Project[] = [
   {
     id: 'gamma',
-    title: 'Dashboard OS',
-    description: 'A comprehensive design system for modern dashboard interfaces with component library and design tokens',
-    image: '/dashboard-os/dashboard-osi.png',
+    title: 'Reducing user action for better performance',
+    description: 'A case study on optimizing the note creation flow in Inbox app by reducing user actions from 8 seconds to 4 seconds through strategic UX improvements.',
+    image: '/notes-app/Casestudy/images/userflow-1.png',
     url: '/projects/gamma',
-    category: 'Design System'
+    category: 'UX Sprint'
   },
   {
     id: 'beta',
@@ -122,33 +122,35 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
           />
         )}
         
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10 pointer-events-none" />
+        {/* Enhanced Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/20 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/50 pointer-events-none" />
         
         {/* Content overlay */}
-        <div className="absolute inset-0 flex flex-col justify-end p-6 group-hover:backdrop-blur-xl transition-all duration-300">
-          <div className="space-y-3">
+        <div className="absolute inset-0 flex flex-col justify-end p-8 group-hover:backdrop-blur-xl transition-all duration-300">
+          <div className="space-y-4">
             {/* Category badge */}
-            <span className="inline-block bg-white/30 backdrop-blur-lg text-white font-medium text-xs px-3 py-1 rounded-full drop-shadow-lg">
+            <span className="inline-block bg-white/25 backdrop-blur-lg text-white font-semibold text-xs px-4 py-2 rounded-full drop-shadow-lg border border-white/20 uppercase tracking-wider">
               {project.category}
             </span>
             
             {/* Title */}
-            <h3 className="text-2xl font-bold text-white leading-tight drop-shadow-lg">
+            <h3 className="text-3xl md:text-4xl font-bold text-white leading-tight drop-shadow-xl tracking-tight">
               {project.title}
             </h3>
             
             {/* Description */}
-            <p className="text-white text-sm leading-relaxed max-w-md drop-shadow-md">
+            <p className="text-white/90 text-base leading-relaxed max-w-lg drop-shadow-lg font-medium">
               {project.description}
             </p>
             
             {/* CTA Button */}
             <Button
               variant="primary"
-              className="bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 
-                         text-white font-semibold hover:scale-105 hover:shadow-lg
-                         focus:ring-white/50 drop-shadow-md"
+              className="bg-white/25 hover:bg-white/35 backdrop-blur-sm border border-white/40 
+                         text-white font-bold hover:scale-105 hover:shadow-xl
+                         focus:ring-white/50 drop-shadow-lg px-6 py-3 text-sm
+                         transition-all duration-300 hover:border-white/60"
               onClick={(e) => {
                 e.stopPropagation();
                 if (project.id === 'alpha') {
