@@ -1,7 +1,4 @@
 {
-  "buildCommand": "next build",
-  "outputDirectory": ".next",
-  "framework": "nextjs",
   "functions": {
     "app/**/*.tsx": {
       "maxDuration": 30
@@ -9,34 +6,7 @@
   },
   "headers": [
     {
-      "source": "/imagetrail/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/noise.svg",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/dashboard-os/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/favicon.svg",
+      "source": "/notes-app/Casestudy/images/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -44,16 +14,52 @@
         },
         {
           "key": "Content-Type",
-          "value": "image/svg+xml"
+          "value": "image/png"
+        }
+      ]
+    },
+    {
+      "source": "/notes-app/Casestudy/video/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "Content-Type",
+          "value": "video/mp4"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
         }
       ]
     }
   ],
-  "rewrites": [
+  "redirects": [
     {
-      "source": "/imagetrail/:path*",
-      "destination": "/imagetrail/:path*"
+      "source": "/notes-app/Casestudy/images/userflow-2.png",
+      "destination": "/notes-app/Casestudy/images/userflow-1.png",
+      "permanent": false
     }
   ],
-  "public": true
-} 
+  "rewrites": [
+    {
+      "source": "/api/images/:path*",
+      "destination": "/notes-app/Casestudy/images/:path*"
+    }
+  ]
+}

@@ -1,46 +1,116 @@
 "use client";
 
+import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { DotPattern } from '@/components/DotPattern';
-import NextProjectButton from '../../../components/NextProjectButton';
-import { useScrollRestoration } from '@/lib/utils';
+import { KPICard } from '@/components/ui';
 
+// Asset configuration - centralized and type-safe
+const ASSETS = {
+  images: {
+    userflow: '/notes-app/Casestudy/images/userflow-1.png',
+    currentScreen: '/notes-app/Casestudy/images/current-screen.png',
+    advancedScreen: '/notes-app/Casestudy/images/advanced-screen.png',
+    lovable: '/notes-app/Casestudy/images/lovable.png',
+    base44: '/notes-app/Casestudy/images/base-44.png',
+    bolt: '/notes-app/Casestudy/images/bolt.png',
+  },
+  videos: {
+    currentFlow: '/notes-app/Casestudy/video/current-flowvid.mp4',
+    newFlow: '/notes-app/Casestudy/video/new-flowvid.mp4',
+  },
+} as const;
 
+// Reusable components for better maintainability
+const Section = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
+  <section className={`px-4 py-16 md:py-24 ${className}`}>
+    <div className="max-w-7xl mx-auto">{children}</div>
+  </section>
+);
 
-export default function DashboardOSPage() {
+const OptimizedImage = ({ 
+  src, 
+  alt, 
+  width, 
+  height, 
+  priority = false, 
+  className = '' 
+}: {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  priority?: boolean;
+  className?: string;
+}) => (
+  <Image
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    priority={priority}
+    className={`w-full h-auto object-cover ${className}`}
+    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+  />
+);
 
-  useScrollRestoration();
+const VideoPlayer = ({ src, poster }: { src: string; poster: string }) => {
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+
+  React.useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleCanPlay = () => {
+      video.play().catch((error) => {
+        console.log('Autoplay prevented:', error);
+        // Video will show poster image if autoplay fails
+      });
+    };
+
+    video.addEventListener('canplay', handleCanPlay);
+    
+    return () => {
+      video.removeEventListener('canplay', handleCanPlay);
+    };
+  }, []);
 
   return (
-    <>
-      {/* Schema for Gamma Project */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "CreativeWork",
-            "name": "Dashboard OS Design System",
-            "description": "Comprehensive design system for modern dashboard interfaces with component library and design tokens",
-            "author": {
-              "@type": "Person",
-              "name": "Daniel Gur Arye"
-            },
-            "dateCreated": "2024",
-            "genre": "Design System",
-            "keywords": "design system, component library, dashboard, UI kit, Figma, shadcn/ui",
-            "url": "https://danielgurarye.com/projects/gamma",
-            "image": "/dashboard-os/dashboard-os.png"
-          })
-        }}
-      />
-      
+    <video 
+      ref={videoRef}
+      className="w-full h-full object-cover rounded-[40px] cursor-pointer"
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="metadata"
+      poster={poster}
+      onClick={() => {
+        const video = videoRef.current;
+        if (video) {
+          if (video.paused) {
+            video.play();
+          } else {
+            video.pause();
+          }
+        }
+      }}
+    >
+      <source src={src} type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  );
+};
+
+
+export default function GammaPage() {
+  return (
+    <div className="bg-white min-h-screen">
       {/* Back to home button */}
       <Link
         href="/"
         aria-label="back"
-        className="fixed top-8 right-8 z-50 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-full px-6 py-4 shadow-2xl backdrop-blur-xl border border-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500/50 flex items-center gap-2"
+        className="fixed top-8 right-8 z-50 bg-black hover:bg-black/80 transition-all duration-300 rounded-full px-6 py-4 shadow-2xl border border-black/20 hover:border-black/40 focus:outline-none focus:ring-2 focus:ring-black/50 flex items-center gap-2"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
           <path d="M15 18l-6-6 6-6" />
@@ -48,325 +118,264 @@ export default function DashboardOSPage() {
         <span className="text-white font-medium">back</span>
       </Link>
 
-      {/* Main Content */}
-      <main className="min-h-screen bg-black relative overflow-hidden">
-        {/* Dot Pattern Background */}
-        <DotPattern 
-          width={25} 
-          height={25} 
-          cx={1} 
-          cy={1} 
-          cr={1} 
-          className="opacity-60 text-white/40" 
-        />
-        {/* Radial Fade Overlay - Fixed to viewport center */}
-        <div 
-          className="fixed inset-0 pointer-events-none z-0"
-          style={{
-            background: `radial-gradient(ellipse 70% 50% at 50% 50%, transparent 0%, transparent 15%, rgba(0, 0, 0, 0.3) 35%, rgba(0, 0, 0, 0.7) 55%, rgba(0, 0, 0, 0.9) 75%, rgba(0, 0, 0, 0.98) 100%)`
-          }}
-        />
-        {/* Hero Section */}
-        <section className="relative z-10 pt-32 pb-24 px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="mb-16">
-              <div className="inline-block bg-black text-white text-sm px-4 py-2 rounded-full font-medium border border-white/20">
-                Design System
+      {/* Hero Section */}
+      <Section className="pt-32 pb-24">
+        <div className="space-y-8">
+          <div className="space-y-4">
+            <div className="flex flex-wrap gap-6 text-sm font-medium text-neutral-600">
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-black rounded-full"></span>
+                Product Designer
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-black rounded-full"></span>
+                1 Week Sprint
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-black rounded-full"></span>
+                iOS App
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-black rounded-full"></span>
+                UX Optimization
+              </span>
+            </div>
+          </div>
+          
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-black tracking-[-2.16px] leading-[1.2] max-w-5xl">
+            Reducing user action for better performance
+          </h1>
+          
+          <p className="text-xl md:text-2xl font-medium text-neutral-600 tracking-[-0.48px] leading-[1.3] max-w-4xl">
+            A case study on optimizing the note creation flow in Inbox app by reducing user actions from 8 seconds to 4 seconds through strategic UX improvements.
+          </p>
+        </div>
+      </Section>
+
+      {/* Overview Section */}
+      <Section>
+        <div className="border-b border-[#c6c6c8] pb-16">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-12">
+              <div>
+                <h2 className="text-3xl md:text-5xl font-bold text-black tracking-[-0.96px] leading-[1.2] mb-8">
+                  Overview
+                </h2>
+                <div className="space-y-6">
+                  <p className="text-xl md:text-2xl font-semibold text-[#2a2a2a] tracking-[-0.48px] leading-[1.2]">
+                    Inbox app is an iOS thought capturing platform meant for catching your ideas in an organized way
+                  </p>
+                  <p className="text-xl md:text-2xl font-semibold text-[#2a2a2a] tracking-[-0.48px] leading-[1.2]">
+                    This video shows the current "create note" user flow that the app is providing
+                  </p>
+                </div>
               </div>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-12">
-              Dashboard OS
-            </h1>
-            <p className="text-2xl text-gray-300 max-w-2xl mx-auto ">
-             A full design+code experiance with ai tools and shadcn/ui
+            <div className="flex justify-center lg:justify-end">
+              <div className="w-[302px] h-[657px] rounded-[40px] overflow-hidden">
+                <VideoPlayer 
+                  src={ASSETS.videos.currentFlow}
+                  poster={ASSETS.images.currentScreen}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Current User Flow Section */}
+      <Section>
+        <div className="border-b border-[#c6c6c8] pb-16">
+          <div className="space-y-10">
+            <h2 className="text-3xl md:text-5xl font-bold text-black tracking-[-0.96px] leading-[1.2]">
+              Current user flow
+            </h2>
+            <div className="w-full bg-neutral-100 rounded-xl overflow-hidden shadow-sm">
+              <OptimizedImage
+                src={ASSETS.images.userflow}
+                alt="Current user flow diagram"
+                width={1200}
+                height={600}
+                priority
+              />
+            </div>
+            <p className="text-xl md:text-2xl font-semibold text-[#2a2a2a] tracking-[-0.48px] leading-[1.2] max-w-2xl">
+              Although it's a traditional create note user flow, the idea is to maximize the performance with minimum actions
             </p>
           </div>
-        </section>
-
-        {/* Live Preview - Main Showcase */}
-        <section className="relative z-10  ">
-          <div className="max-w-7xl mx-auto">
-           
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black">
-              <iframe 
-                style={{ border: '1px solid rgba(255, 255, 255, 0.1);' }} 
-                width="100%" 
-                height="700"
-                src="https://rose-sport-33569561.figma.site/" 
-                allowFullScreen
-                title="Dashboard OS - Design System"
-                className="w-full"
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* Project Overview & Features */}
-        <section className="relative z-10 px-4 py-24">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-white mb-8">
-                The Journey
-              </h2>
-              <p className="text-gray-300 mb-12 text-lg leading-relaxed">
-                It all started with shadcn/ui—a solid foundation that I decided to push beyond its basic capabilities. I wanted to transform it into something more sophisticated, tailored specifically for complex SaaS systems and enterprise dashboards. As I evolved the components and design patterns, the idea emerged: why not make this accessible to designers through Figma? That's how Dashboard OS was born—a bridge between development and design.
-              </p>
-              <div className="flex flex-wrap gap-3 justify-center mb-12">
-                <span className="px-4 py-2 bg-white/10 text-white text-sm rounded-full">shadcn/ui</span>
-                <span className="px-4 py-2 bg-white/10 text-white text-sm rounded-full">SaaS</span>
-                <span className="px-4 py-2 bg-white/10 text-white text-sm rounded-full">Figma</span>
-                <span className="px-4 py-2 bg-white/10 text-white text-sm rounded-full">Design System</span>
-              </div>
-              
-              {/* Project Scope & Impact */}
-              <div className="grid md:grid-cols-2 gap-8 mt-16 text-left">
-                <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-                  <h3 className="text-xl font-semibold text-white mb-4">Project Scope</h3>
-                  <ul className="text-gray-300 space-y-2 text-sm">
-                    <li>• 50+ reusable UI components</li>
-                    <li>• Complete design token system</li>
-                    <li>• Interactive Figma prototypes</li>
-                    <li>• Responsive design patterns</li>
-                    <li>• Accessibility-first approach</li>
-                    <li>• Enterprise-grade scalability</li>
-                  </ul>
-                </div>
-                
-                <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-                  <h3 className="text-xl font-semibold text-white mb-4">Business Impact</h3>
-                  <ul className="text-gray-300 space-y-2 text-sm">
-                    <li>• 40% faster design iteration</li>
-                    <li>• Consistent brand experience</li>
-                    <li>• Reduced development time</li>
-                    <li>• Improved accessibility compliance</li>
-                    <li>• Scalable design foundation</li>
-                    <li>• Cross-team collaboration</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Technical Challenges & Solutions */}
-        <section className="relative z-10 px-4 py-24">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-white mb-4">
-                Technical Challenges & Solutions
-              </h2>
-              <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-                Building a design system that bridges code and design required solving complex technical challenges while maintaining design integrity.
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-                <h3 className="text-xl font-semibold text-white mb-4">Key Challenges</h3>
-                <ul className="text-gray-300 space-y-3 text-sm">
-                  <li className="flex items-start">
-                    <span className="text-blue-400 mr-2">→</span>
-                    <span>Maintaining consistency between code and design implementations</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-blue-400 mr-2">→</span>
-                    <span>Creating scalable design tokens that work across platforms</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-blue-400 mr-2">→</span>
-                    <span>Ensuring accessibility compliance across all components</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-blue-400 mr-2">→</span>
-                    <span>Building interactive prototypes that feel native</span>
-                  </li>
-                </ul>
-              </div>
-              
-              <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-                <h3 className="text-xl font-semibold text-white mb-4">Solutions Implemented</h3>
-                <ul className="text-gray-300 space-y-3 text-sm">
-                  <li className="flex items-start">
-                    <span className="text-green-400 mr-2">✓</span>
-                    <span>Single source of truth for design tokens in Figma</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-400 mr-2">✓</span>
-                    <span>Automated design-to-code workflow integration</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-400 mr-2">✓</span>
-                    <span>Comprehensive accessibility testing and validation</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-400 mr-2">✓</span>
-                    <span>Advanced prototyping with micro-interactions</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Technical Features Grid */}
-        <section className="relative z-10 px-4 pb-12">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-white mb-8 text-center">
-              Technical Excellence
-            </h2>
-            <div className="grid md:grid-cols-3 gap-6 mb-12">
-              <div className="bg-black rounded-xl p-6 border border-white/10 shadow-sm">
-                <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mb-4 border border-white/20">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
-                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Component Library</h3>
-                <p className="text-gray-300 text-sm">
-                  A comprehensive collection of modular, reusable UI components engineered specifically for modern dashboard interfaces
-                </p>
-              </div>
-
-              <div className="bg-black rounded-xl p-6 border border-white/10 shadow-sm">
-                <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mb-4 border border-white/20">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
-                    <path d="M7 21L3 7L21 7L17 21L7 21Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M7 21L7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Design Tokens</h3>
-                <p className="text-gray-300 text-sm">
-                  Systematic design tokens ensuring consistent color palettes, typography hierarchies, and spacing systems across all components
-                </p>
-              </div>
-
-              <div className="bg-black rounded-xl p-6 border border-white/10 shadow-sm">
-                <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mb-4 border border-white/20">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
-                    <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2"/>
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Interactive Prototype</h3>
-                <p className="text-gray-300 text-sm">
-                  Fully functional Figma prototype demonstrating the complete dashboard experience with real interactions
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Figma Design System Embed */}
-        <section className="relative z-10 px-4 py-24">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-white mb-4">
-                The UI Kit
-              </h2>
-              <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-                Explore the complete Dashboard OS design system directly in Figma. Every component, token, and interaction is meticulously crafted for modern dashboard experiences.
-              </p>
-            </div>
-            
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black">
-              <iframe 
-                style={{ border: '1px solid rgba(0, 0, 0, 0.1);' }} 
-                width="100%" 
-                height="800"
-                src="https://embed.figma.com/design/h44eIHQnytwjebACQ0XL2J/Sales-Dashboard-ui-kit?node-id=16-1371&embed-host=share" 
-                allowFullScreen
-                title="Dashboard OS - Figma Design System"
-                className="w-full"
-              />
-            </div>
-            
-            <div className="text-center mt-8">
-              <p className="text-gray-400 text-sm">
-                Interactive Figma design system with all components, tokens, and prototypes
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Development Process & Methodology */}
-        <section className="relative z-10 px-4 py-24">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-white mb-4">
-                Development Process & Methodology
-              </h2>
-              <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-                A systematic approach to building a design system that serves both designers and developers effectively.
-              </p>
-            </div>
-            
-            <div className="space-y-8">
-              <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-                <h3 className="text-xl font-semibold text-white mb-4">Phase 1: Foundation & Research</h3>
-                <p className="text-gray-300 mb-4">
-                  Started with analyzing existing design systems, identifying gaps in shadcn/ui for enterprise use cases, and researching best practices from companies like Airbnb, Stripe, and GitHub.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-xs rounded-full">Market Research</span>
-                  <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-xs rounded-full">Gap Analysis</span>
-                  <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-xs rounded-full">Best Practices</span>
-                </div>
-              </div>
-              
-              <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-                <h3 className="text-xl font-semibold text-white mb-4">Phase 2: Design & Architecture</h3>
-                <p className="text-gray-300 mb-4">
-                  Designed the component architecture, established design tokens, and created the foundational components. Focused on scalability, accessibility, and maintainability.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">Component Architecture</span>
-                  <span className="px-3 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">Design Tokens</span>
-                  <span className="px-3 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">Accessibility</span>
-                </div>
-              </div>
-              
-              <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-                <h3 className="text-xl font-semibold text-white mb-4">Phase 3: Implementation & Testing</h3>
-                <p className="text-gray-300 mb-4">
-                  Built components in React with TypeScript, implemented design tokens, and created comprehensive testing suites. Developed Figma components in parallel for design consistency.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full">React + TypeScript</span>
-                  <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full">Testing Suite</span>
-                  <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full">Figma Integration</span>
-                </div>
-              </div>
-              
-              <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-                <h3 className="text-xl font-semibold text-white mb-4">Phase 4: Documentation & Distribution</h3>
-                <p className="text-gray-300 mb-4">
-                  Created comprehensive documentation, interactive prototypes, and made the system available through multiple channels including Figma Community and GitHub.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-orange-500/20 text-orange-300 text-xs rounded-full">Documentation</span>
-                  <span className="px-3 py-1 bg-orange-500/20 text-orange-300 text-xs rounded-full">Prototypes</span>
-                  <span className="px-3 py-1 bg-orange-500/20 text-orange-300 text-xs rounded-full">Distribution</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-       
-
-        
-        {/* Next Project Button */}
-        <div className="pb-12"> 
-        <NextProjectButton
-          nextProjectPath="/projects/alpha"
-          nextProjectTitle="Tuqqi Chat Interface Redesign"
-          nextProjectDescription="A comprehensive design refresh to modernize the chat interface and enhance user experience with interactive prototypes."
-          className="bg-black"
-        />
         </div>
-      </main>
-    </>
+      </Section>
+
+      {/* Hacking Better Approach Section */}
+      <Section>
+        <div className="border-b border-[#c6c6c8] pb-16">
+          <div className="space-y-10">
+            <div className="space-y-4">
+              <h2 className="text-3xl md:text-5xl font-bold text-black tracking-[-0.96px] leading-[1.2]">
+                Hacking better approach
+              </h2>
+              <p className="text-xl md:text-2xl font-semibold text-[#2a2a2a] tracking-[-0.48px] leading-[1.2]">
+                When seeing apps like Lovable, Base 44, Bolt and more, I have noticed an interesting idea: they all put the most important interaction - writing the first prompt - in the very first screen, making it the fastest CTA kind of approach. I was inspired by that and thought how I could implement it to my own app
+              </p>
+            </div>
+            
+            <div className="overflow-x-auto pb-4">
+              <div className="flex gap-8 md:gap-12 lg:gap-16 min-w-max px-4 md:px-0">
+                <div className="w-[280px] md:w-[350px] lg:w-[400px] h-[180px] md:h-[250px] lg:h-[300px] rounded-xl flex-shrink-0 overflow-hidden shadow-sm">
+                  <OptimizedImage
+                    src={ASSETS.images.lovable}
+                    alt="Lovable app screenshot"
+                    width={500}
+                    height={400}
+                  />
+                </div>
+                <div className="w-[280px] md:w-[350px] lg:w-[400px] h-[180px] md:h-[250px] lg:h-[300px] rounded-xl flex-shrink-0 overflow-hidden shadow-sm">
+                  <OptimizedImage
+                    src={ASSETS.images.base44}
+                    alt="Base 44 app screenshot"
+                    width={500}
+                    height={400}
+                  />
+                </div>
+                <div className="w-[280px] md:w-[350px] lg:w-[400px] h-[180px] md:h-[250px] lg:h-[300px] rounded-xl flex-shrink-0 overflow-hidden shadow-sm">
+                  <OptimizedImage
+                    src={ASSETS.images.bolt}
+                    alt="Bolt app screenshot"
+                    width={500}
+                    height={400}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-4 justify-center">
+              <div className="bg-neutral-300 p-2 rounded-full w-8 h-8 flex items-center justify-center">
+                <span className="text-lg text-white">←</span>
+              </div>
+              <div className="bg-neutral-300 p-2 rounded-full w-8 h-8 flex items-center justify-center">
+                <span className="text-lg text-white">→</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Advanced User Flow Section */}
+      <Section>
+        <div className="border-b border-[#c6c6c8] pb-16">
+          <div className="space-y-10">
+            <h2 className="text-3xl md:text-5xl font-bold text-black tracking-[-0.96px] leading-[1.2]">
+              Advanced user flow approach
+            </h2>
+            <div className="w-full rounded-xl overflow-hidden shadow-sm">
+              <OptimizedImage
+                src={ASSETS.images.userflow}
+                alt="Advanced user flow diagram"
+                width={1200}
+                height={600}
+              />
+            </div>
+            <p className="text-xl md:text-2xl font-semibold text-[#2a2a2a] tracking-[-0.48px] leading-[1.2] max-w-4xl">
+              First action is the main thing that the user is doing, making it obvious to put it on the very first screen of my app
+            </p>
+          </div>
+        </div>
+      </Section>
+
+      {/* Screen Comparison Section */}
+      <Section>
+        <div className="space-y-16">
+          {/* Current First Screen */}
+          <div className="border-b border-[#c6c6c8] pb-8">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div className="order-2 lg:order-1">
+                <h3 className="text-xl md:text-2xl font-semibold text-black text-center tracking-[-0.48px] leading-[1.2]">
+                  Current First screen
+                </h3>
+              </div>
+              <div className="order-1 lg:order-2 flex justify-center">
+                <div className="w-[302px] h-[657px] rounded-lg overflow-hidden">
+                  <OptimizedImage
+                    src={ASSETS.images.currentScreen}
+                    alt="Current first screen"
+                    width={302}
+                    height={657}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Advanced First Screen */}
+          <div className="pt-10">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div className="flex justify-center">
+                <div className="w-[302px] h-[657px] rounded-md overflow-hidden">
+                  <OptimizedImage
+                    src={ASSETS.images.advancedScreen}
+                    alt="Advanced first screen with instant input field"
+                    width={302}
+                    height={657}
+                  />
+                </div>
+              </div>
+              <div>
+                <h3 className="text-xl md:text-2xl font-semibold text-black tracking-[-0.48px] leading-[1.2] max-w-2xl">
+                  Advanced first screen with an instant input field for thought capturing
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Flow in Action Section */}
+      <Section className="py-24">
+        <div className="text-center">
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-black tracking-[-2.16px] leading-[1.2] mb-32">
+            Flow in action
+          </h2>
+          <div className="flex justify-center">
+            <div className="w-[250px] md:w-[320px] h-[540px] md:h-[690px] rounded-[40px] overflow-hidden">
+              <VideoPlayer 
+                src={ASSETS.videos.newFlow}
+                poster={ASSETS.images.advancedScreen}
+              />
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* KPI Metrics Section */}
+      <section className="px-4 py-16 md:py-24">
+        <div className="max-w-7xl mx-auto">
+          <div className="space-y-12 text-center">
+            <div className="space-y-5">
+              <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-black tracking-[-2.16px] leading-[1.2]">
+                Key performance metrics
+              </h2>
+              <p className="text-xl md:text-2xl font-semibold text-[#2a2a2a] tracking-[-0.48px] leading-[1.2] max-w-3xl mx-auto">
+                Our indicator for this test is to measure the time (seconds) that the user has completed the task
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-7 max-w-4xl mx-auto">
+              <KPICard 
+                title="Current flow"
+                value="8"
+                unit="s"
+              />
+              <KPICard 
+                title="New Flow"
+                value="4"
+                unit="sec"
+                improvement="+50%"
+                isOptimized={true}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
-} 
+}

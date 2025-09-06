@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { cn } from '../lib/utils' // We'll create this utility
+import { cn } from '../lib/utils'
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'accent'
@@ -22,15 +22,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     
     const variants = {
       primary: "px-6 py-3 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 focus:ring-gray-500",
-      secondary: "btn-secondary focus:ring-secondary-500", 
-      outline: "btn-outline focus:ring-white",
-      accent: "btn-accent focus:ring-accent-500"
+      secondary: "px-6 py-3 rounded-full border border-pink-300 text-pink-700 hover:bg-pink-100 focus:ring-pink-500", 
+      outline: "px-6 py-3 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 focus:ring-gray-500",
+      accent: "px-6 py-3 rounded-full border border-orange-300 text-orange-700 hover:bg-orange-100 focus:ring-orange-500"
     }
 
     const sizes = {
-      default: "text-body",
-      sm: "px-4 py-2 text-body-small",
-      lg: "px-8 py-4 text-body-large"
+      default: "text-base",
+      sm: "px-4 py-2 text-sm",
+      lg: "px-8 py-4 text-lg"
     }
 
     return (
