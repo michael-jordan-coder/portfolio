@@ -8,12 +8,12 @@ import CodeBlock from '@/components/ui/TerminalCard';
 
 // Feature card component
 const FeatureCard: React.FC<{ title: string; description: string; icon: React.ReactNode }> = ({ title, description, icon }) => (
-  <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-    <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center mb-4 border border-white/20">
+  <div className="bg-white/5 rounded-xl p-6 border border-white/10 transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:shadow-lg hover:shadow-white/5 hover:-translate-y-1 group cursor-pointer">
+    <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center mb-4 border border-white/20 transition-all duration-300 group-hover:bg-white/20 group-hover:border-white/30 group-hover:scale-105">
       {icon}
     </div>
-    <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
-    <p className="text-gray-300 text-sm">{description}</p>
+    <h3 className="text-lg font-semibold text-white mb-2 transition-colors duration-300 group-hover:text-gray-100">{title}</h3>
+    <p className="text-gray-300 text-sm transition-colors duration-300 group-hover:text-gray-200">{description}</p>
   </div>
 );
 
@@ -80,13 +80,21 @@ export default function HandTrackingPage() {
         <section className="relative z-10 pt-32 pb-24 px-4">
           <div className="max-w-4xl mx-auto text-center">
             <div className="mb-16">
-              <div className="inline-block bg-black text-white text-sm px-4 py-2 rounded-full font-medium border border-white/20">
-                Interactive Experience
+              <div className="flex flex-wrap justify-center gap-3">
+                <div className="inline-block bg-black text-white text-sm px-4 py-2 rounded-full font-medium border border-white/20">
+                  Interactive Experience
+                </div>
+                <div className="inline-block bg-white/10 text-gray-300 text-sm px-4 py-2 rounded-full font-light border border-white/10">
+                  AI-Assisted Development
+                </div>
               </div>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-12">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8">
               3D Hand Tracking Interface From your camera
             </h1>
+            <p className="text-lg text-gray-400 font-light tracking-wide max-w-2xl mx-auto">
+              Crafted with precision using AI-assisted development tools
+            </p>
            
           </div>
         </section>
@@ -275,21 +283,21 @@ export default function HandTrackingPage() {
                   <h4 className="text-lg font-semibold text-white">Real-time Tracking Features</h4>
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
-                      <span className="text-blue-400 text-lg">⚡</span>
+                      <span className="text-blue-400 text-lg font-bold">•</span>
                       <div>
                         <span className="text-white font-medium">120 FPS Processing</span>
                         <p className="text-gray-300 text-sm">Ultra-smooth tracking with minimal latency</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <span className="text-green-400 text-lg">🎯</span>
+                      <span className="text-green-400 text-lg font-bold">•</span>
                       <div>
                         <span className="text-white font-medium">Sub-pixel Accuracy</span>
                         <p className="text-gray-300 text-sm">Precise positioning down to pixel level</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <span className="text-purple-400 text-lg">🔄</span>
+                      <span className="text-purple-400 text-lg font-bold">•</span>
                       <div>
                         <span className="text-white font-medium">Continuous Tracking</span>
                         <p className="text-gray-300 text-sm">Seamless hand movement following</p>
