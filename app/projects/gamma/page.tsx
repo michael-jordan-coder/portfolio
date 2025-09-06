@@ -8,7 +8,8 @@ import { KPICard } from '@/components/ui';
 // Asset configuration - centralized and type-safe
 const ASSETS = {
   images: {
-    userflow: '/notes-app/Casestudy/images/userflow-1.png',
+    userflow1: '/notes-app/Casestudy/images/userflow-1.png',
+    userflow2: '/notes-app/Casestudy/images/userflow-2.png',
     currentScreen: '/notes-app/Casestudy/images/current-screen.png',
     advancedScreen: '/notes-app/Casestudy/images/advanced-screen.png',
     lovable: '/notes-app/Casestudy/images/lovable.png',
@@ -190,15 +191,15 @@ export default function GammaPage() {
             <h2 className="text-3xl md:text-5xl font-bold text-black tracking-[-0.96px] leading-[1.2]">
               Current user flow
             </h2>
-            <div className="w-full bg-neutral-100 rounded-xl overflow-hidden shadow-sm">
-              <OptimizedImage
-                src={ASSETS.images.userflow}
-                alt="Current user flow diagram"
-                width={1200}
-                height={600}
-                priority
-              />
-            </div>
+             <div className="w-full bg-neutral-100 rounded-xl overflow-hidden shadow-sm">
+               <OptimizedImage
+                 src={ASSETS.images.userflow1}
+                 alt="Current user flow diagram"
+                 width={1200}
+                 height={600}
+                 priority
+               />
+             </div>
             <p className="text-xl md:text-2xl font-medium text-[#2a2a2a] tracking-[-0.48px] leading-[1.2] max-w-2xl">
               While the current workflow follows conventional patterns, our objective is to optimize user efficiency by minimizing required interactions
             </p>
@@ -267,14 +268,14 @@ export default function GammaPage() {
             <h2 className="text-3xl md:text-5xl font-bold text-black tracking-[-0.96px] leading-[1.2]">
               Optimized user flow implementation
             </h2>
-            <div className="w-full rounded-xl overflow-hidden shadow-sm">
-              <OptimizedImage
-                src={ASSETS.images.userflow}
-                alt="Advanced user flow diagram"
-                width={1200}
-                height={600}
-              />
-            </div>
+             <div className="w-full rounded-xl overflow-hidden shadow-sm">
+               <OptimizedImage
+                 src={ASSETS.images.userflow2}
+                 alt="Optimized user flow diagram"
+                 width={1200}
+                 height={600}
+               />
+             </div>
             <p className="text-xl md:text-2xl font-medium text-[#2a2a2a] tracking-[-0.48px] leading-[1.2] max-w-4xl">
               By prioritizing the primary user action on the initial screen, we create a more intuitive and efficient user experience that aligns with user expectations and reduces cognitive load
             </p>
@@ -338,9 +339,12 @@ export default function GammaPage() {
       {/* Flow in Action Section */}
       <Section className="py-24">
         <div className="text-center">
-          <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-black tracking-[-2.16px] leading-[1.2] mb-32">
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-black tracking-[-2.16px] leading-[1.2] mb-8">
             Flow in action
           </h2>
+          <p className="text-xl md:text-2xl font-medium text-[#2a2a2a] tracking-[-0.48px] leading-[1.2] mb-32 max-w-4xl mx-auto">
+            Enhanced user engagement through strategic micro-interactions that reduce friction and improve task completion rates
+          </p>
           <div className="flex justify-center">
             <div className="w-[250px] md:w-[320px] h-[540px] md:h-[690px] rounded-[40px] overflow-hidden">
               <VideoPlayer 
