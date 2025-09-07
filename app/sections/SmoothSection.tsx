@@ -23,9 +23,17 @@ const PROJECTS: Project[] = [
     id: 'gamma',
     title: 'Reducing user action for better performance',
     description: 'A case study on optimizing the note creation flow in Inbox app by reducing user actions from 8 seconds to 4 seconds through strategic UX improvements.',
-    image: '/notes-app/Casestudy/images/userflow-1.png',
+    image: '/notes-app/Casestudy/images/BG.png',
     url: '/projects/notesapp',
     category: 'UX Sprint'
+  },
+  {
+    id: 'alpha',
+    title: 'Adding AI to Tuqqi.com',
+    description: 'Adding intelligence to Tuqqi, while keeping the design simple and familiar',
+    image: '/projects/tuqqi.svg',
+    url: '/projects/tuqqi-ai',
+    category: 'Web App - B2B'
   },
   {
     id: 'beta',
@@ -34,14 +42,6 @@ const PROJECTS: Project[] = [
     image: '/image.png',
     url: '/projects/web-3d',
     category: 'Interactive Experience'
-  },
-  {
-    id: 'alpha',
-    title: 'Tuqqi chat view refreshed Design',
-    description: 'A refreshed design for the chat view in Tuqqi, a work management platform',
-    image: '/projects/tuqqi.svg',
-    url: '/projects/tuqqi-ai',
-    category: 'Web App - B2B'
   },
 ];
 

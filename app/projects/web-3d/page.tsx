@@ -57,7 +57,7 @@ export default function HandTrackingPage() {
       </Link>
 
       {/* Main Content */}
-      <main className="min-h-screen bg-black relative overflow-hidden">
+      <main className="min-h-screen bg-semantic-dark-bg-primary relative overflow-hidden">
         {/* Dot Pattern Background */}
         <DotPattern 
           width={25} 
@@ -92,13 +92,13 @@ export default function HandTrackingPage() {
                 </div>
               </div>
             </div>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-semantic-dark-text-primary mb-6 leading-tight">
               Hand Tracking
               <span className="block text-transparent bg-clip-text bg-white">
                 Interface
               </span>
             </h1>
-            <p className="text-xl text-gray-400 font-light tracking-wide max-w-4xl mx-auto leading-relaxed">
+            <p className="text-xl text-semantic-dark-text-muted font-light tracking-wide max-w-4xl mx-auto leading-relaxed">
               Real-time hand gesture recognition with 3D visualization using MediaPipe and WebGL. 
               Track 21 hand landmarks at 120 FPS with sub-10ms latency.
             </p>
@@ -109,8 +109,8 @@ export default function HandTrackingPage() {
         <section className="relative z-10 px-6 pb-32">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-light text-white mb-6">See it in action</h2>
-              <p className="text-gray-400 text-lg font-light">Experience the hand tracking interface in action</p>
+              <h2 className="text-3xl font-light text-semantic-dark-text-primary mb-6">See it in action</h2>
+              <p className="text-semantic-dark-text-muted text-lg font-light">Experience the hand tracking interface in action</p>
             </div>
             
             <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/5 bg-black/20 backdrop-blur-sm">
@@ -130,8 +130,8 @@ export default function HandTrackingPage() {
         <section className="relative z-10 px-6 pb-32">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-20">
-              <h2 className="text-3xl font-light text-white mb-6">Core Technology</h2>
-              <p className="text-gray-400 text-lg font-light max-w-3xl mx-auto">
+              <h2 className="text-3xl font-light text-semantic-dark-text-primary mb-6">Core Technology</h2>
+              <p className="text-semantic-dark-text-muted text-lg font-light max-w-3xl mx-auto">
                 Advanced computer vision and 3D rendering capabilities powering real-time hand interaction
               </p>
             </div>
@@ -176,15 +176,15 @@ export default function HandTrackingPage() {
         <section className="relative z-10 px-6 pb-32">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-20">
-              <h2 className="text-3xl font-light text-white mb-6">Technical Implementation</h2>
-              <p className="text-gray-400 text-lg font-light max-w-3xl mx-auto">
+              <h2 className="text-3xl font-light text-semantic-dark-text-primary mb-6">Technical Implementation</h2>
+              <p className="text-semantic-dark-text-muted text-lg font-light max-w-3xl mx-auto">
                 Core setup and configuration for MediaPipe hand detection
               </p>
             </div>
             
             {/* Hand Detection Setup */}
             <div className="mb-20">
-              <h3 className="text-2xl font-light text-white mb-10">MediaPipe Configuration</h3>
+              <h3 className="text-2xl font-light text-semantic-dark-text-primary mb-10">MediaPipe Configuration</h3>
               <div className="grid lg:grid-cols-2 gap-16 items-start">
                 <div className="lg:max-w-lg">
                   <CodeBlock
@@ -385,7 +385,14 @@ hands.onResults((results) => {
         </section>
 
         {/* Next Project Button */}
-      
+        <div className="pb-12"> 
+          <NextProjectButton
+            nextProjectPath="/projects/notesapp"
+            nextProjectTitle="Notes App UX Optimization"
+            nextProjectDescription="Strategic UX optimization initiative focused on streamlining the note creation workflow."
+            className="bg-black"
+          />
+        </div>
       </main>
     </>
   );

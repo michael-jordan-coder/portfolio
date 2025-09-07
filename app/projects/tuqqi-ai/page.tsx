@@ -1,11 +1,13 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useScrollToTopOnNavigation } from '@/lib/utils'
+import NextProjectButton from '../../../components/NextProjectButton'
 
 // Accent brand color for AI sections (Tuqqi touch)
-const ACCENT = '#3b82f6' // Tailwind blue-500
+const ACCENT = 'primary-500' // Using semantic color token
 
 function SectionHeader({
   eyebrow,
@@ -95,14 +97,14 @@ function RadialStat({ percent, label }: { percent: number; label: string }) {
     <div className="flex flex-col items-center">
       <div
         className="relative w-28 h-28 rounded-full grid place-items-center"
-        style={{ background: `conic-gradient(${ACCENT} ${clamped * 3.6}deg, #e5e7eb 0deg)` }}
+        style={{ background: `conic-gradient(#3b82f6 ${clamped * 3.6}deg, #e5e7eb 0deg)` }}
         aria-label={`${label} ${clamped}%`}
         role="img"
       >
         <div className="absolute inset-2 rounded-full bg-white" />
-        <div className="relative text-xl font-semibold text-gray-900">{clamped}%</div>
+        <div className="relative text-xl font-semibold text-semantic-text-primary">{clamped}%</div>
       </div>
-      <div className="mt-2 text-sm text-gray-600">{label}</div>
+      <div className="mt-2 text-sm text-semantic-text-secondary">{label}</div>
     </div>
   )
 }
@@ -152,14 +154,14 @@ function DraggableBeforeAfter() {
         style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
       />
       <div
-        className="absolute top-0 h-full shadow-lg"
-        style={{ left: `${pos}%`, width: 3, backgroundColor: ACCENT, transform: `translateX(-1.5px)` }}
+        className="absolute top-0 h-full shadow-lg bg-primary-500"
+        style={{ left: `${pos}%`, width: 3, transform: `translateX(-1.5px)` }}
         onMouseDown={onDown}
         aria-hidden
       />
       <div
-        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 grid place-items-center rounded-full shadow-lg border-2"
-        style={{ left: `${pos}%`, width: 48, height: 48, backgroundColor: ACCENT, borderColor: ACCENT }}
+        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 grid place-items-center rounded-full shadow-lg border-2 bg-primary-500 border-primary-500"
+        style={{ left: `${pos}%`, width: 48, height: 48 }}
         onMouseDown={onDown}
         aria-hidden
       >
@@ -179,16 +181,17 @@ export default function Page() {
 
   return (
     <>
-      {/* Navigation */}
-      <nav className="fixed top-6 right-6 z-40">
-        <Link
-          href="/"
-          className="px-4 py-2 rounded-full bg-gray-800/90 text-white font-semibold shadow-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200 backdrop-blur-sm"
-          aria-label="Back to home"
-        >
-          ← Back
-        </Link>
-      </nav>
+      {/* Back to home button */}
+      <Link
+        href="/"
+        aria-label="back"
+        className="fixed top-8 right-8 z-50 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-full px-6 py-4 shadow-2xl backdrop-blur-xl border border-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500/50 flex items-center gap-2"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+        <span className="text-white font-medium">back</span>
+      </Link>
 
       <main className="min-h-screen bg-white">
         {/* 1) Hero */}
@@ -203,9 +206,12 @@ export default function Page() {
             <Reveal delay={220}>
               <div className="mt-10 relative rounded-3xl border border-gray-200 overflow-hidden shadow-xl">
                 <div className="aspect-[16/9] w-full bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200">
-                  <img 
+                  <Image 
                     src="/ai/ai.svg" 
                     alt="AI Assistant Interface" 
+                    width={1200}
+                    height={675}
+                    priority
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -268,7 +274,7 @@ export default function Page() {
                   {/* Chat Interface */}
                   <div className="rounded-2xl border border-gray-200 p-6 bg-gray-50 flex flex-col">
                     <div className="mb-4 flex-shrink-0 bg-white rounded-lg w-full h-32 flex items-center justify-center">
-                      <img src="/ai/Chat.svg" alt="Chat Interface Design" className="w-full h-full object-contain p-3" />
+                      <Image src="/ai/Chat.svg" alt="Chat Interface Design" width={128} height={128} className="w-full h-full object-contain p-3" />
                     </div>
                     <div className="flex-1 flex flex-col justify-end">
                       <h4 className="text-lg font-semibold text-gray-900 mb-2">Chat Interface</h4>
@@ -279,7 +285,7 @@ export default function Page() {
                   {/* Chat Bubbles */}
                   <div className="rounded-2xl border border-gray-200 p-6 bg-gray-50 flex flex-col">
                     <div className="mb-4 flex-shrink-0 bg-white rounded-lg w-full h-32 flex items-center justify-center">
-                      <img src="/ai/chats.svg" alt="Chat Bubbles Design" className="w-full h-full object-contain p-3" />
+                      <Image src="/ai/chats.svg" alt="Chat Bubbles Design" width={128} height={128} className="w-full h-full object-contain p-3" />
                     </div>
                     <div className="flex-1 flex flex-col justify-end">
                       <h4 className="text-lg font-semibold text-gray-900 mb-2">Chat Bubbles</h4>
@@ -290,7 +296,7 @@ export default function Page() {
                   {/* Profile Selection */}
                   <div className="rounded-2xl border border-gray-200 p-6 bg-gray-50 flex flex-col">
                     <div className="mb-4 flex-shrink-0 bg-white rounded-lg w-full h-32 flex items-center justify-center">
-                      <img src="/ai/comp.svg" alt="Profile Selection Design" className="w-full h-full object-contain p-3" />
+                      <Image src="/ai/comp.svg" alt="Profile Selection Design" width={128} height={128} className="w-full h-full object-contain p-3" />
                     </div>
                     <div className="flex-1 flex flex-col justify-end">
                       <h4 className="text-lg font-semibold text-gray-900 mb-2">Profile Selection</h4>
@@ -306,17 +312,19 @@ export default function Page() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <div className="flex gap-3">
-                      {['#8A38F5', '#CCB7E6', '#6B7280', '#E5E7EB', '#F9FAFB'].map((c) => (
-                        <div key={c} className="w-14 h-14 rounded-xl border border-gray-200" style={{ backgroundColor: c }} />
-                      ))}
+                      <div className="w-14 h-14 rounded-xl border border-semantic-border-primary bg-primary-500" />
+                      <div className="w-14 h-14 rounded-xl border border-semantic-border-primary bg-primary-200" />
+                      <div className="w-14 h-14 rounded-xl border border-semantic-border-primary bg-neutral-500" />
+                      <div className="w-14 h-14 rounded-xl border border-semantic-border-primary bg-neutral-200" />
+                      <div className="w-14 h-14 rounded-xl border border-semantic-border-primary bg-neutral-50" />
                     </div>
-                    <div className="mt-2 text-sm text-gray-600">Color palette for AI touch-points</div>
+                    <div className="mt-2 text-sm text-semantic-text-secondary">Color palette for AI touch-points</div>
                   </div>
                   <div>
                     <div className="flex gap-4 items-center">
                       {['/ai/item.svg', '/ai/link.svg', '/ai/table.svg'].map((src, i) => (
                         <div key={src} className="w-12 h-12 grid place-items-center rounded-lg border border-gray-200 bg-gray-50">
-                          <img src={src} alt={`AI interaction icon ${i + 1}`} className="w-full h-full object-contain p-2" />
+                          <Image src={src} alt={`AI interaction icon ${i + 1}`} width={48} height={48} className="w-full h-full object-contain p-2" />
                         </div>
                       ))}
                     </div>
@@ -335,7 +343,7 @@ export default function Page() {
             <Reveal>
               <div className="rounded-2xl border border-gray-200 bg-white p-6">
                 <div className="mb-6">
-                  <img src="/ai/Flowchart.svg" alt="AI User Flow Diagram" className="w-full h-auto rounded-lg" />
+                  <Image src="/ai/Flowchart.svg" alt="AI User Flow Diagram" width={800} height={400} className="w-full h-auto rounded-lg" />
                 </div>
                 <div className="grid md:grid-cols-3 gap-6">
                   <div className="text-center">
@@ -419,16 +427,20 @@ export default function Page() {
                       <div className="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
                         <div className="h-[420px] bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 flex items-center justify-center p-4">
                           {i === 0 && (
-                            <img 
+                            <Image 
                               src="/ai/Frame.svg" 
                               alt="AI Assistant Interface Frame" 
+                              width={600}
+                              height={400}
                               className="w-auto h-auto max-w-full max-h-full object-contain"
                             />
                           )}
                           {i === 1 && (
-                            <img 
+                            <Image 
                               src="/ai/tablecopy.svg" 
                               alt="AI Table Interface" 
+                              width={600}
+                              height={400}
                               className="w-auto h-auto max-w-full max-h-full object-contain"
                             />
                           )}
@@ -473,6 +485,16 @@ export default function Page() {
             </Reveal>
           </div>
         </section> */}
+
+        {/* Next Project Button */}
+        <div className="pb-12"> 
+          <NextProjectButton
+            nextProjectPath="/projects/web-3d"
+            nextProjectTitle="3D Hand Tracking Interface"
+            nextProjectDescription="Real-time hand gesture recognition with 3D visualization using MediaPipe and WebGL."
+            className="bg-white"
+          />
+        </div>
       </main>
     </>
   )

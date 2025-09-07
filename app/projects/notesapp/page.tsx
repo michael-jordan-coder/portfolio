@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { KPICard } from '@/components/ui';
 import { useScrollToTopOnNavigation } from '@/lib/utils';
+import NextProjectButton from '../../../components/NextProjectButton';
 
 // Asset configuration - centralized and type-safe
 const ASSETS = {
@@ -158,7 +159,7 @@ export default function GammaPage() {
 
       {/* Overview Section */}
       <Section>
-        <div className="border-b border-[#c6c6c8] pb-16">
+        <div className="border-b border-semantic-border-secondary pb-16">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-12">
               <div>
@@ -166,10 +167,10 @@ export default function GammaPage() {
                   Overview
                 </h2>
                 <div className="space-y-6">
-                  <p className="text-xl md:text-2xl font-medium text-[#2a2a2a] tracking-[-0.48px] leading-[1.2]">
+                  <p className="text-xl md:text-2xl font-medium text-semantic-text-primary tracking-[-0.48px] leading-[1.2]">
                     Inbox is a productivity-focused iOS application designed to capture and organize thoughts efficiently
                   </p>
-                  <p className="text-xl md:text-2xl font-medium text-[#2a2a2a] tracking-[-0.48px] leading-[1.2]">
+                  <p className="text-xl md:text-2xl font-medium text-semantic-text-primary tracking-[-0.48px] leading-[1.2]">
                     The following demonstrates the existing note creation workflow and identifies opportunities for optimization
                   </p>
                 </div>
@@ -189,7 +190,7 @@ export default function GammaPage() {
 
       {/* Current User Flow Section */}
       <Section>
-        <div className="border-b border-[#c6c6c8] pb-16">
+        <div className="border-b border-semantic-border-secondary pb-16">
           <div className="space-y-10">
             <h2 className="text-3xl md:text-5xl font-bold text-black tracking-[-0.96px] leading-[1.2]">
               Current user flow
@@ -203,7 +204,7 @@ export default function GammaPage() {
                  priority
                />
              </div>
-            <p className="text-xl md:text-2xl font-medium text-[#2a2a2a] tracking-[-0.48px] leading-[1.2] max-w-2xl">
+            <p className="text-xl md:text-2xl font-medium text-semantic-text-primary tracking-[-0.48px] leading-[1.2] max-w-2xl">
               While the current workflow follows conventional patterns, our objective is to optimize user efficiency by minimizing required interactions
             </p>
           </div>
@@ -212,13 +213,13 @@ export default function GammaPage() {
 
       {/* Hacking Better Approach Section */}
       <Section>
-        <div className="border-b border-[#c6c6c8] pb-16">
+        <div className="border-b border-semantic-border-secondary pb-16">
           <div className="space-y-10">
             <div className="space-y-4">
               <h2 className="text-3xl md:text-5xl font-bold text-black tracking-[-0.96px] leading-[1.2]">
                 Strategic approach analysis
               </h2>
-              <p className="text-xl md:text-2xl font-medium text-[#2a2a2a] tracking-[-0.48px] leading-[1.2]">
+              <p className="text-xl md:text-2xl font-medium text-semantic-text-primary tracking-[-0.48px] leading-[1.2]">
                 Competitive analysis of Lovable, Base 44, and Bolt revealed a key pattern: prioritizing the primary user action on the initial screen creates a more efficient experience.
               </p>
             </div>
@@ -259,7 +260,7 @@ export default function GammaPage() {
 
       {/* Advanced User Flow Section */}
       <Section>
-        <div className="border-b border-[#c6c6c8] pb-16">
+        <div className="border-b border-semantic-border-secondary pb-16">
           <div className="space-y-10">
             <h2 className="text-3xl md:text-5xl font-bold text-black tracking-[-0.96px] leading-[1.2]">
               Optimized user flow implementation
@@ -272,7 +273,7 @@ export default function GammaPage() {
                  height={600}
                />
              </div>
-            <p className="text-xl md:text-2xl font-medium text-[#2a2a2a] tracking-[-0.48px] leading-[1.2] max-w-4xl">
+            <p className="text-xl md:text-2xl font-medium text-semantic-text-primary tracking-[-0.48px] leading-[1.2] max-w-4xl">
               By prioritizing the primary user action on the initial screen, we create a more intuitive and efficient user experience that aligns with user expectations and reduces cognitive load
             </p>
           </div>
@@ -283,7 +284,7 @@ export default function GammaPage() {
       <Section>
         <div className="space-y-16">
           {/* Current First Screen */}
-          <div className="border-b border-[#c6c6c8] pb-8">
+          <div className="border-b border-semantic-border-secondary pb-8">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               <div className="order-2 lg:order-1">
                 <h3 className="text-xl md:text-2xl font-semibold text-black text-center tracking-[-0.48px] leading-[1.2]">
@@ -338,7 +339,7 @@ export default function GammaPage() {
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-black tracking-[-2.16px] leading-[1.2] mb-8">
             Flow in action
           </h2>
-          <p className="text-xl md:text-2xl font-medium text-[#2a2a2a] tracking-[-0.48px] leading-[1.2] mb-32 max-w-4xl mx-auto">
+          <p className="text-xl md:text-2xl font-medium text-semantic-text-primary tracking-[-0.48px] leading-[1.2] mb-32 max-w-4xl mx-auto">
             Enhanced user engagement through strategic micro-interactions that reduce friction and improve task completion rates
           </p>
           <div className="flex justify-center">
@@ -360,7 +361,7 @@ export default function GammaPage() {
               <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-black tracking-[-2.16px] leading-[1.2]">
                 Key performance metrics
               </h2>
-              <p className="text-xl md:text-2xl font-medium text-[#2a2a2a] tracking-[-0.48px] leading-[1.2] max-w-3xl mx-auto">
+              <p className="text-xl md:text-2xl font-medium text-semantic-text-primary tracking-[-0.48px] leading-[1.2] max-w-3xl mx-auto">
                 Success metrics focused on user action count to quantify the impact of our optimization efforts
               </p>
             </div>
@@ -382,6 +383,16 @@ export default function GammaPage() {
           </div>
         </div>
       </section>
+
+      {/* Next Project Button */}
+      <div className="pb-12"> 
+        <NextProjectButton
+          nextProjectPath="/projects/tuqqi-ai"
+          nextProjectTitle="tuqqi ai"
+          nextProjectDescription="adding intelligence to Tuqqi, while keeping the design simple and familiar"
+          className="bg-white"
+        />
+      </div>
     </div>
   );
 }

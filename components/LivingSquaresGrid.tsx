@@ -10,10 +10,10 @@ interface LivingSquaresGridProps {
   onToolLeave?: () => void;
 }
 
-// Inline SVG fallbacks for common tech logos
+// Inline SVG fallbacks for common tech logos using semantic colors
 const svgFallbacks = {
   gemini: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="64" height="64" rx="8" fill="#6366f1"/>
+    <rect width="64" height="64" rx="8" fill="#3b82f6"/>
     <text x="32" y="40" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="white">G</text>
   </svg>`,
   cursor: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -37,7 +37,7 @@ const svgFallbacks = {
     <text x="32" y="40" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="white">C</text>
   </svg>`,
   next: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="64" height="64" rx="8" fill="#000000"/>
+    <rect width="64" height="64" rx="8" fill="#171717"/>
     <text x="32" y="40" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="white">N</text>
   </svg>`,
   gpt: `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
