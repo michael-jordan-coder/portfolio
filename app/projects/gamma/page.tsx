@@ -222,41 +222,34 @@ export default function GammaPage() {
             
             <div className="overflow-x-auto pb-4">
               <div className="flex gap-8 md:gap-12 lg:gap-16 min-w-max px-4 md:px-0">
-                <div className="w-[280px] md:w-[350px] lg:w-[400px] h-[180px] md:h-[250px] lg:h-[300px] rounded-xl flex-shrink-0 overflow-hidden shadow-sm">
+                <div className="w-[280px] md:w-[350px] lg:w-[500px] h-[280px] md:h-[250px] lg:h-[300px] rounded-xl flex-shrink-0 overflow-hidden shadow-sm">
                   <OptimizedImage
                     src={ASSETS.images.lovable}
                     alt="Lovable app screenshot"
-                    width={500}
-                    height={400}
+                    width={700}
+                    height={500}
                   />
                 </div>
-                <div className="w-[280px] md:w-[350px] lg:w-[400px] h-[180px] md:h-[250px] lg:h-[300px] rounded-xl flex-shrink-0 overflow-hidden shadow-sm">
+                <div className="w-[280px] md:w-[350px] lg:w-[500px] h-[280px] md:h-[250px] lg:h-[300px] rounded-xl flex-shrink-0 overflow-hidden shadow-sm">
                   <OptimizedImage
                     src={ASSETS.images.base44}
                     alt="Base 44 app screenshot"
-                    width={500}
-                    height={400}
+                    width={700}
+                    height={500}
                   />
                 </div>
-                <div className="w-[280px] md:w-[350px] lg:w-[400px] h-[180px] md:h-[250px] lg:h-[300px] rounded-xl flex-shrink-0 overflow-hidden shadow-sm">
+                <div className="w-[280px] md:w-[350px] lg:w-[500px] h-[280px] md:h-[250px] lg:h-[300px] rounded-xl flex-shrink-0 overflow-hidden shadow-sm">
                   <OptimizedImage
                     src={ASSETS.images.bolt}
                     alt="Bolt app screenshot"
-                    width={500}
-                    height={400}
+                    width={700}
+                    height={500}
                   />
                 </div>
               </div>
             </div>
 
-            <div className="flex gap-4 justify-center">
-              <div className="bg-neutral-300 p-2 rounded-full w-8 h-8 flex items-center justify-center">
-                <span className="text-lg text-white">←</span>
-              </div>
-              <div className="bg-neutral-300 p-2 rounded-full w-8 h-8 flex items-center justify-center">
-                <span className="text-lg text-white">→</span>
-              </div>
-            </div>
+         
           </div>
         </div>
       </Section>
@@ -365,20 +358,20 @@ export default function GammaPage() {
                 Key performance metrics
               </h2>
               <p className="text-xl md:text-2xl font-medium text-[#2a2a2a] tracking-[-0.48px] leading-[1.2] max-w-3xl mx-auto">
-                Success metrics focused on task completion time to quantify the impact of our optimization efforts
+                Success metrics focused on user action count to quantify the impact of our optimization efforts
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-7 max-w-4xl mx-auto">
               <KPICard 
                 title="Current flow"
-                value="8"
-                unit="s"
+                value="4"
+                unit="actions"
               />
               <KPICard 
                 title="New Flow"
-                value="4"
-                unit="sec"
+                value="2"
+                unit="actions"
                 improvement="+50%"
                 isOptimized={true}
               />
