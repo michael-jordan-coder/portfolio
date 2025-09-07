@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { KPICard } from '@/components/ui';
+import { useScrollToTopOnNavigation } from '@/lib/utils';
 
 // Asset configuration - centralized and type-safe
 const ASSETS = {
@@ -105,6 +106,8 @@ const VideoPlayer = ({ src, poster }: { src: string; poster: string }) => {
 
 
 export default function GammaPage() {
+  useScrollToTopOnNavigation();
+  
   return (
     <div className="bg-white min-h-screen">
       {/* Back to home button */}

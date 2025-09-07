@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useScrollRestoration } from '@/lib/utils'
+import { useScrollToTopOnNavigation } from '@/lib/utils'
 
 // Accent brand color for AI sections (Tuqqi touch)
 const ACCENT = '#3b82f6' // Tailwind blue-500
@@ -175,7 +175,7 @@ function DraggableBeforeAfter() {
 }
 
 export default function Page() {
-  useScrollRestoration()
+  useScrollToTopOnNavigation()
 
   return (
     <>

@@ -24,7 +24,7 @@ const PROJECTS: Project[] = [
     title: 'Reducing user action for better performance',
     description: 'A case study on optimizing the note creation flow in Inbox app by reducing user actions from 8 seconds to 4 seconds through strategic UX improvements.',
     image: '/notes-app/Casestudy/images/userflow-1.png',
-    url: '/projects/gamma',
+    url: '/projects/notesapp',
     category: 'UX Sprint'
   },
   {
@@ -32,7 +32,7 @@ const PROJECTS: Project[] = [
     title: '3D Hand Tracking Interface',
     description: 'Real-time hand gesture recognition with 3D visualization and interactive controls.',
     image: '/image.png',
-    url: '/projects/beta',
+    url: '/projects/web-3d',
     category: 'Interactive Experience'
   },
   {
@@ -40,7 +40,7 @@ const PROJECTS: Project[] = [
     title: 'Tuqqi chat view refreshed Design',
     description: 'A refreshed design for the chat view in Tuqqi, a work management platform',
     image: '/projects/tuqqi.svg',
-    url: '/projects/alpha',
+    url: '/projects/tuqqi-ai',
     category: 'Web App - B2B'
   },
 ];
@@ -49,23 +49,17 @@ const PROJECTS: Project[] = [
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
   const router = useRouter();
   const handleProjectClick = () => {
+    // Scroll to top immediately before navigation
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
+    
     if (project.id === 'alpha') {
-      router.push('/projects/alpha');
-      // Ensure scroll to top after navigation
-      setTimeout(() => {
-        ensureScrollToTop();
-      }, 100);
+      router.push('/projects/tuqqi-ai');
     } else if (project.id === 'gamma') {
-      router.push('/projects/gamma');
-      // Ensure scroll to top after navigation
-      setTimeout(() => {
-        ensureScrollToTop();
-      }, 100);
+      router.push('/projects/notesapp');
     } else if (project.id === 'beta') {
-      router.push('/projects/beta');
-      setTimeout(() => {
-        ensureScrollToTop();
-      }, 100);
+      router.push('/projects/web-3d');
     } else {
       window.open(project.url, '_blank', 'noopener,noreferrer');
     }
@@ -153,23 +147,17 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                          transition-all duration-300 hover:border-white/60"
               onClick={(e) => {
                 e.stopPropagation();
+                // Scroll to top immediately before navigation
+                if (typeof window !== 'undefined') {
+                  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                }
+                
                 if (project.id === 'alpha') {
-                  router.push('/projects/alpha');
-                  // Ensure scroll to top after navigation
-                  setTimeout(() => {
-                    ensureScrollToTop();
-                  }, 100);
+                  router.push('/projects/tuqqi-ai');
                 } else if (project.id === 'gamma') {
-                  router.push('/projects/gamma');
-                  // Ensure scroll to top after navigation
-                  setTimeout(() => {
-                    ensureScrollToTop();
-                  }, 100);
+                  router.push('/projects/notesapp');
                 } else if (project.id === 'beta') {
-                  router.push('/projects/beta');
-                  setTimeout(() => {
-                    ensureScrollToTop();
-                  }, 100);
+                  router.push('/projects/web-3d');
                 } else {
                   window.open(project.url, '_blank', 'noopener,noreferrer');
                 }

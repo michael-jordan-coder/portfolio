@@ -162,13 +162,13 @@ Create `public/sitemap.xml`:
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yourdomain.com/projects/alpha</loc>
+    <loc>https://yourdomain.com/projects/tuqqi-ai</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://yourdomain.com/projects/gamma</loc>
+    <loc>https://yourdomain.com/projects/notesapp</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -297,8 +297,8 @@ export default function RootLayout({
 ```
 / (homepage)
 /about (about page)
-/projects/alpha (project case study)
-/projects/gamma (project case study)
+/projects/tuqqi-ai (project case study)
+/projects/notesapp (project case study)
 /contact (contact page)
 ```
 

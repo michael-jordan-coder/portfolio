@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
 /**
  * Utility function to merge Tailwind CSS classes
@@ -49,7 +50,15 @@ export function ensureScrollToTop() {
       behavior: 'instant'
     });
     
-    // Delayed scroll to ensure it works with Next.js navigation
+    // Multiple delayed scrolls to ensure it works with Next.js navigation
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'instant'
+      });
+    }, 10);
+    
     setTimeout(() => {
       window.scrollTo({
         top: 0,
@@ -58,6 +67,14 @@ export function ensureScrollToTop() {
       });
     }, 50);
     
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'instant'
+      });
+    }, 100);
+    
     // Final scroll after component is fully mounted
     setTimeout(() => {
       window.scrollTo({
@@ -65,15 +82,47 @@ export function ensureScrollToTop() {
         left: 0,
         behavior: 'instant'
       });
-    }, 200);
+    }, 300);
   }
 }
 
 // React hook for automatic scroll restoration
 export function useScrollRestoration() {
   useEffect(() => {
+    // Immediate scroll on mount
     ensureScrollToTop();
+    
+    // Additional scroll after a short delay to handle any layout shifts
+    const timeoutId = setTimeout(() => {
+      ensureScrollToTop();
+    }, 100);
+    
+    return () => clearTimeout(timeoutId);
   }, []);
+}
+
+// Enhanced hook for scroll restoration with router navigation
+export function useScrollToTopOnNavigation() {
+  const router = useRouter();
+  
+  useEffect(() => {
+    // Scroll to top immediately when component mounts
+    ensureScrollToTop();
+    
+    // Listen for route changes and scroll to top
+    const handleRouteChange = () => {
+      ensureScrollToTop();
+    };
+    
+    // Add event listener for popstate (back/forward navigation)
+    window.addEventListener('popstate', handleRouteChange);
+    
+    return () => {
+      window.removeEventListener('popstate', handleRouteChange);
+    };
+  }, []);
+  
+  return router;
 }
 
 /**
