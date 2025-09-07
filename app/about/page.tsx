@@ -61,8 +61,8 @@ const AboutSection: React.FC = () => {
       </Link>
       
       {/* Main Content */}
-      <div className="relative z-10 py-32 lg:py-48">
-        <div className="w-full px-6 lg:px-12">
+      <div className="relative z-10 py-24 sm:py-32 md:py-40 lg:py-48">
+        <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12">
           <div className="w-full max-w-5xl mx-auto">
             {/* Title */}
             {/* <motion.div 
@@ -87,15 +87,15 @@ const AboutSection: React.FC = () => {
             >
               <div className="mb-32">
                 <div className="text-center mb-16">
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
                   Soooo, what about Me?
                   </h2>
-                  <p className="text-xl md:text-2xl text-gray-300">
+                  <p className="text-lg sm:text-xl md:text-2xl text-gray-300">
                   Here are 3 things i like beside Design.
                   </p>
                 </div>
                 
-                <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-8 lg:p-12 border border-white/10">
+                <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 border border-white/10">
                   <AnimatedTestimonials testimonials={testimonials} autoplay={false} />
                 </div>
               </div>

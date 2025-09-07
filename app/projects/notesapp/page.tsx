@@ -26,7 +26,7 @@ const ASSETS = {
 
 // Reusable components for better maintainability
 const Section = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
-  <section className={`px-4 py-16 md:py-24 ${className}`}>
+  <section className={`px-4 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20 lg:py-24 ${className}`}>
     <div className="max-w-7xl mx-auto">{children}</div>
   </section>
 );
@@ -147,11 +147,11 @@ export default function GammaPage() {
             </div>
           </div>
           
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-black tracking-[-2.16px] leading-[1.2] max-w-4xl">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-black tracking-[-2.16px] leading-[1.2] max-w-4xl">
             Optimizing user workflows for enhanced performance
           </h1>
           
-          <p className="text-xl md:text-2xl font-medium text-neutral-600 tracking-[-0.48px] leading-[1.3] max-w-6xl">
+          <p className="text-lg sm:text-xl md:text-2xl font-medium text-neutral-600 tracking-[-0.48px] leading-[1.3] max-w-6xl">
             A strategic UX optimization initiative focused on streamlining the note creation workflow, achieving a 50% reduction in task completion time through data-driven design decisions.
           </p>
         </div>
@@ -160,23 +160,23 @@ export default function GammaPage() {
       {/* Overview Section */}
       <Section>
         <div className="border-b border-semantic-border-secondary pb-16">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-12">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
+            <div className="space-y-8 sm:space-y-12">
               <div>
-                <h2 className="text-3xl md:text-5xl font-bold text-black tracking-[-0.96px] leading-[1.2] mb-8">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-black tracking-[-0.96px] leading-[1.2] mb-6 sm:mb-8">
                   Overview
                 </h2>
-                <div className="space-y-6">
-                  <p className="text-xl md:text-2xl font-medium text-semantic-text-primary tracking-[-0.48px] leading-[1.2]">
+                <div className="space-y-4 sm:space-y-6">
+                  <p className="text-lg sm:text-xl md:text-2xl font-medium text-semantic-text-primary tracking-[-0.48px] leading-[1.2]">
                     Inbox is a productivity-focused iOS application designed to capture and organize thoughts efficiently
                   </p>
-                  <p className="text-xl md:text-2xl font-medium text-semantic-text-primary tracking-[-0.48px] leading-[1.2]">
+                  <p className="text-lg sm:text-xl md:text-2xl font-medium text-semantic-text-primary tracking-[-0.48px] leading-[1.2]">
                     The following demonstrates the existing note creation workflow and identifies opportunities for optimization
                   </p>
                 </div>
               </div>
             </div>
-            <div className="flex justify-center lg:justify-end">
+            <div className="flex justify-center md:justify-end">
               <div className="w-[302px] h-[657px] rounded-[40px] overflow-hidden">
                 <VideoPlayer 
                   src={ASSETS.videos.currentFlow}
@@ -192,7 +192,7 @@ export default function GammaPage() {
       <Section>
         <div className="border-b border-semantic-border-secondary pb-16">
           <div className="space-y-10">
-            <h2 className="text-3xl md:text-5xl font-bold text-black tracking-[-0.96px] leading-[1.2]">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-black tracking-[-0.96px] leading-[1.2]">
               Current user flow
             </h2>
              <div className="w-full bg-neutral-100 rounded-xl overflow-hidden shadow-sm">

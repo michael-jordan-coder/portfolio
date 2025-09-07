@@ -9,7 +9,7 @@ interface ResponsiveSectionProps {
 const ResponsiveSection: React.FC<ResponsiveSectionProps> = ({ onOpenContact }) => (
   <section
     id="responsive"
-    className="relative h-auto bg-gradient-to-b from-black via-[#060607] to-black flex items-center justify-center px-4 sm:px-8 overflow-visible p-6 pt-[20vh] pb-[20vh]"
+    className="relative h-auto bg-gradient-to-b from-black via-[#060607] to-black flex items-center justify-center px-4 sm:px-6 md:px-8 overflow-visible p-4 sm:p-6 pt-[15vh] sm:pt-[20vh] pb-[15vh] sm:pb-[20vh]"
   >
     {/* Noise overlay */}
     <div className="absolute inset-0 pointer-events-none opacity-10" style={{backgroundImage: 'url(/noise.svg)'}} />
@@ -19,8 +19,8 @@ const ResponsiveSection: React.FC<ResponsiveSectionProps> = ({ onOpenContact }) 
       // border-2 border-cyan-200 (uncomment for debug)
     />
     <div className="text-center text-white max-w-2xl mx-auto py-12">
-      <h2 className="text-5xl font-bold mb-4">Ready to build scalable solutions that drive impact?</h2>
-      <p className="text-lg mb-6">Let's discuss how we can solve your toughest technical challenges</p>
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Ready to build scalable solutions that drive impact?</h2>
+      <p className="text-base sm:text-lg mb-6">Let's discuss how we can solve your toughest technical challenges</p>
       <div className="flex flex-row gap-4 items-center justify-center">
         <ScrollToButton 
           target="#hero" 

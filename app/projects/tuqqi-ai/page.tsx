@@ -27,9 +27,9 @@ function SectionHeader({
           {eyebrow}
         </span>
       ) : null}
-      <h3 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">{title}</h3>
+      <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 mb-4">{title}</h3>
       {description ? (
-        <p className="text-gray-600 text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
+        <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
           {description}
         </p>
       ) : null}
@@ -198,7 +198,7 @@ export default function Page() {
         <section className="pt-28 pb-16 px-6">
           <div className="max-w-6xl mx-auto">
             <Reveal>
-              <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-gray-900">Tuqqi × AI — Case Study</h1>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900">Tuqqi × AI — Case Study</h1>
             </Reveal>
             <Reveal delay={120}>
               <p className="mt-4 text-xl text-gray-600 max-w-3xl">Integrating a privacy-first, contextual AI assistant that accelerates work, reduces learning curves, and keeps workspaces clean and active — aligned to the Tuqqi AI PRD.</p>
@@ -225,7 +225,7 @@ export default function Page() {
         <section className="px-6 py-16">
           <div className="max-w-6xl mx-auto">
             <SectionHeader eyebrow="Context" title="About, Challenge, Role" description="A concise snapshot that frames the initiative." />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
               {[{ t: 'About Tuqqi', d: 'Work management platform helping teams collaborate and execute.' }, { t: 'The Challenge', d: 'Introduce AI that feels native, trustworthy, and genuinely helpful.' }, { t: 'My Role', d: 'End-to-end product design: research, UX/UI, prototyping, and validation.' }].map((b, i) => (
                 <Reveal key={b.t} delay={i * 80}>
                   <div className="group rounded-2xl border border-gray-200 p-6 hover:shadow-lg transition-shadow">
@@ -309,7 +309,7 @@ export default function Page() {
             <Reveal delay={120}>
               <div className="rounded-2xl border border-gray-200 p-6 bg-white">
                 <h4 className="text-lg font-semibold text-gray-900 mb-4">Design System Elements</h4>
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div>
                     <div className="flex gap-3">
                       <div className="w-14 h-14 rounded-xl border border-semantic-border-primary bg-primary-500" />

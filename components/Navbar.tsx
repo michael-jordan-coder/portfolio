@@ -104,7 +104,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
         damping: 20
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <motion.div
@@ -118,7 +118,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden sm:flex items-center space-x-6 md:space-x-8">
             {navItems.map((item, index) => (
               <motion.div
                 key={item.name}
@@ -153,7 +153,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
           </div>
 
           {/* CTA Button */}
-          <div className="hidden md:block">
+          <div className="hidden sm:block">
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -170,7 +170,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="sm:hidden">
             <motion.button
               className="text-white p-2"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -202,7 +202,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            className="md:hidden bg-black/60 backdrop-blur-md border-t border-white/10"
+            className="sm:hidden bg-black/60 backdrop-blur-md border-t border-white/10"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}

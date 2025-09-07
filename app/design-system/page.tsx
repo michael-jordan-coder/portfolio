@@ -113,7 +113,7 @@ const DesignSystemPage = () => {
       {Object.entries(colorPalette).map(([key, category]) => (
         <div key={key} className="space-y-4">
           <h3 className="text-2xl font-bold text-white">{category.name}</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
             {category.colors.map((color, index) => (
               <div key={index} className="flex items-center space-x-3 p-4 bg-black/60 backdrop-blur-sm rounded-lg border border-white/20">
                 <div className={`w-12 h-12 rounded-lg ${color.class} border border-white/30`}></div>
@@ -303,7 +303,7 @@ const DesignSystemPage = () => {
     <div className="space-y-8">
       <div>
         <h3 className="text-2xl font-bold text-white mb-4">Transitions</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {animations.transitions.map((transition, index) => (
             <div key={index} className="p-4 bg-black/60 backdrop-blur-sm rounded-lg border border-white/20">
               <p className="text-sm text-gray-300 mb-2">{transition.name}</p>
@@ -316,7 +316,7 @@ const DesignSystemPage = () => {
       
       <div>
         <h3 className="text-2xl font-bold text-white mb-4">Easing Functions</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {animations.easings.map((easing, index) => (
             <div key={index} className="p-4 bg-black/60 backdrop-blur-sm rounded-lg border border-white/20">
               <p className="text-sm text-gray-300 mb-2">{easing.name}</p>
@@ -387,7 +387,7 @@ const DesignSystemPage = () => {
     <div className="min-h-screen bg-black text-white">
       {/* Header */}
       <div className="bg-black/20 backdrop-blur-lg border-b border-white/10 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
               <h1 className="text-2xl font-bold text-white">Design System</h1>

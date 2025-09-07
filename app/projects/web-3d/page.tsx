@@ -92,7 +92,7 @@ export default function HandTrackingPage() {
                 </div>
               </div>
             </div>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-semantic-dark-text-primary mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-semantic-dark-text-primary mb-6 leading-tight">
               Hand Tracking
               <span className="block text-transparent bg-clip-text bg-white">
                 Interface
@@ -135,7 +135,7 @@ export default function HandTrackingPage() {
                 Advanced computer vision and 3D rendering capabilities powering real-time hand interaction
               </p>
             </div>
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               <FeatureCard
                 title="MediaPipe Detection"
                 description="Google's MediaPipe framework for robust hand landmark detection with 21 key points per hand"
@@ -185,7 +185,7 @@ export default function HandTrackingPage() {
             {/* Hand Detection Setup */}
             <div className="mb-20">
               <h3 className="text-2xl font-light text-semantic-dark-text-primary mb-10">MediaPipe Configuration</h3>
-              <div className="grid lg:grid-cols-2 gap-16 items-start">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-start">
                 <div className="lg:max-w-lg">
                   <CodeBlock
                     language="javascript"

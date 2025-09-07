@@ -129,7 +129,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
             </span>
             
             {/* Title */}
-            <h3 className="text-3xl md:text-4xl font-bold text-white leading-tight drop-shadow-xl tracking-tight">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-tight drop-shadow-xl tracking-tight">
               {project.title}
             </h3>
             
@@ -269,10 +269,10 @@ const SmoothCarousel: React.FC = () => {
         className="text-center text-white pt-4 px-4"
         style={{ y: y2, opacity }}
       >
-        <h2 className="text-5xl md:text-6xl font-bold mb-4" aria-live="polite">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4" aria-live="polite">
           Project Showcase  
         </h2>
-        <p className="text-lg md:text-xl mb-6 max-w-2xl mx-auto">
+        <p className="text-base sm:text-lg md:text-xl mb-6 max-w-2xl mx-auto">
           Experience the last projects i worked on
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center py-10">

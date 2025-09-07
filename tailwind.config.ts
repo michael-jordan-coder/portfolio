@@ -7,6 +7,15 @@ module.exports = {
   ],
   theme: {
     extend: {
+      // Standardized breakpoint strategy
+      screens: {
+        'xs': '375px',   // Small phones
+        'sm': '640px',   // Large phones / small tablets
+        'md': '768px',   // Tablets
+        'lg': '1024px',  // Small desktops
+        'xl': '1280px',  // Large desktops
+        '2xl': '1536px', // Extra large screens
+      },
       fontSize: {
         '8xl': ['6rem', { lineHeight: '1' }],
         '9xl': ['8rem'],
