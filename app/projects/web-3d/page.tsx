@@ -4,21 +4,116 @@ import Link from 'next/link';
 import { DotPattern } from '@/components/DotPattern';
 import NextProjectButton from '../../../components/NextProjectButton';
 import { useScrollToTopOnNavigation } from '@/lib/utils';
-import CodeBlock from '@/components/ui/TerminalCard';
+import { CodeBlock } from '@/components/CodeBlock';
+import { useState, useEffect } from 'react';
 
-// Feature card component
-const FeatureCard: React.FC<{ title: string; description: string; icon: React.ReactNode }> = ({ title, description, icon }) => (
-  <div className="bg-white/5 rounded-xl p-6 border border-white/10 transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:shadow-lg hover:shadow-white/5 hover:-translate-y-1 group cursor-pointer">
-    <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center mb-4 border border-white/20 transition-all duration-300 group-hover:bg-white/20 group-hover:border-white/30 group-hover:scale-105">
+// Simple feature highlight component
+const FeatureHighlight: React.FC<{ icon: React.ReactNode; text: string }> = ({ icon, text }) => (
+  <div className="flex items-center gap-3 bg-white/5 rounded-full px-6 py-3 border border-white/10">
+    <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center border border-white/20">
       {icon}
     </div>
-    <h3 className="text-lg font-semibold text-white mb-2 transition-colors duration-300 group-hover:text-gray-100">{title}</h3>
-    <p className="text-gray-300 text-sm transition-colors duration-300 group-hover:text-gray-200">{description}</p>
+    <span className="text-white font-medium text-sm">{text}</span>
   </div>
 );
 
+// Camera permission component
+const CameraPermissionModal: React.FC<{ isOpen: boolean; onClose: () => void; onGranted: () => void }> = ({ isOpen, onClose, onGranted }) => {
+  const [isRequesting, setIsRequesting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const requestCameraPermission = async () => {
+    setIsRequesting(true);
+    setError(null);
+    
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: { 
+          width: { ideal: 1280 }, 
+          height: { ideal: 720 },
+          facingMode: 'user'
+        } 
+      });
+      
+      // Stop the stream immediately as we just needed permission
+      stream.getTracks().forEach(track => track.stop());
+      
+      onGranted();
+      onClose();
+    } catch (err: any) {
+      setError(err.message || 'Failed to access camera');
+    } finally {
+      setIsRequesting(false);
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+      <div className="bg-white/10 rounded-2xl p-8 max-w-md mx-4 border border-white/20 backdrop-blur-xl">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-blue-400/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-blue-400/30">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-blue-400">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+          </div>
+          
+          <h3 className="text-xl font-semibold text-white mb-4">Camera Access Required</h3>
+          <p className="text-gray-300 text-sm mb-6 leading-relaxed">
+            This demo uses your camera to track hand movements in real-time. 
+            Your camera feed stays private and is processed locally in your browser.
+          </p>
+          
+          {error && (
+            <div className="bg-red-400/20 border border-red-400/30 rounded-lg p-3 mb-6">
+              <p className="text-red-400 text-sm">{error}</p>
+            </div>
+          )}
+          
+          <div className="flex gap-3">
+            <button
+              onClick={onClose}
+              className="flex-1 px-4 py-2 bg-white/10 text-white font-medium text-sm rounded-full hover:bg-white/20 transition-all duration-300 border border-white/20"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={requestCameraPermission}
+              disabled={isRequesting}
+              className="flex-1 px-4 py-2 bg-blue-400/20 text-blue-400 font-medium text-sm rounded-full hover:bg-blue-400/30 transition-all duration-300 border border-blue-400/30 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isRequesting ? 'Requesting...' : 'Allow Camera'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function HandTrackingPage() {
   useScrollToTopOnNavigation();
+  const [showCameraModal, setShowCameraModal] = useState(false);
+  const [cameraPermissionGranted, setCameraPermissionGranted] = useState(false);
+  const [showIframe, setShowIframe] = useState(false);
+
+  const handleCameraPermissionGranted = () => {
+    setCameraPermissionGranted(true);
+    setShowIframe(true);
+    // Open the live demo in a new tab
+    window.open('https://3-dweb-kanm.vercel.app/', '_blank');
+  };
+
+  const handleLaunchDemo = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setShowCameraModal(true);
+  };
+
+  const handleDirectLaunch = () => {
+    window.open('https://3-dweb-kanm.vercel.app/', '_blank');
+  };
 
   return (
     <>
@@ -80,194 +175,182 @@ export default function HandTrackingPage() {
         <section className="relative z-10 pt-32 pb-20 px-4">
           <div className="max-w-5xl mx-auto text-center">
             <div className="mb-12">
-              <div className="flex flex-wrap justify-center gap-3">
-                <div className="inline-block bg-white/5 text-white text-sm px-4 py-2 rounded-full font-medium border border-white/20">
-                  Computer Vision
-                </div>
-                <div className="inline-block bg-white/5 text-white text-sm px-4 py-2 rounded-full font-medium border border-white/20">
-                  Real-time Tracking
-                </div>
-                <div className="inline-block bg-white/5 text-white text-sm px-4 py-2 rounded-full font-medium border border-white/20">
-                  WebGL 3D
-                </div>
+              <div className="flex flex-wrap justify-center gap-4">
+                <FeatureHighlight
+                  icon={
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/80">
+                      <path d="M8 3V5.5C8 6.33 8.67 7 9.5 7S11 6.33 11 5.5V3" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M11 5.5V12C11 12.83 10.33 13.5 9.5 13.5S8 12.83 8 12V7" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  }
+                  text="Pinch to Scale"
+                />
+                <FeatureHighlight
+                  icon={
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/80">
+                      <path d="M12 2L2 7L12 12L22 7L12 2Z" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M2 17L12 22L22 17" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  }
+                  text="Touch to Rotate"
+                />
+                <FeatureHighlight
+                  icon={
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/80">
+                      <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2Z" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M12 6V12L16 14" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  }
+                  text="Real-time"
+                />
               </div>
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-semantic-dark-text-primary mb-6 leading-tight">
-              Hand Tracking
+              Control 3D Objects
               <span className="block text-transparent bg-clip-text bg-white">
-                Interface
+                With Your Hands
               </span>
             </h1>
             <p className="text-xl text-semantic-dark-text-muted font-light tracking-wide max-w-4xl mx-auto leading-relaxed">
-              Real-time hand gesture recognition with 3D visualization using MediaPipe and WebGL. 
-              Track 21 hand landmarks at 120 FPS with sub-10ms latency.
+              Experience the future of interaction. Use natural hand gestures to manipulate 3D objects in real-time. 
+              No controllers, no touch screens—just your hands and a camera.
             </p>
+            
+            {/* Hero Video */}
+            <div className="mt-12 mb-8 flex justify-center">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black/20 backdrop-blur-sm">
+                <video 
+                  className="w-full max-w-4xl h-auto"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                >
+                  <source src="/3d.mov" type="video/quicktime" />
+                  <source src="/3dvideo.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent pointer-events-none"></div>
+                <div className="absolute bottom-4 left-4 bg-black/60 text-white/90 text-sm px-3 py-1 rounded-full backdrop-blur-sm">
+                  Live Hand Tracking Demo
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-8 text-center">
+              <div className="text-gray-500 text-sm font-light">
+                {cameraPermissionGranted ? (
+                  <p className="text-green-400">Camera access granted • Ready to use!</p>
+                ) : (
+                  <p>Requires camera access • Works best in Chrome/Firefox</p>
+                )}
+              </div>
+            </div>
           </div>
         </section>
 
         {/* Live Demo */}
         <section className="relative z-10 px-6 pb-32">
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-light text-semantic-dark-text-primary mb-6">See it in action</h2>
-              <p className="text-semantic-dark-text-muted text-lg font-light">Experience the hand tracking interface in action</p>
+              <h2 className="text-3xl font-light text-semantic-dark-text-primary mb-6">See It In Action</h2>
+              <p className="text-semantic-dark-text-muted text-lg font-light">Preview of the live hand tracking demo</p>
             </div>
             
             <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/5 bg-black/20 backdrop-blur-sm">
-              <iframe 
-                width="100%" 
-                height="600"
-                src="/3dvideo.mp4" 
-                allowFullScreen
-                title="3D Hand Tracking Interface - Live Demo"
-                className="w-full"
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* Core Features */}
-        <section className="relative z-10 px-6 pb-32">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-20">
-              <h2 className="text-3xl font-light text-semantic-dark-text-primary mb-6">Core Technology</h2>
-              <p className="text-semantic-dark-text-muted text-lg font-light max-w-3xl mx-auto">
-                Advanced computer vision and 3D rendering capabilities powering real-time hand interaction
-              </p>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-              <FeatureCard
-                title="MediaPipe Detection"
-                description="Google's MediaPipe framework for robust hand landmark detection with 21 key points per hand"
-                icon={
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white/80">
-                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M12 2V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                }
-              />
-              <FeatureCard
-                title="WebGL Rendering"
-                description="Hardware-accelerated 3D graphics with custom shaders for smooth skeletal visualization"
-                icon={
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white/80">
-                    <path d="M7 21L3 7L21 7L17 21L7 21Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M7 21L7 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M17 7L17 21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                }
-              />
-              <FeatureCard
-                title="Real-time Processing"
-                description="120 FPS tracking with sub-10ms latency for responsive gesture recognition and interaction"
-                icon={
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white/80">
-                    <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2Z" stroke="currentColor" strokeWidth="1.5"/>
-                    <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                }
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* Implementation Examples */}
-        <section className="relative z-10 px-6 pb-32">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-20">
-              <h2 className="text-3xl font-light text-semantic-dark-text-primary mb-6">Technical Implementation</h2>
-              <p className="text-semantic-dark-text-muted text-lg font-light max-w-3xl mx-auto">
-                Core setup and configuration for MediaPipe hand detection
-              </p>
-            </div>
-            
-            {/* Hand Detection Setup */}
-            <div className="mb-20">
-              <h3 className="text-2xl font-light text-semantic-dark-text-primary mb-10">MediaPipe Configuration</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-start">
-                <div className="lg:max-w-lg">
-                  <CodeBlock
-                    language="javascript"
-                    command={`// Initialize MediaPipe Hands
-const hands = new Hands({
-    maxNumHands: 2,
-    modelComplexity: 1,
-    minDetectionConfidence: 0.5,
-    minTrackingConfidence: 0.5
-});
-
-// Process video frame
-hands.onResults((results) => {
-    if (results.multiHandLandmarks) {
-        results.multiHandLandmarks.forEach(landmarks => {
-            // Process 21 hand landmarks
-            drawHandSkeleton(landmarks);
-        });
-    }
-});`}
-                  />
-                </div>
-                <div className="space-y-8">
-                  <div className="space-y-6">
-                    <h4 className="text-lg font-light text-white">Configuration Parameters</h4>
-                    <div className="space-y-4">
-                      <div className="flex items-start gap-4">
-                        <span className="text-blue-400/80 text-lg font-bold">•</span>
-                        <div>
-                          <span className="text-white/90 font-normal">maxNumHands: 2</span>
-                          <p className="text-gray-400 text-sm font-light">Supports tracking up to 2 hands simultaneously</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-4">
-                        <span className="text-green-400/80 text-lg font-bold">•</span>
-                        <div>
-                          <span className="text-white/90 font-normal">modelComplexity: 1</span>
-                          <p className="text-gray-400 text-sm font-light">Balanced accuracy vs performance</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-4">
-                        <span className="text-purple-400/80 text-lg font-bold">•</span>
-                        <div>
-                          <span className="text-white/90 font-normal">Confidence Thresholds</span>
-                          <p className="text-gray-400 text-sm font-light">0.5 for both detection and tracking</p>
-                        </div>
-                      </div>
-                    </div>
+              {showIframe ? (
+                <iframe 
+                  width="100%" 
+                  height="500"
+                  src="https://3-dweb-kanm.vercel.app/" 
+                  allowFullScreen
+                  title="3D Hand Tracking Interface - Live Demo"
+                  className="w-full"
+                  sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-camera"
+                />
+              ) : (
+                <div className="h-[500px] flex flex-col items-center justify-center text-center p-8">
+                  <div className="w-24 h-24 bg-blue-400/20 rounded-full flex items-center justify-center mb-8 border border-blue-400/30">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-blue-400">
+                      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                      <circle cx="12" cy="13" r="4"/>
+                    </svg>
                   </div>
-                  
-                  <div className="space-y-6">
-                    <h4 className="text-lg font-light text-white">Performance Metrics</h4>
-                    <div className="grid grid-cols-2 gap-6">
-                      <div className="bg-white/3 rounded-2xl p-6 border border-white/5">
-                        <div className="text-2xl font-light text-blue-400/90">120 FPS</div>
-                        <div className="text-gray-400 text-sm font-light">Processing Rate</div>
-                      </div>
-                      <div className="bg-white/3 rounded-2xl p-6 border border-white/5">
-                        <div className="text-2xl font-light text-green-400/90">&lt;10ms</div>
-                        <div className="text-gray-400 text-sm font-light">Latency</div>
-                      </div>
-                    </div>
-                  </div>
+                  <h3 className="text-2xl font-semibold text-white mb-4">Camera Access Required</h3>
+                  <p className="text-gray-300 text-lg mb-8 max-w-md">
+                    Grant camera permission above to see the live demo preview, or click the button to open the full experience.
+                  </p>
+                  <button 
+                    onClick={handleDirectLaunch}
+                    className="px-8 py-4 bg-blue-400/20 text-blue-400 font-medium text-lg rounded-full hover:bg-blue-400/30 transition-all duration-300 border border-blue-400/30"
+                  >
+                    Open Full Demo
+                  </button>
                 </div>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"></div>
+              <div className="absolute bottom-6 left-6 bg-black/60 text-white/90 text-sm px-4 py-2 rounded-full backdrop-blur-sm">
+                {showIframe ? 'Live Demo Preview' : 'Camera Permission Required'}
               </div>
             </div>
           </div>
         </section>
 
-        {/* Hand Tracking & Bone System */}
+        {/* How It Works */}
         <section className="relative z-10 px-6 pb-32">
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             <div className="text-center mb-20">
-              <h2 className="text-3xl font-light text-white mb-6">Skeletal Hand Tracking</h2>
-              <p className="text-gray-400 text-lg font-light max-w-3xl mx-auto">
-                21 landmark points create a complete skeletal representation for precise gesture recognition
+              <h2 className="text-3xl font-light text-semantic-dark-text-primary mb-6">How It Works</h2>
+              <p className="text-semantic-dark-text-muted text-lg font-light max-w-3xl mx-auto">
+                Simple gestures, powerful technology
               </p>
             </div>
             
-            <div className="grid lg:grid-cols-2 gap-20 items-center">
-              {/* Video Demo */}
-              <div className="order-2 lg:order-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              <div className="space-y-8">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-blue-400/20 rounded-xl flex items-center justify-center border border-blue-400/30">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-blue-400">
+                        <path d="M8 3V5.5C8 6.33 8.67 7 9.5 7S11 6.33 11 5.5V3" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M11 5.5V12C11 12.83 10.33 13.5 9.5 13.5S8 12.83 8 12V7" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white">Pinch to Scale</h3>
+                      <p className="text-gray-400 text-sm">Use your right hand to pinch and expand the 3D object</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-green-400/20 rounded-xl flex items-center justify-center border border-green-400/30">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-green-400">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M2 17L12 22L22 17" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white">Touch to Rotate</h3>
+                      <p className="text-gray-400 text-sm">Point your left index finger at the center to rotate</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-purple-400/20 rounded-xl flex items-center justify-center border border-purple-400/30">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-purple-400">
+                        <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2Z" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M12 6V12L16 14" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white">Real-time Response</h3>
+                      <p className="text-gray-400 text-sm">120 FPS tracking with instant feedback</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="relative">
                 <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/5 bg-black/20 backdrop-blur-sm">
                   <video 
                     className="w-full h-auto"
@@ -285,71 +368,6 @@ hands.onResults((results) => {
                   </div>
                 </div>
               </div>
-
-              {/* Explanation */}
-              <div className="order-1 lg:order-2 space-y-10">
-                <div className="space-y-6">
-                  <h3 className="text-2xl font-light text-white">Landmark Detection</h3>
-                  <p className="text-gray-400 leading-relaxed text-lg font-light">
-                    Each hand is tracked using 21 key points representing joints and landmarks. 
-                    This creates a complete skeletal model that follows every movement in real-time.
-                  </p>
-                </div>
-
-                {/* Bone Structure */}
-                <div className="space-y-8">
-                  <h4 className="text-xl font-light text-white">Hand Landmarks (21 Points)</h4>
-                  <div className="grid grid-cols-2 gap-8">
-                    <div className="space-y-5">
-                      <div className="flex items-center gap-4">
-                        <div className="w-4 h-4 bg-blue-400/80 rounded-full"></div>
-                        <span className="text-gray-400 font-light">Wrist (1 point)</span>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <div className="w-4 h-4 bg-green-400/80 rounded-full"></div>
-                        <span className="text-gray-400 font-light">Palm (4 points)</span>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <div className="w-4 h-4 bg-purple-400/80 rounded-full"></div>
-                        <span className="text-gray-400 font-light">Thumb (4 points)</span>
-                      </div>
-                    </div>
-                    <div className="space-y-5">
-                      <div className="flex items-center gap-4">
-                        <div className="w-4 h-4 bg-yellow-400/80 rounded-full"></div>
-                        <span className="text-gray-400 font-light">Index (4 points)</span>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <div className="w-4 h-4 bg-red-400/80 rounded-full"></div>
-                        <span className="text-gray-400 font-light">Middle (4 points)</span>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <div className="w-4 h-4 bg-pink-400/80 rounded-full"></div>
-                        <span className="text-gray-400 font-light">Ring & Pinky (4 points)</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Performance Stats */}
-                <div className="space-y-8">
-                  <h4 className="text-xl font-light text-white">Performance Specifications</h4>
-                  <div className="grid grid-cols-3 gap-6">
-                    <div className="bg-white/3 rounded-2xl p-6 border border-white/5 text-center">
-                      <div className="text-xl font-light text-blue-400/90">120 FPS</div>
-                      <div className="text-gray-400 text-sm font-light">Processing</div>
-                    </div>
-                    <div className="bg-white/3 rounded-2xl p-6 border border-white/5 text-center">
-                      <div className="text-xl font-light text-green-400/90">&lt;10ms</div>
-                      <div className="text-gray-400 text-sm font-light">Latency</div>
-                    </div>
-                    <div className="bg-white/3 rounded-2xl p-6 border border-white/5 text-center">
-                      <div className="text-xl font-light text-purple-400/90">2 Hands</div>
-                      <div className="text-gray-400 text-sm font-light">Simultaneous</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </section>
@@ -359,26 +377,30 @@ hands.onResults((results) => {
           <div className="max-w-5xl mx-auto text-center">
             <div className="mb-20">
               <h2 className="text-3xl font-light text-white mb-8">
-                Experience Hand Tracking
+                Ready to Experience the Future?
               </h2>
               <p className="text-gray-400 text-lg font-light leading-relaxed max-w-4xl mx-auto">
-                Try the live demo and see how hand gestures can control digital interfaces. 
-                No installation required—just your camera and a modern browser.
+                This is just the beginning. Hand tracking technology opens up endless possibilities for 
+                natural, intuitive interactions with digital content.
               </p>
             </div>
             
-            <div className="space-y-10">
-              <a 
-                href="https://live-3d.vercel.app/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-block px-16 py-5 bg-white/10 text-white font-light text-lg rounded-full hover:bg-white/20 transition-all duration-500 hover:scale-105 backdrop-blur-sm border border-white/10 hover:border-white/20"
-              >
-                Launch Live Demo
-              </a>
-              
+            <div className="space-y-8">
               <div className="text-gray-500 text-sm font-light">
-                <p>Requires camera access • Works best in Chrome/Firefox</p>
+                {cameraPermissionGranted ? (
+                  <p className="text-green-400">Camera access granted • Ready to use!</p>
+                ) : (
+                  <p>Requires camera access • Works best in Chrome/Firefox</p>
+                )}
+              </div>
+              
+              <div className="pt-8">
+                <Link
+                  href="/projects/web-3d/beta"
+                  className="inline-block px-8 py-3 bg-white/5 text-white font-medium text-sm rounded-full hover:bg-white/10 transition-all duration-300 backdrop-blur-sm border border-white/10 hover:border-white/20"
+                >
+                  View Technical Details →
+                </Link>
               </div>
             </div>
           </div>
@@ -394,6 +416,13 @@ hands.onResults((results) => {
           />
         </div>
       </main>
+
+      {/* Camera Permission Modal */}
+      <CameraPermissionModal
+        isOpen={showCameraModal}
+        onClose={() => setShowCameraModal(false)}
+        onGranted={handleCameraPermissionGranted}
+      />
     </>
   );
 } 
