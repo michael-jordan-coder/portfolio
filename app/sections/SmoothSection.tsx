@@ -39,7 +39,7 @@ const PROJECTS: Project[] = [
     id: 'beta',
     title: '3D Hand Tracking Interface using AI',
     description: 'Real-time hand gesture recognition with 3D visualization and interactive controls.',
-    image: '/image.png',
+    image: '/3D.png',
     url: '/projects/web-3d',
     category: 'Vibe coding experience'
   },
