@@ -201,21 +201,18 @@ export default function Page() {
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900">Tuqqi × AI — Case Study</h1>
             </Reveal>
             <Reveal delay={120}>
-              <p className="mt-4 text-xl text-gray-600 max-w-3xl">Integrating a privacy-first, contextual AI assistant that accelerates work, reduces learning curves, and keeps workspaces clean and active — aligned to the Tuqqi AI PRD.</p>
+              <p className="mt-4 text-xl text-gray-600 max-w-3xl pb-6">Integrating a privacy-first, contextual AI assistant that accelerates work, reduces learning curves, and keeps workspaces clean and active — aligned to the Tuqqi AI PRD.</p>
             </Reveal>
             <Reveal delay={220}>
-              <div className="mt-10 relative rounded-3xl border border-gray-200 overflow-hidden shadow-xl">
-                <div className="aspect-[16/9] w-full bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200">
-                  <Image 
-                    src="/ai/ai.svg" 
-                    alt="AI Assistant Interface" 
-                    width={1200}
-                    height={675}
-                    priority
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <div className="absolute inset-0 animate-[fadeUp_1.2s_ease_0.2s_both]" style={{ pointerEvents: 'none' }} />
+              <div className="aspect-[16/9] w-full bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-lg">
+                <iframe 
+                  src="https://rover-symbol-10191448.figma.site/"
+                  width="100%" 
+                  height="100%" 
+                  className="w-full h-full border-0"
+                  title="Tuqqi AI Case Study - Figma Site"
+                  allowFullScreen
+                />
               </div>
             </Reveal>
           </div>
