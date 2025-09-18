@@ -110,6 +110,127 @@ function RadialStat({ percent, label }: { percent: number; label: string }) {
   )
 }
 
+function NotebookSketchesCarousel() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const sketches = [
+    {
+      src: '/ai/empty-state.webp',
+      title: 'Empty State',
+      description: 'Initial concept sketches for the AI assistant empty state, exploring different ways to invite user interaction.'
+    },
+    {
+      src: '/ai/closer-look.webp', 
+      title: 'Closer Look',
+      description: 'Detailed wireframes examining the chat interface components and user flow interactions.'
+    },
+    {
+      src: '/ai/extanded.webp',
+      title: 'Extended View',
+      description: 'Comprehensive layout explorations showing the full AI assistant interface with expanded functionality.'
+    }
+  ]
+
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % sketches.length)
+  }, [sketches.length])
+
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + sketches.length) % sketches.length)
+  }, [sketches.length])
+
+  useEffect(() => {
+    const interval = setInterval(nextSlide, 5000) // Auto-advance every 5 seconds
+    return () => clearInterval(interval)
+  }, [nextSlide])
+
+  return (
+    <div className="relative w-full max-w-4xl mx-auto">
+      {/* Main Carousel Container */}
+      <div className="relative overflow-hidden rounded-2xl bg-white shadow-xl border border-gray-200">
+        {/* Notebook Paper Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50" />
+        <div className="absolute inset-0" style={{
+          backgroundImage: `
+            linear-gradient(to right, #e5e7eb 1px, transparent 1px),
+            linear-gradient(to bottom, #e5e7eb 1px, transparent 1px)
+          `,
+          backgroundSize: '20px 20px'
+        }} />
+        
+        {/* Red Margin Line */}
+        <div className="absolute left-12 top-0 bottom-0 w-px bg-red-300" />
+        
+        {/* Spiral Binding Holes */}
+        <div className="absolute left-6 top-0 bottom-0 flex flex-col justify-evenly">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="w-3 h-3 rounded-full bg-gray-300 shadow-inner" />
+          ))}
+        </div>
+
+        {/* Image Container */}
+        <div className="relative p-16 pl-20">
+          <div className="aspect-[4/3] relative overflow-hidden rounded-lg ">
+            <Image
+              src={sketches[currentIndex].src}
+              alt={sketches[currentIndex].title}
+              fill
+              className="object-contain"
+              sizes="(max-width: 800px) 100vw, 800px"
+            />
+          </div>
+          
+          {/* Navigation Arrows */}
+          <button
+            onClick={prevSlide}
+            className="absolute left-20 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-200 flex items-center justify-center group"
+            aria-label="Previous sketch"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-600 group-hover:text-gray-900">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          
+          <button
+            onClick={nextSlide}
+            className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-200 flex items-center justify-center group"
+            aria-label="Next sketch"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-600 group-hover:text-gray-900">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Content Section */}
+        <div className="px-16 pl-20 pb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-2 handwriting-style">
+            {sketches[currentIndex].title}
+          </h3>
+          <p className="text-gray-600 leading-relaxed">
+            {sketches[currentIndex].description}
+          </p>
+        </div>
+      </div>
+
+      {/* Dots Indicator */}
+      <div className="flex justify-center mt-6 space-x-2">
+        {sketches.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={`w-3 h-3 rounded-full transition-all duration-200 ${
+              index === currentIndex
+                ? 'bg-blue-600 scale-110'
+                : 'bg-gray-300 hover:bg-gray-400'
+            }`}
+            aria-label={`Go to sketch ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function DraggableBeforeAfter() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [pos, setPos] = useState(50)
@@ -334,7 +455,15 @@ export default function Page() {
           </div>
         </section>
 
-       
+        {/* 6) Notebook Sketches Carousel */}
+        <section className="px-6 py-16">
+          <div className="max-w-6xl mx-auto">
+            <SectionHeader eyebrow="Design Process" title="Notebook Sketches" description="Early conceptual explorations and wireframes documenting the iterative design process." />
+            <Reveal>
+              <NotebookSketchesCarousel />
+            </Reveal>
+          </div>
+        </section>
 
         {/* 7) Final Screens */}
         <section className="px-6 py-16 bg-gray-50">
