@@ -224,8 +224,8 @@ export default function GammaPage() {
               </p>
             </div>
             
-            <div className="overflow-x-auto pb-4">
-              <div className="flex gap-8 md:gap-12 lg:gap-16 min-w-max px-4 md:px-0">
+            <div className="overflow-x-auto pb-4 -mx-4 px-4">
+              <div className="flex gap-8 md:gap-12 lg:gap-16 min-w-max">
                 <div className="w-[280px] md:w-[350px] lg:w-[500px] h-[280px] md:h-[250px] lg:h-[300px] rounded-xl flex-shrink-0 overflow-hidden shadow-sm">
                   <OptimizedImage
                     src={ASSETS.images.lovable}

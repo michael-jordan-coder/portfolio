@@ -39,7 +39,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
 
   return (
     <div
-      className="w-[200%] h-[500px] rounded-[40px] overflow-hidden shadow-2xl bg-white/10 backdrop-blur-lg border border-white/20 will-change-transform cursor-pointer transition-all duration-300 hover:bg-white/20 hover:shadow-2xl group"
+      className="w-full max-w-4xl h-[500px] rounded-[40px] overflow-hidden shadow-2xl bg-white/10 backdrop-blur-lg border border-white/20 will-change-transform cursor-pointer transition-all duration-300 hover:bg-white/20 hover:shadow-2xl group"
       onClick={handleProjectClick}
       role="button"
       tabIndex={0}

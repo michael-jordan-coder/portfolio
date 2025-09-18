@@ -48,7 +48,7 @@ export default function Home() {
   return (
     <>
       <main 
-        className="min-h-[100svh]"
+        className="min-h-[100svh] overflow-x-hidden"
         style={{
           paddingTop: 'env(safe-area-inset-top)',
           paddingLeft: 'env(safe-area-inset-left)',

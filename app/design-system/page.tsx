@@ -231,7 +231,7 @@ const DesignSystemPage = () => {
             <p className="text-sm text-gray-300 mb-4">Interactive project card with blur effect on hover and smooth transitions</p>
             
             {/* Card Demo */}
-            <div className="w-[200%] h-[300px] rounded-[40px] overflow-hidden 
+            <div className="w-full max-w-4xl h-[300px] rounded-[40px] overflow-hidden 
                            shadow-2xl bg-white/10 backdrop-blur-lg border border-white/20 
                            will-change-transform cursor-pointer transition-all duration-300
                            hover:bg-white/20 hover:shadow-2xl group">

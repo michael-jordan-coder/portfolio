@@ -7,7 +7,8 @@
   html,
   body {
     height: auto;
-    overflow: auto;
+    overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
+    overflow-y: auto;   /* Allow vertical scrolling */
     margin: 0;
     padding: 0;
   }
