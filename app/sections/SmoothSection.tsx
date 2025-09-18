@@ -20,7 +20,7 @@ interface Project {
 const PROJECTS: Project[] = [
   { id: 'gamma', title: 'Reducing user action for better performance', description: 'A case study on optimizing the note creation flow in Inbox app by reducing user actions from 8 seconds to 4 seconds through strategic UX improvements.', image: '/notes-app/Casestudy/images/BG.png', url: '/projects/notesapp', category: 'UX Sprint' },
   { id: 'alpha', title: 'Adding AI to Tuqqi.com', description: 'Adding intelligence to Tuqqi, while keeping the design simple and familiar', image: '/projects/tuqqi.svg', url: '/projects/tuqqi-ai', category: 'Web App - B2B' },
-  { id: 'beta', title: '3D Hand Tracking Interface using AI', description: 'Real-time hand gesture recognition with 3D visualization and interactive controls.', image: '/3D.png', url: '/projects/web-3d', category: 'Vibe coding experience' }
+  { id: 'beta', title: '3D Hand Tracking Interface using AI', description: 'Real-time hand gesture recognition with 3D visualization and interactive controls.', image: '/3d.png', url: '/projects/web-3d', category: 'Vibe coding experience' }
 ];
 
 // Project route mapping
