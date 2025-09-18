@@ -18,9 +18,9 @@ interface Project {
 
 // Projects data
 const PROJECTS: Project[] = [
-  { id: 'gamma', title: 'Reducing user action for better performance', description: 'A case study on optimizing the note creation flow in Inbox app by reducing user actions from 8 seconds to 4 seconds through strategic UX improvements.', image: '/notes-app/Casestudy/images/BG.png', url: '/projects/notesapp', category: 'UX Sprint' },
-  { id: 'alpha', title: 'Adding AI to Tuqqi.com', description: 'Adding intelligence to Tuqqi, while keeping the design simple and familiar', image: '/projects/tuqqi.svg', url: '/projects/tuqqi-ai', category: 'Web App - B2B' },
-  { id: 'beta', title: '3D Hand Tracking Interface using AI', description: 'Real-time hand gesture recognition with 3D visualization and interactive controls.', image: '/3d.png', url: '/projects/web-3d', category: 'Vibe coding experience' }
+  { id: 'alpha', title: 'Adding AI to Tuqqi.com', description: 'Adding intelligence to Tuqqi, while keeping the design simple and familiar', image: '/tuqqi/tuqqi-car.png', url: '/projects/tuqqi-ai', category: 'Web App - B2B' },
+  { id: 'gamma', title: 'Reducing user action for better performance', description: 'A case study on optimizing the note creation flow in Inbox app by reducing user actions from 8 seconds to 4 seconds through strategic UX improvements.', image: '/notes-app/Casestudy/images/bg.webp', url: '/projects/notesapp', category: 'UX Sprint' },
+  { id: 'beta', title: '3D Hand Tracking Interface using AI', description: 'Real-time hand gesture recognition with 3D visualization and interactive controls.', image: '/3d.webp', url: '/projects/web-3d', category: 'Vibe coding experience' }
 ];
 
 // Project route mapping
@@ -34,8 +34,6 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
     const route = PROJECT_ROUTES[project.id as keyof typeof PROJECT_ROUTES];
     route ? router.push(route) : window.open(project.url, '_blank', 'noopener,noreferrer');
   };
-
-  const isAlpha = project.id === 'alpha';
 
   return (
     <div
@@ -51,25 +49,14 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
       }}
     >
       <div className="relative w-full h-full">
-        {isAlpha ? (
-          <iframe
-            src="https://cdn.prod.website-files.com/60d03c10d0238c6fa34380ed/613a35257ffdb0165af59a37_5ea165795e0858637285a37e_LogoGraph1200_630.png"
-            className="w-full h-full object-fill"
-            style={{ pointerEvents: 'none' as const, border: 'none' }}
-            allow="autoplay; encrypted-media"
-            allowFullScreen
-            title="Project Alpha Video"
-          />
-        ) : (
-          <motion.img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-full object-cover will-change-transform"
-            initial={{ scale: 1, y: 0, boxShadow: '0 0 0 rgba(0,0,0,0)' }}
-            whileHover={{ scale: 1.08, y: -10, boxShadow: '0 8px 32px rgba(80,90,228,0.15)' }}
-            transition={{ type: 'spring', stiffness: 200, damping: 18 }}
-          />
-        )}
+        <motion.img
+          src={project.image}
+          alt={project.title}
+          className="w-full h-full object-cover will-change-transform"
+          initial={{ scale: 1, y: 0, boxShadow: '0 0 0 rgba(0,0,0,0)' }}
+          whileHover={{ scale: 1.08, y: -10, boxShadow: '0 8px 32px rgba(80,90,228,0.15)' }}
+          transition={{ type: 'spring', stiffness: 200, damping: 18 }}
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/20 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/50 pointer-events-none" />
         
