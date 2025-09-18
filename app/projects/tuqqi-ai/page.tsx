@@ -198,10 +198,20 @@ export default function Page() {
         <section className="pt-28 pb-16 px-6">
           <div className="max-w-6xl mx-auto">
             <Reveal>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900">Tuqqi × AI — Case Study</h1>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900">Tuqqi Mind — Case Study</h1>
             </Reveal>
             <Reveal delay={120}>
               <p className="mt-4 text-xl text-gray-600 max-w-3xl pb-6">Integrating a privacy-first, contextual AI assistant that accelerates work, reduces learning curves, and keeps workspaces clean and active — aligned to the Tuqqi AI PRD.</p>
+            </Reveal>
+            <Reveal delay={180}>
+              <div className="mb-6">
+                <span className="inline-flex items-center gap-2 bg-white text-black text-md font-medium tracking-wide px-4 py-2 rounded-full border border-gray-200">
+                  Try Me - Interactive Demo
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </span>
+              </div>
             </Reveal>
             <Reveal delay={220}>
               <div className="aspect-[16/9] w-full bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-lg">
@@ -226,8 +236,30 @@ export default function Page() {
               {[{ t: 'About Tuqqi', d: 'Work management platform helping teams collaborate and execute.' }, { t: 'The Challenge', d: 'Introduce AI that feels native, trustworthy, and genuinely helpful.' }, { t: 'My Role', d: 'End-to-end product design: research, UX/UI, prototyping, and validation.' }].map((b, i) => (
                 <Reveal key={b.t} delay={i * 80}>
                   <div className="group rounded-2xl border border-gray-200 p-6 hover:shadow-lg transition-shadow">
-                    <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full" style={{ backgroundColor: `${ACCENT}1a`, color: ACCENT }}> 
-                      <span className="text-lg">{i === 0 ? '🏢' : i === 1 ? '🧩' : '✍️'}</span>
+                    <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-blue-600"> 
+                      {i === 0 && (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M3 21h18" />
+                          <path d="M5 21V7l8-4v18" />
+                          <path d="M19 21V11l-6-4" />
+                        </svg>
+                      )}
+                      {i === 1 && (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                          <path d="M2 17l10 5 10-5" />
+                          <path d="M2 12l10 5 10-5" />
+                        </svg>
+                      )}
+                      {i === 2 && (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                          <polyline points="14,2 14,8 20,8" />
+                          <line x1="16" y1="13" x2="8" y2="13" />
+                          <line x1="16" y1="17" x2="8" y2="17" />
+                          <polyline points="10,9 9,9 8,9" />
+                        </svg>
+                      )}
                     </div>
                     <h4 className="text-lg font-semibold text-gray-900 mb-2">{b.t}</h4>
                     <p className="text-gray-600 leading-relaxed">{b.d}</p>
@@ -262,76 +294,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 4) Visual Language Examples */}
-        <section className="px-6 py-16">
-          <div className="max-w-6xl mx-auto space-y-12">
-            <SectionHeader eyebrow="Visual Language Examples" title="Design system in action" />
-            <Reveal>
-                              <div className="grid md:grid-cols-3 gap-8">
-                  {/* Chat Interface */}
-                  <div className="rounded-2xl border border-gray-200 p-6 bg-gray-50 flex flex-col">
-                    <div className="mb-4 flex-shrink-0 bg-white rounded-lg w-full h-32 flex items-center justify-center">
-                      <Image src="/ai/Chat.svg" alt="Chat Interface Design" width={128} height={128} className="w-full h-full object-contain p-3" />
-                    </div>
-                    <div className="flex-1 flex flex-col justify-end">
-                      <h4 className="text-lg font-semibold text-gray-900 mb-2">Chat Interface</h4>
-                      <p className="text-sm text-gray-600">Clean, conversational design with clear visual hierarchy and intuitive interaction patterns.</p>
-                    </div>
-                  </div>
-                  
-                  {/* Chat Bubbles */}
-                  <div className="rounded-2xl border border-gray-200 p-6 bg-gray-50 flex flex-col">
-                    <div className="mb-4 flex-shrink-0 bg-white rounded-lg w-full h-32 flex items-center justify-center">
-                      <Image src="/ai/chats.svg" alt="Chat Bubbles Design" width={128} height={128} className="w-full h-full object-contain p-3" />
-                    </div>
-                    <div className="flex-1 flex flex-col justify-end">
-                      <h4 className="text-lg font-semibold text-gray-900 mb-2">Chat Bubbles</h4>
-                      <p className="text-sm text-gray-600">Conversation bubbles with clear visual hierarchy and intuitive message flow.</p>
-                    </div>
-                  </div>
-                  
-                  {/* Profile Selection */}
-                  <div className="rounded-2xl border border-gray-200 p-6 bg-gray-50 flex flex-col">
-                    <div className="mb-4 flex-shrink-0 bg-white rounded-lg w-full h-32 flex items-center justify-center">
-                      <Image src="/ai/comp.svg" alt="Profile Selection Design" width={128} height={128} className="w-full h-full object-contain p-3" />
-                    </div>
-                    <div className="flex-1 flex flex-col justify-end">
-                      <h4 className="text-lg font-semibold text-gray-900 mb-2">Profile Selection</h4>
-                      <p className="text-sm text-gray-600">User profile interface with role-based access and personalized settings.</p>
-                    </div>
-                  </div>
-                </div>
-            </Reveal>
-            
-            <Reveal delay={120}>
-              <div className="rounded-2xl border border-gray-200 p-6 bg-white">
-                <h4 className="text-lg font-semibold text-gray-900 mb-4">Design System Elements</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                  <div>
-                    <div className="flex gap-3">
-                      <div className="w-14 h-14 rounded-xl border border-semantic-border-primary bg-primary-500" />
-                      <div className="w-14 h-14 rounded-xl border border-semantic-border-primary bg-primary-200" />
-                      <div className="w-14 h-14 rounded-xl border border-semantic-border-primary bg-neutral-500" />
-                      <div className="w-14 h-14 rounded-xl border border-semantic-border-primary bg-neutral-200" />
-                      <div className="w-14 h-14 rounded-xl border border-semantic-border-primary bg-neutral-50" />
-                    </div>
-                    <div className="mt-2 text-sm text-semantic-text-secondary">Color palette for AI touch-points</div>
-                  </div>
-                  <div>
-                    <div className="flex gap-4 items-center">
-                      {['/ai/item.svg', '/ai/link.svg', '/ai/table.svg'].map((src, i) => (
-                        <div key={src} className="w-12 h-12 grid place-items-center rounded-lg border border-gray-200 bg-gray-50">
-                          <Image src={src} alt={`AI interaction icon ${i + 1}`} width={48} height={48} className="w-full h-full object-contain p-2" />
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mt-2 text-sm text-gray-600">Iconography accents for AI interactions</div>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </section>
+
 
         {/* 5) User Flows */}
         <section className="px-6 py-16 bg-gray-50">
@@ -370,47 +333,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 6) AI Abilities */}
-        <section className="px-6 py-16">
-          <div className="max-w-6xl mx-auto">
-            <SectionHeader eyebrow="AI Abilities" title="What the assistant can do" />
-            <div className="grid md:grid-cols-3 gap-6">
-              {/* Create */}
-              <Reveal>
-                <div className="rounded-2xl border border-gray-200 p-6 bg-white">
-                  <div className="text-gray-900 font-semibold mb-2">Create</div>
-                  <ul className="text-gray-700 space-y-2 text-sm">
-                    {['Create/edit items & fields', 'Add comments & checklists', 'Complete checklist tasks', 'Attach files to items/tasks', 'Edit metadata (status, groups, labels, dates, assignees, watchers)'].map((t) => (
-                      <li key={t}>• {t}</li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
-              {/* Ask / Analyze */}
-              <Reveal delay={100}>
-                <div className="rounded-2xl border border-gray-200 p-6 bg-white">
-                  <div className="text-gray-900 font-semibold mb-2">Ask / Analyze</div>
-                  <ul className="text-gray-700 space-y-2 text-sm">
-                    {['Queries with metadata (dates, tags, assignees, rating, watchers)', 'Queries on field values', 'Comments & activity insights', 'Checklists and linked items', 'File data extraction & OCR'].map((t) => (
-                      <li key={t}>• {t}</li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
-              {/* Build */}
-              <Reveal delay={180}>
-                <div className="rounded-2xl border border-gray-200 p-6 bg-white">
-                  <div className="text-gray-900 font-semibold mb-2">Build</div>
-                  <ul className="text-gray-700 space-y-2 text-sm">
-                    {['Create/edit/delete forms', 'Create/edit/delete groups (views, permissions, members, allowed forms)', 'Create automations (excl. integrations)', 'Create external links'].map((t) => (
-                      <li key={t}>• {t}</li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
-            </div>
-          </div>
-        </section>
+       
 
         {/* 7) Final Screens */}
         <section className="px-6 py-16 bg-gray-50">
