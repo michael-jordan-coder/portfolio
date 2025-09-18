@@ -100,8 +100,8 @@ export function DotPattern({
       return {
         x: col * width + cx,
         y: row * height + cy,
-        delay: Math.random() * 5,
-        duration: Math.random() * 3 + 2,
+        delay: (i * 0.1) % 5, // Deterministic delay based on index
+        duration: 2 + ((i * 0.3) % 3), // Deterministic duration based on index
       }
     },
   )

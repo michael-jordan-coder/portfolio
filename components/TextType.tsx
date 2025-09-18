@@ -56,10 +56,12 @@ const TextType = ({
 
   const textArray = Array.isArray(text) ? text : [text];
 
-  const getRandomSpeed = () => {
+  const getVariableSpeed = (charIndex: number) => {
     if (!variableSpeed) return typingSpeed;
     const { min, max } = variableSpeed;
-    return Math.random() * (max - min) + min;
+    // Use deterministic variation based on character index to avoid hydration issues
+    const variation = ((charIndex * 7) % 100) / 100; // Creates 0-1 range
+    return min + (variation * (max - min));
   };
 
   const getCurrentTextColor = () => {
@@ -137,7 +139,7 @@ const TextType = ({
               );
               setCurrentCharIndex((prev) => prev + 1);
             },
-            variableSpeed ? getRandomSpeed() : typingSpeed
+            variableSpeed ? getVariableSpeed(currentCharIndex) : typingSpeed
           );
         } else if (textArray.length > 1) {
           timeout = setTimeout(() => {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { Button } from '../../components/Button';
@@ -123,24 +123,67 @@ const AnimatedCard: React.FC<{ project: Project; index: number }> = ({ project }
   );
 };
 
+// Deterministic floating elements (no hydration issues)
+const FLOATING_ELEMENTS = [
+  { left: 18.6, top: 42.9, delay: 0 },
+  { left: 71.0, top: 98.3, delay: 100 },
+  { left: 45.2, top: 15.7, delay: 200 },
+  { left: 82.4, top: 67.1, delay: 50 },
+  { left: 12.8, top: 78.9, delay: 150 },
+  { left: 59.3, top: 34.2, delay: 75 },
+  { left: 33.7, top: 89.4, delay: 125 },
+  { left: 76.9, top: 23.6, delay: 175 },
+  { left: 25.1, top: 56.8, delay: 25 },
+  { left: 68.5, top: 12.3, delay: 225 },
+  { left: 41.9, top: 73.5, delay: 100 },
+  { left: 87.2, top: 45.7, delay: 50 },
+  { left: 19.4, top: 91.2, delay: 200 },
+  { left: 54.6, top: 28.4, delay: 150 },
+  { left: 92.1, top: 64.8, delay: 75 }
+];
+
 // Main Carousel Component
 const SmoothCarousel: React.FC = () => {
+  const [isClient, setIsClient] = useState(false);
   const { scrollYProgress } = useScroll({ offset: ["start end", "end start"] });
   const transforms = {
     y1: useTransform(scrollYProgress, [0, 1], [200, -100]),
     y2: useTransform(scrollYProgress, [0, 1], [100, -50]),
     opacity: useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0])
   };
+
+  // Pre-calculate all transforms for floating elements to avoid hooks in loops
+  const floatingTransforms = FLOATING_ELEMENTS.map((element, i) => 
+    useTransform(scrollYProgress, [0, 1], [0, -200 - element.delay])
+  );
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   
   return (
     <SectionWrapper id="smooth">
       <NeonBlob position="custom" customClass="right-1/3 bottom-1/4 -rotate-12" size="md" colors={['#a855f7', '#ec4899', '#ef4444']} opacity={0.4} animated />
       <NeonBlob position="custom" customClass="left-1/3 top-1/2 rotate-6" size="sm" colors={['#06b6d4', '#3b82f6', '#6366f1']} opacity={0.3} animated />
-      <motion.div className="absolute inset-0 pointer-events-none" style={{ opacity: transforms.opacity }}>
-        {[...Array(15)].map((_, i) => (
-          <motion.div key={i} className="absolute w-2 h-2 bg-white/10 rounded-sm rotate-45" style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%`, y: useTransform(scrollYProgress, [0, 1], [0, -Math.random() * 300 - 150]) }} />
-        ))}
-      </motion.div>
+      {/* Only render floating elements on client to avoid hydration issues */}
+      {isClient && (
+        <motion.div className="absolute inset-0 pointer-events-none" style={{ opacity: transforms.opacity }}>
+          {FLOATING_ELEMENTS.map((element, i) => (
+            <motion.div 
+              key={i} 
+              className="absolute w-2 h-2 bg-white/10 rounded-sm rotate-45" 
+              style={{ 
+                left: `${element.left}%`, 
+                top: `${element.top}%`,
+                y: floatingTransforms[i]
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: element.delay / 1000 }}
+            />
+          ))}
+        </motion.div>
+      )}
       
       <motion.div className="text-center text-white pt-4 px-4" style={{ y: transforms.y2, opacity: transforms.opacity }}>
         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4" aria-live="polite">Project Showcase</h2>
