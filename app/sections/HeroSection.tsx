@@ -139,9 +139,9 @@ const HeroSection: React.FC = () => {
         
         <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center">
           <Button 
-            variant="primary"
+            variant="hero"
             size="lg"
-            className="bg-white text-black font-semibold tracking-wide !px-10 !py-5 text-xl sm:text-2xl transition-transform duration-300 ease-out hover:scale-110 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-white/25 hover:bg-white/95 focus:ring-white/60 focus-visible:ring-4 focus-visible:ring-white/60 active:scale-100"
+           
             onClick={() => document.getElementById('smooth')?.scrollIntoView({ behavior: 'smooth' })}
           >
             Explore Projects

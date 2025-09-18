@@ -24,7 +24,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       primary: "px-6 py-3 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 focus:ring-gray-500",
       secondary: "px-6 py-3 rounded-full border border-pink-300 text-pink-700 hover:bg-pink-100 focus:ring-pink-500", 
       outline: "px-6 py-3 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 focus:ring-gray-500",
-      accent: "px-6 py-3 rounded-full border border-orange-300 text-orange-700 hover:bg-orange-100 focus:ring-orange-500"
+      accent: "px-6 py-3 rounded-full border border-orange-300 text-orange-700 hover:bg-orange-100 focus:ring-orange-500",
+      hero: "px-6 py-3 rounded-full border border-gray-300 text-white hover:bg-white hover:text-black "
     }
 
     const sizes = {
