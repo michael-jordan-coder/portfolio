@@ -121,9 +121,9 @@ class ImageTrailVariant1 {
     };
 
     this.container.addEventListener("mousemove", this.handlePointerMove);
-    this.container.addEventListener("touchmove", this.handlePointerMove);
+    this.container.addEventListener("touchmove", this.handlePointerMove, { passive: true });
     this.container.addEventListener("mousemove", this.initRender as EventListener);
-    this.container.addEventListener("touchmove", this.initRender as EventListener);
+    this.container.addEventListener("touchmove", this.initRender as EventListener, { passive: true });
   }
 
   private render() {
@@ -258,9 +258,9 @@ class ImageTrailVariant2 {
     };
 
     this.container.addEventListener("mousemove", this.handlePointerMove);
-    this.container.addEventListener("touchmove", this.handlePointerMove);
+    this.container.addEventListener("touchmove", this.handlePointerMove, { passive: true });
     this.container.addEventListener("mousemove", this.initRender as EventListener);
-    this.container.addEventListener("touchmove", this.initRender as EventListener);
+    this.container.addEventListener("touchmove", this.initRender as EventListener, { passive: true });
   }
 
   private render() {
@@ -407,9 +407,9 @@ class ImageTrailVariant3 {
     };
 
     this.container.addEventListener("mousemove", this.handlePointerMove);
-    this.container.addEventListener("touchmove", this.handlePointerMove);
+    this.container.addEventListener("touchmove", this.handlePointerMove, { passive: true });
     this.container.addEventListener("mousemove", this.initRender as EventListener);
-    this.container.addEventListener("touchmove", this.initRender as EventListener);
+    this.container.addEventListener("touchmove", this.initRender as EventListener, { passive: true });
   }
 
   private render() {
@@ -559,9 +559,9 @@ class ImageTrailVariant4 {
     };
 
     this.container.addEventListener("mousemove", this.handlePointerMove);
-    this.container.addEventListener("touchmove", this.handlePointerMove);
+    this.container.addEventListener("touchmove", this.handlePointerMove, { passive: true });
     this.container.addEventListener("mousemove", this.initRender as EventListener);
-    this.container.addEventListener("touchmove", this.initRender as EventListener);
+    this.container.addEventListener("touchmove", this.initRender as EventListener, { passive: true });
   }
 
   private render() {
@@ -733,9 +733,9 @@ class ImageTrailVariant5 {
     };
 
     this.container.addEventListener("mousemove", this.handlePointerMove);
-    this.container.addEventListener("touchmove", this.handlePointerMove);
+    this.container.addEventListener("touchmove", this.handlePointerMove, { passive: true });
     this.container.addEventListener("mousemove", this.initRender as EventListener);
-    this.container.addEventListener("touchmove", this.initRender as EventListener);
+    this.container.addEventListener("touchmove", this.initRender as EventListener, { passive: true });
   }
 
   private render() {
@@ -895,9 +895,9 @@ class ImageTrailVariant6 {
     };
 
     this.container.addEventListener("mousemove", this.handlePointerMove);
-    this.container.addEventListener("touchmove", this.handlePointerMove);
+    this.container.addEventListener("touchmove", this.handlePointerMove, { passive: true });
     this.container.addEventListener("mousemove", this.initRender as EventListener);
-    this.container.addEventListener("touchmove", this.initRender as EventListener);
+    this.container.addEventListener("touchmove", this.initRender as EventListener, { passive: true });
   }
 
   private render() {
@@ -1092,9 +1092,9 @@ class ImageTrailVariant7 {
     };
 
     this.container.addEventListener("mousemove", this.handlePointerMove);
-    this.container.addEventListener("touchmove", this.handlePointerMove);
+    this.container.addEventListener("touchmove", this.handlePointerMove, { passive: true });
     this.container.addEventListener("mousemove", this.initRender as EventListener);
-    this.container.addEventListener("touchmove", this.initRender as EventListener);
+    this.container.addEventListener("touchmove", this.initRender as EventListener, { passive: true });
   }
 
   private render() {
@@ -1249,9 +1249,9 @@ class ImageTrailVariant8 {
     };
 
     this.container.addEventListener("mousemove", this.handlePointerMove);
-    this.container.addEventListener("touchmove", this.handlePointerMove);
+    this.container.addEventListener("touchmove", this.handlePointerMove, { passive: true });
     this.container.addEventListener("mousemove", this.initRender as EventListener);
-    this.container.addEventListener("touchmove", this.initRender as EventListener);
+    this.container.addEventListener("touchmove", this.initRender as EventListener, { passive: true });
   }
 
   private render() {

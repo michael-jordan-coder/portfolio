@@ -384,7 +384,7 @@ const DesignSystemPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-[100svh] bg-black text-white">
       {/* Header */}
       <div className="bg-black/20 backdrop-blur-lg border-b border-white/10 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">

@@ -1,9 +1,9 @@
 "use client";
 
 import Link from 'next/link';
-import { DotPattern } from '@/components/DotPattern';
-import { useScrollToTopOnNavigation } from '@/lib/utils';
-import CodeBlock from '@/components/ui/TerminalCard';
+import { DotPattern } from '../../../../components/DotPattern';
+import { useScrollToTopOnNavigation } from '../../../../lib/utils';
+import CodeBlock from '../../../../components/ui/TerminalCard';
 
 // Architecture component card
 const ArchitectureCard: React.FC<{ title: string; description: string; details: string[]; icon: React.ReactNode }> = ({ title, description, details, icon }) => (

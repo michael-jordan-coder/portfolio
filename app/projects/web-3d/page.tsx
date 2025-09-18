@@ -1,10 +1,10 @@
 "use client";
 
 import Link from 'next/link';
-import { DotPattern } from '@/components/DotPattern';
+import { DotPattern } from '../../../components/DotPattern';
 import NextProjectButton from '../../../components/NextProjectButton';
-import { useScrollToTopOnNavigation } from '@/lib/utils';
-import { CodeBlock } from '@/components/CodeBlock';
+import { useScrollToTopOnNavigation } from '../../../lib/utils';
+import { CodeBlock } from '../../../components/CodeBlock';
 import { useState, useEffect } from 'react';
 
 // Simple feature highlight component
@@ -152,7 +152,7 @@ export default function HandTrackingPage() {
       </Link>
 
       {/* Main Content */}
-      <main className="min-h-screen bg-semantic-dark-bg-primary relative overflow-hidden">
+      <main className="min-h-[100svh] bg-semantic-dark-bg-primary relative overflow-hidden">
         {/* Dot Pattern Background */}
         <DotPattern 
           width={25} 
@@ -223,8 +223,8 @@ export default function HandTrackingPage() {
                   className="w-full max-w-4xl h-auto"
                   autoPlay
                   muted
-                  loop
                   playsInline
+                  loop
                 >
                   <source src="/3d.mov" type="video/quicktime" />
                   <source src="/3dvideo.mp4" type="video/mp4" />
@@ -357,8 +357,8 @@ export default function HandTrackingPage() {
                     controls
                     autoPlay
                     muted
-                    loop
                     playsInline
+                    loop
                   >
                     <source src="/handcont.mp4" type="video/mp4" />
                     Your browser does not support the video tag.

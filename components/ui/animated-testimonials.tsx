@@ -4,7 +4,7 @@ import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { useEffect, useState } from "react";
-import { useHydrated } from "@/lib/utils";
+import { useHydrated } from "../../lib/utils";
 
 type Testimonial = {
   quote: string;

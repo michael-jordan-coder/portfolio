@@ -211,10 +211,13 @@ export default function ChatViewSection() {
               {/* Old UI - Left Side */}
               <div className="relative group cursor-pointer rounded-xl overflow-hidden shadow-lg border border-red-200" style={{ backgroundColor: '#E7E7E7' }}>
                 <div className="w-full h-full flex items-center justify-center p-4">
-                  <img 
+                  <Image 
                     src="/tuqqi/old-chat.svg" 
                     alt="Old Tuqqi Chat Interface" 
+                    width={400}
+                    height={300}
                     className="w-full h-full object-contain transition-all duration-300 group-hover:blur-sm group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
@@ -233,10 +236,13 @@ export default function ChatViewSection() {
               {/* New UI - Right Side */}
               <div className="relative group cursor-pointer rounded-xl overflow-hidden shadow-lg border border-green-200" style={{ backgroundColor: '#E7E7E7' }}>
                 <div className="w-full h-full flex items-center justify-center p-4">
-                  <img 
+                  <Image 
                     src="/tuqqi/new-chat.svg" 
                     alt="New Tuqqi Chat Interface" 
+                    width={400}
+                    height={300}
                     className="w-full h-full object-contain transition-all duration-300 group-hover:blur-sm group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
@@ -258,10 +264,13 @@ export default function ChatViewSection() {
               {/* Second Old UI - Left Side */}
               <div className="relative group cursor-pointer rounded-xl overflow-hidden shadow-lg border border-red-200" style={{ backgroundColor: '#E7E7E7' }}>
                 <div className="w-full h-full flex items-center justify-center p-4">
-                  <img 
+                  <Image 
                     src="/tuqqi/tuqqi-old.svg" 
                     alt="Old Tuqqi Interface" 
+                    width={400}
+                    height={300}
                     className="w-full h-full object-contain transition-all duration-300 group-hover:blur-sm group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
@@ -280,10 +289,13 @@ export default function ChatViewSection() {
               {/* Second New UI - Right Side */}
               <div className="relative group cursor-pointer rounded-xl overflow-hidden shadow-lg border border-green-200" style={{ backgroundColor: '#E7E7E7' }}>
                 <div className="w-full h-full flex items-center justify-center p-4">
-                  <img 
+                  <Image 
                     src="/tuqqi/tuqqi-new.svg" 
                     alt="New Tuqqi Interface" 
+                    width={400}
+                    height={300}
                     className="w-full h-full object-contain transition-all duration-300 group-hover:blur-sm group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
@@ -305,10 +317,13 @@ export default function ChatViewSection() {
               {/* Third Old UI - Left Side */}
               <div className="relative group cursor-pointer rounded-xl overflow-hidden shadow-lg border border-red-200" style={{ backgroundColor: '#E7E7E7' }}>
                 <div className="w-full h-full flex items-center justify-center p-4">
-                  <img 
+                  <Image 
                     src="/tuqqi/whole-chat-old.png" 
                     alt="Old Complete Chat Interface" 
+                    width={400}
+                    height={300}
                     className="w-full h-full object-contain transition-all duration-300 group-hover:blur-sm group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">
@@ -327,10 +342,13 @@ export default function ChatViewSection() {
               {/* Third New UI - Right Side */}
               <div className="relative group cursor-pointer rounded-xl overflow-hidden shadow-lg border border-green-200" style={{ backgroundColor: '#E7E7E7' }}>
                 <div className="w-full h-full flex items-center justify-center p-4">
-                  <img 
+                  <Image 
                     src="/tuqqi/whole-chat-new.png" 
                     alt="New Complete Chat Interface" 
+                    width={400}
+                    height={300}
                     className="w-full h-full object-contain transition-all duration-300 group-hover:blur-sm group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex items-center justify-center">

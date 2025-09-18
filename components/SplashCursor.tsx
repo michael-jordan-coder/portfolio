@@ -1491,7 +1491,7 @@ export default function SplashCursor({
       for (let i = 0; i < touches.length; i++) {
         updatePointerUpData(pointer);
       }
-    });
+    }, { passive: true });
   }, [
     SIM_RESOLUTION,
     DYE_RESOLUTION,

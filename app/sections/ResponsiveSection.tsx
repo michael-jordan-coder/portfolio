@@ -1,4 +1,4 @@
-import { ScrollToButton } from '@/components/ScrollToButton'
+import { ScrollToButton } from '../../components/ScrollToButton'
 import React from 'react'
 import { SectionWrapper, NeonBlob } from './_shared'
 

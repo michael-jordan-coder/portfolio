@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { WobbleCard } from "@/components/ui/wobble-card";
+import { WobbleCard } from "../../components/ui/wobble-card";
 
 export default function WobbleCardDemo() {
   return (

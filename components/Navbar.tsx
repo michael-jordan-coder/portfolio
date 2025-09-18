@@ -129,9 +129,11 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                 {item.isScrollTo ? (
                   <button
                     onClick={() => {
-                      const element = document.getElementById(item.targetId!);
-                      if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' });
+                      if (typeof document !== 'undefined') {
+                        const element = document.getElementById(item.targetId!);
+                        if (element) {
+                          element.scrollIntoView({ behavior: 'smooth' });
+                        }
                       }
                     }}
                     className="text-white/80 hover:text-white transition-colors duration-200 font-medium relative group cursor-pointer"
@@ -220,9 +222,11 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                     <button
                       onClick={() => {
                         setIsMobileMenuOpen(false);
-                        const element = document.getElementById(item.targetId!);
-                        if (element) {
-                          element.scrollIntoView({ behavior: 'smooth' });
+                        if (typeof document !== 'undefined') {
+                          const element = document.getElementById(item.targetId!);
+                          if (element) {
+                            element.scrollIntoView({ behavior: 'smooth' });
+                          }
                         }
                       }}
                       className="block text-white/80 hover:text-white transition-colors duration-200 font-medium py-2 w-full text-left"

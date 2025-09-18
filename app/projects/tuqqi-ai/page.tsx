@@ -1,9 +1,10 @@
 'use client'
 
+import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useScrollToTopOnNavigation } from '@/lib/utils'
+import { useScrollToTopOnNavigation } from '../../../lib/utils'
 import NextProjectButton from '../../../components/NextProjectButton'
 
 // Accent brand color for AI sections (Tuqqi touch)

@@ -4,7 +4,7 @@ import React, { useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import { SplitText } from 'gsap/SplitText'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import Aurora from '@/components/Aurora'
+import Aurora from '../../components/Aurora'
 import { Button } from '../../components/Button'
 
 gsap.registerPlugin(SplitText);
@@ -100,7 +100,7 @@ const HeroSection: React.FC = () => {
     <section
       ref={heroRef}
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black"
+      className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-black"
     >
       {/* Black background fill */}
       <div className="absolute inset-0 bg-black z-0" />
@@ -142,7 +142,11 @@ const HeroSection: React.FC = () => {
             variant="hero"
             size="lg"
            
-            onClick={() => document.getElementById('smooth')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => {
+              if (typeof document !== 'undefined') {
+                document.getElementById('smooth')?.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
           >
             Explore Projects
           </Button>

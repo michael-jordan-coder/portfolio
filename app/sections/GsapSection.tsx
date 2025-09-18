@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import LivingSquaresGrid from '@/components/LivingSquaresGrid';
-import CustomCursor from '@/components/CustomCursor';
+import LivingSquaresGrid from '../../components/LivingSquaresGrid';
+import CustomCursor from '../../components/CustomCursor';
 import { SectionWrapper, NeonBlob, TECH_STACK_ITEMS } from './_shared';
 
 // Condensed tool descriptions
@@ -39,13 +39,17 @@ export default function GsapSection() {
     const tool = toolDescriptions[toolPath as keyof typeof toolDescriptions];
     if (tool) {
       setCursorState(prev => ({ ...prev, isVisible: true, toolName: tool.name, description: tool.description }));
-      document.body.classList.add('tech-stack-cursor');
+      if (typeof document !== 'undefined') {
+        document.body.classList.add('tech-stack-cursor');
+      }
     }
   };
 
   const handleToolLeave = () => {
     setCursorState(prev => ({ ...prev, isVisible: false }));
-    document.body.classList.remove('tech-stack-cursor');
+    if (typeof document !== 'undefined') {
+      document.body.classList.remove('tech-stack-cursor');
+    }
   };
 
   return (

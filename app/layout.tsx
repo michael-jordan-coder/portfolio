@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { SmoothScrollProvider } from '@/components/SmoothScrollProvider'
+import { SmoothScrollProvider } from '../components/SmoothScrollProvider'
 import Script from 'next/script'
 import './globals.css'
 

@@ -32,9 +32,7 @@ const RollingGallery: React.FC<RollingGalleryProps> = ({
   images = [],
 }) => {
   images = IMGS;
-  const [isScreenSizeSm, setIsScreenSizeSm] = useState<boolean>(
-    window.innerWidth <= 640
-  );
+  const [isScreenSizeSm, setIsScreenSizeSm] = useState<boolean>(false);
 
   const cylinderWidth: number = isScreenSizeSm ? 1100 : 1800;
   const faceCount: number = images.length;
@@ -91,6 +89,9 @@ const RollingGallery: React.FC<RollingGalleryProps> = ({
   }, [autoplay, rotation, controls, faceCount]);
 
   useEffect(() => {
+    // Set initial screen size after hydration
+    setIsScreenSizeSm(window.innerWidth <= 640);
+    
     const handleResize = () => {
       setIsScreenSizeSm(window.innerWidth <= 640);
     };

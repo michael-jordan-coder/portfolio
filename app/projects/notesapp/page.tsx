@@ -3,8 +3,8 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { KPICard } from '@/components/ui';
-import { useScrollToTopOnNavigation } from '@/lib/utils';
+import { KPICard } from '../../../components/ui';
+import { useScrollToTopOnNavigation } from '../../../lib/utils';
 import NextProjectButton from '../../../components/NextProjectButton';
 
 // Asset configuration - centralized and type-safe
@@ -110,7 +110,7 @@ export default function GammaPage() {
   useScrollToTopOnNavigation();
   
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-white min-h-[100svh]">
       {/* Back to home button */}
       <Link
         href="/"
