@@ -1,16 +1,12 @@
 'use client';
 
-import { ScrollToButton } from '@/components/ScrollToButton'
-import Link from 'next/link'
 import React, { useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import { SplitText } from 'gsap/SplitText'
-import TextType from '@/components/TextType'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Aurora from '@/components/Aurora'
 import { Button } from '../../components/Button'
 
-// Register SplitText plugin
 gsap.registerPlugin(SplitText);
 
 const HeroSection: React.FC = () => {
@@ -19,18 +15,12 @@ const HeroSection: React.FC = () => {
   const buttonsRef = useRef<HTMLDivElement>(null);
   const accentRef = useRef<HTMLDivElement>(null);
   
-  // Parallax scroll tracking
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
-  });
-  
-  // Parallax transforms
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -300]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -150]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [0, -50]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 0.3, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const transforms = {
+    y2: useTransform(scrollYProgress, [0, 1], [0, -150]),
+    opacity: useTransform(scrollYProgress, [0, 0.8, 1], [1, 0.3, 0]),
+    scale: useTransform(scrollYProgress, [0, 1], [1, 0.8])
+  };
 
   useEffect(() => {
     const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
@@ -130,7 +120,7 @@ const HeroSection: React.FC = () => {
       
       <motion.div 
         className="text-center text-white w-full px-4 max-w-7xl mx-auto relative z-30"
-        style={{ y: y2, opacity, scale }}
+        style={{ y: transforms.y2, opacity: transforms.opacity, scale: transforms.scale }}
       >
         {/* Main heading with improved typography */}
         <h1 
@@ -146,38 +136,16 @@ const HeroSection: React.FC = () => {
           <div className="font-normal text-4xl text-gray-300">Im Daniel, and this is my portfolio.</div>
         </h1>
         
-        {/* Subtitle with better spacing and typography */}
-        {/* <div className="text-xl font-semibold md:text-3xl mb-12 text-gray-400 max-w-3xl mx-auto leading-relaxed">
-          <TextType 
-            text="Design is like cinema — emotional, reactive, unforgettable"
-            typingSpeed={40}
-            initialDelay={800}
-            className="text-gray-600 font-normal"
-            cursorCharacter="|"
-            cursorBlinkDuration={1.8}
-          />
-        </div> */}
         
-        {/* Buttons with improved typography */}
-        <div
-          ref={buttonsRef}
-          className="flex flex-col sm:flex-row gap-6 justify-center items-center"
-        >
+        <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-6 justify-center items-center">
           <Button 
             variant="primary"
             size="lg"
             className="bg-white text-black font-semibold tracking-wide !px-10 !py-5 text-xl sm:text-2xl transition-transform duration-300 ease-out hover:scale-110 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-white/25 hover:bg-white/95 focus:ring-white/60 focus-visible:ring-4 focus-visible:ring-white/60 active:scale-100"
-            onClick={() => {
-              const element = document.getElementById('smooth');
-              if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-              }
-            }}
+            onClick={() => document.getElementById('smooth')?.scrollIntoView({ behavior: 'smooth' })}
           >
             Explore Projects
           </Button>
-
-         
         </div>
       </motion.div>
     </section>

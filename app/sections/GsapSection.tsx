@@ -3,41 +3,18 @@
 import { useState, useEffect } from 'react';
 import LivingSquaresGrid from '@/components/LivingSquaresGrid';
 import CustomCursor from '@/components/CustomCursor';
+import { SectionWrapper, NeonBlob, TECH_STACK_ITEMS } from './_shared';
 
-// Tool descriptions for each technology
+// Condensed tool descriptions
 const toolDescriptions = {
-  '/imagetrail/gemini.svg': {
-    name: 'Gemini AI',
-    description: 'My creative partner for design ideation and user experience exploration. It helps me brainstorm innovative UI patterns, user flows, and design solutions that feel intuitive and delightful.'
-  },
-  '/imagetrail/cursor.svg': {
-    name: 'Cursor',
-    description: 'My design-to-code bridge. I use it to transform beautiful Figma designs into pixel-perfect, responsive interfaces while maintaining the visual integrity and user experience I envisioned.'
-  },
-  '/imagetrail/figma.svg': {
-    name: 'Figma',
-    description: 'The heart of my design process. I use it to craft user interfaces that aren\'t just beautiful, but intuitive and accessible. From wireframes to high-fidelity prototypes, it\'s where my UX vision comes to life.'
-  },
-  '/imagetrail/tailwind.svg': {
-    name: 'Tailwind CSS',
-    description: 'My design system enabler. It lets me rapidly prototype and iterate on UI designs, ensuring consistency across components while maintaining the flexibility to create unique, branded experiences.'
-  },
-  '/imagetrail/gsap.svg': {
-    name: 'GSAP',
-    description: 'The magic wand for user experience. I use it to create micro-interactions, smooth transitions, and engaging animations that guide users through interfaces and make every interaction feel polished and purposeful.'
-  },
-  '/imagetrail/claude.svg': {
-    name: 'Claude AI',
-    description: 'My UX research and design thinking partner. It helps me explore user psychology, accessibility considerations, and innovative design patterns to create experiences that truly serve user needs.'
-  },
-  '/imagetrail/next.svg': {
-    name: 'Next.js',
-    description: 'My platform for bringing designs to life. It provides the performance and user experience foundation that allows my carefully crafted interfaces to shine, ensuring fast loading and smooth interactions.'
-  },
-  '/imagetrail/gpt.svg': {
-    name: 'ChatGPT',
-    description: 'My design inspiration and UX research assistant. I use it to explore user behavior patterns, accessibility guidelines, and creative design solutions that enhance the overall user experience.'
-  }
+  '/imagetrail/gemini.svg': { name: 'Gemini AI', description: 'Creative partner for design ideation and UX exploration.' },
+  '/imagetrail/cursor.svg': { name: 'Cursor', description: 'Design-to-code bridge for pixel-perfect interfaces.' },
+  '/imagetrail/figma.svg': { name: 'Figma', description: 'Heart of my design process for intuitive, accessible UIs.' },
+  '/imagetrail/tailwind.svg': { name: 'Tailwind CSS', description: 'Design system enabler for rapid prototyping.' },
+  '/imagetrail/gsap.svg': { name: 'GSAP', description: 'Magic wand for polished micro-interactions and animations.' },
+  '/imagetrail/claude.svg': { name: 'Claude AI', description: 'UX research partner for user psychology insights.' },
+  '/imagetrail/next.svg': { name: 'Next.js', description: 'Performance foundation for smooth interfaces.' },
+  '/imagetrail/gpt.svg': { name: 'ChatGPT', description: 'Design inspiration and accessibility guidelines assistant.' }
 };
 
 export default function GsapSection() {
@@ -51,86 +28,59 @@ export default function GsapSection() {
   // Update cursor position
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setCursorState(prev => ({
-        ...prev,
-        position: { x: e.clientX, y: e.clientY }
-      }));
+      setCursorState(prev => ({ ...prev, position: { x: e.clientX, y: e.clientY } }));
     };
-
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Handle tool hover
+  // Handle tool hover/leave
   const handleToolHover = (toolPath: string) => {
     const tool = toolDescriptions[toolPath as keyof typeof toolDescriptions];
     if (tool) {
-      setCursorState(prev => ({
-        ...prev,
-        isVisible: true,
-        toolName: tool.name,
-        description: tool.description
-      }));
-      // Add custom cursor class to body
+      setCursorState(prev => ({ ...prev, isVisible: true, toolName: tool.name, description: tool.description }));
       document.body.classList.add('tech-stack-cursor');
     }
   };
 
   const handleToolLeave = () => {
-    setCursorState(prev => ({
-      ...prev,
-      isVisible: false
-    }));
-    // Remove custom cursor class from body
+    setCursorState(prev => ({ ...prev, isVisible: false }));
     document.body.classList.remove('tech-stack-cursor');
   };
 
   return (
-    <section
-      id="tech-stack"
-      className="relative py-60 bg-gradient-to-b from-black via-[#000000] to-black overflow-hidden"
-    >
-      {/* Noise overlay */}
-      <div className="absolute inset-0 pointer-events-none opacity-10" style={{backgroundImage: 'url(/noise.svg)'}} />
+    <SectionWrapper id="tech-stack" className="py-60">
+      <NeonBlob 
+        position="custom" 
+        customClass="right-1/4 top-1/2 -translate-y-1/2" 
+        size="lg" 
+        colors={['#3b82f6', '#8b5cf6', '#ec4899']} 
+        opacity={0.3} 
+      />
       
-      {/* Neon blob - Tech Stack Section */}
-      <div className="absolute right-1/4 top-1/2 -translate-y-1/2 w-[400px] h-[300px] rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-30 blur-3xl pointer-events-none z-0" aria-hidden="true" />
-      
-      {/* Header */}
       <div className="text-center text-white max-w-4xl mx-auto mb-16 px-4">
         <h2 className="text-6xl font-bold mb-6">My Design & UX Toolkit</h2>
         <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-          Discover the tools and technologies I use to craft exceptional user experiences. 
-          Hover over each tool to learn how it helps me create intuitive, beautiful, and accessible designs.
+          Discover the tools I use to craft exceptional user experiences. 
+          Hover over each tool to learn how it helps create intuitive, accessible designs.
         </p>
       </div>
 
-      {/* LivingSquaresGrid Container */}
       <div className="relative w-full h-[500px] max-w-6xl mx-auto px-4">
         <LivingSquaresGrid
-          items={[
-            '/imagetrail/gemini.svg',
-            '/imagetrail/cursor.svg',
-            '/imagetrail/figma.svg',
-            '/imagetrail/tailwind.svg',
-            '/imagetrail/gsap.svg',
-            '/imagetrail/claude.svg',
-            '/imagetrail/next.svg',
-            '/imagetrail/gpt.svg',
-          ]}
+          items={TECH_STACK_ITEMS}
           gridSize={3}
           onToolHover={handleToolHover}
           onToolLeave={handleToolLeave}
         />
       </div>
 
-      {/* Custom Cursor with Tool Descriptions */}
       <CustomCursor
         isVisible={cursorState.isVisible}
         toolName={cursorState.toolName}
         description={cursorState.description}
         position={cursorState.position}
       />
-    </section>
+    </SectionWrapper>
   )
 }
