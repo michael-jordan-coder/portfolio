@@ -418,14 +418,14 @@ export default function Page() {
             <SectionHeader eyebrow="Final Screens" title="Polished UI moments" />
             <div className="relative max-w-6xl mx-auto">
               <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-2">
-                {[0, 1].map((i) => (
+                {[0, 1, 2].map((i) => (
                   <div key={i} className="snap-center shrink-0 w-[85vw] md:w-[720px]">
                     <Reveal>
                       <div className="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
                         <div className="h-[420px] bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 flex items-center justify-center p-4">
                           {i === 0 && (
                             <Image 
-                              src="/ai/Frame.svg" 
+                              src="/tuqqi/chat+files.svg" 
                               alt="AI Assistant Interface Frame" 
                               width={600}
                               height={400}
@@ -434,15 +434,28 @@ export default function Page() {
                           )}
                           {i === 1 && (
                             <Image 
-                              src="/ai/tablecopy.svg" 
+                              src="/tuqqi/chatbubble.svg" 
                               alt="AI Table Interface" 
                               width={600}
                               height={400}
                               className="w-auto h-auto max-w-full max-h-full object-contain"
                             />
                           )}
+                          {i === 2 && (
+                            <Image 
+                              src="/tuqqi/send.svg" 
+                              alt="AI Mind Mapping Interface" 
+                              width={600}
+                              height={400}
+                              className="w-auto h-auto max-w-full max-h-full object-contain"
+                            />
+                          )}
                         </div>
-                        <div className="px-4 py-3 text-sm text-gray-600 border-t border-gray-100">Outcome: clearer intent, faster completion</div>
+                        <div className="px-4 py-3 text-sm text-gray-600 border-t border-gray-100">
+                          {i === 0 && "Outcome: clearer intent, faster completion"}
+                          {i === 1 && "Outcome: improved conversation flow"}
+                          {i === 2 && "Outcome: enhanced AI thinking visualization"}
+                        </div>
                       </div>
                     </Reveal>
                   </div>

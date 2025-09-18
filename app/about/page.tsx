@@ -29,12 +29,12 @@ const AboutPage: React.FC = () => {
             About
           </h1>
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-400 max-w-4xl mx-auto px-4 md:px-0 leading-relaxed mb-8">
-            As a junior still developing as a young professional, I know it won't be easy to find the right place. But honestly, I don't care. I believe consistency is one of the most valuable skills I bring, and I know my passion for this field will guide me toward the right opportunities to grow my career. If my portfolio shows you my quality, I'd love to talk about working together. And if it doesn't, I'd truly appreciate your thoughts and feedback—I'll take them to heart.
+            As a junior still developing as a young professional, I know it won't be easy to find the right place. But honestly, I don't care. I believe <strong className="font-bold text-gray-300">consistency</strong> is one of the most valuable skills I bring, and I know my <strong className="font-bold text-gray-300">passion</strong> for this field will guide me toward the right opportunities to grow my career. If my portfolio shows you my <strong className="font-bold text-gray-300">quality</strong>, I'd love to talk about <strong className="font-bold text-gray-300">working together</strong>. And if it doesn't, I'd truly appreciate your <strong className="font-bold text-gray-300">thoughts and feedback</strong>—I'll take them to heart.
           </p>
           
           {/* LinkedIn Button - Following Figma specs: 208px w, 44px h, 10px horizontal padding, 16px vertical padding, 12px gap */}
           <a
-            href="https://linkedin.com/in/danielgur" 
+            href="https://www.linkedin.com/in/daniel-gur-556002308/" 
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center bg-white text-black font-medium rounded-full transition-all duration-300 hover:bg-gray-100 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/50 touch-manipulation"
