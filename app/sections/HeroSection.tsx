@@ -180,6 +180,13 @@ const HeroSection: React.FC = () => {
           >
             Explore Projects
           </Button>
+          <Button variant="primary" size="lg" onClick={() => {
+              if (typeof document !== 'undefined') {
+                document.getElementById('smooth')?.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}>
+  Why You Should Hire Me
+  </Button>
         </div>
       </motion.div>
     </section>

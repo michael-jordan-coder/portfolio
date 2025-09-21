@@ -21,11 +21,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const baseClasses = "font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
     
     const variants = {
-      primary: "px-6 py-3 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 focus:ring-gray-500",
-      secondary: "px-6 py-3 rounded-full border border-pink-300 text-pink-700 hover:bg-pink-100 focus:ring-pink-500", 
-      outline: "px-6 py-3 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 focus:ring-gray-500",
-      accent: "px-6 py-3 rounded-full border border-orange-300 text-orange-700 hover:bg-orange-100 focus:ring-orange-500",
-      hero: "px-6 py-3 rounded-full border border-gray-300 text-white hover:bg-white hover:text-black "
+      primary: "px-6 py-3 rounded-full bg-white border border-gray-300 text-black hover:bg-[#f5f5f5] focus:ring-gray-500 transition-all duration-300 ease-out",
+      secondary: "px-6 py-3 rounded-full border border-pink-300 text-pink-700 hover:bg-pink-100 focus:ring-pink-500 transition-all duration-300 ease-out", 
+      outline: "px-6 py-3 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 focus:ring-gray-500 transition-all duration-300 ease-out",
+      accent: "px-6 py-3 rounded-full border border-orange-300 text-orange-700 hover:bg-orange-100 focus:ring-orange-500 transition-all duration-300 ease-out",
+      hero: "px-6 py-3 rounded-full border border-gray-300 text-white hover:bg-white hover:text-black transition-all duration-300 ease-out"
     }
 
     const sizes = {

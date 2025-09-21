@@ -20,7 +20,7 @@ interface Project {
 const PROJECTS: Project[] = [
   { id: 'alpha', title: 'Adding AI to Tuqqi.com', description: 'Adding intelligence to Tuqqi, while keeping the design simple and familiar', image: '/tuqqi/tuqqi-car.png', url: '/projects/tuqqi-ai', category: 'Web App - B2B' },
   { id: 'gamma', title: 'Reducing user action for better performance', description: 'A case study on optimizing the note creation flow in Inbox app by reducing user actions from 8 seconds to 4 seconds through strategic UX improvements.', image: '/notes-app/Casestudy/images/bg.webp', url: '/projects/notesapp', category: 'UX Sprint' },
-  { id: 'beta', title: '3D Hand Tracking Interface using AI', description: 'Real-time hand gesture recognition with 3D visualization and interactive controls.', image: '/3d.webp', url: '/projects/web-3d', category: 'Bonus Project!' }
+  { id: 'beta', title: '3D Hand Tracking Game', description: 'Real-time hand gesture recognition with 3D visualization and interactive controls.', image: '/3d.webp', url: '/projects/web-3d', category: 'Bonus Project!' }
 ];
 
 // Project route mapping
@@ -29,6 +29,8 @@ const PROJECT_ROUTES = { alpha: '/projects/tuqqi-ai', gamma: '/projects/notesapp
 // Project Card Component
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
   const router = useRouter();
+  const [isHovered, setIsHovered] = useState(false);
+  
   const handleProjectClick = () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     const route = PROJECT_ROUTES[project.id as keyof typeof PROJECT_ROUTES];
@@ -36,7 +38,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
   };
 
   return (
-    <div
+    <motion.div
       className="w-full max-w-4xl h-[500px] rounded-[40px] overflow-hidden shadow-2xl bg-white/10 backdrop-blur-lg border border-white/20 will-change-transform cursor-pointer transition-all duration-300 hover:bg-white/20 hover:shadow-2xl group"
       onClick={handleProjectClick}
       role="button"
@@ -47,6 +49,12 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
           handleProjectClick();
         }
       }}
+      whileHover={{ 
+        scale: 1.02,
+        transition: { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }
+      }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
     >
       <div className="relative w-full h-full">
         <motion.img
@@ -60,33 +68,207 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/20 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/50 pointer-events-none" />
         
-        <div className="absolute inset-0 flex flex-col justify-end p-8 group-hover:backdrop-blur-xl transition-all duration-300">
-          <div className="space-y-4">
-            <span className="inline-block bg-white/25 backdrop-blur-lg text-white font-semibold text-xs px-4 py-2 rounded-full drop-shadow-lg border border-white/20 uppercase tracking-wider">
-              {project.category}
-            </span>
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-tight drop-shadow-xl tracking-tight">
-              {project.title}
-            </h3>
-            <p className="text-white/90 text-base leading-relaxed max-w-lg drop-shadow-lg font-medium">
-              {project.description}
-            </p>
-            <Button
-              variant="primary"
-              className="bg-white/25 hover:bg-white/35 backdrop-blur-sm border border-white/40 text-white font-bold hover:scale-105 hover:shadow-xl focus:ring-white/50 drop-shadow-lg px-6 py-3 text-sm transition-all duration-300 hover:border-white/60"
-              onClick={(e) => {
-                e.stopPropagation();
-                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-                const route = PROJECT_ROUTES[project.id as keyof typeof PROJECT_ROUTES];
-                route ? router.push(route) : window.open(project.url, '_blank', 'noopener,noreferrer');
+        {/* Ultra-minimal default state - only essential typography */}
+        <div className="absolute inset-0 flex flex-col justify-end p-8">
+          <div className="space-y-6">
+            {/* Animated title: moves from bottom to top on hover */}
+            <motion.div 
+              className="space-y-3 "
+              animate={{ 
+                y: isHovered ? -10 : 180,  // Move from bottom (button area) to top
+     
+              }}
+              transition={{ 
+                duration: 0.5, 
+                ease: [0.25, 0.46, 0.45, 0.94]
               }}
             >
-              View Project →
-            </Button>
+              <motion.h3 
+                className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight drop-shadow-2xl tracking-tight"
+                animate={{
+                  scale: isHovered ? 1 : 1  // Slightly smaller when at bottom
+                
+                }}
+                transition={{ 
+                  duration: 0.5, 
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }}
+              >
+                {project.title}
+              </motion.h3>
+            </motion.div>
+            
+            {/* Hover reveal: Category, description, and button with smooth animations */}
+            <motion.div 
+              className="space-y-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ 
+                opacity: isHovered ? 1 : 0, 
+                y: isHovered ? 0 : 20 
+              }}
+              transition={{ 
+                duration: 0.4, 
+                ease: [0.25, 0.46, 0.45, 0.94]
+              }}
+            >
+              <motion.span 
+                className={`inline-block backdrop-blur-md font-semibold text-xs px-4 py-2 rounded-full border uppercase tracking-wider transition-all duration-300 ${
+                  isHovered 
+                    ? 'bg-white/25 border-white/40 text-white' 
+                    : 'bg-white/15 border-white/20 text-white'
+                }`}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ 
+                  opacity: isHovered ? 1 : 0, 
+                  scale: isHovered ? 1 : 0.8,
+                  y: isHovered ? 0 : 5
+                }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+                whileHover={{ 
+                  scale: 1.05,
+                  transition: { duration: 0.2 }
+                }}
+              >
+                {project.category}
+              </motion.span>
+              
+              <motion.p 
+                className={`text-base leading-relaxed max-w-lg font-medium transition-all duration-300 ${
+                  isHovered 
+                    ? 'text-white' 
+                    : 'text-white/90'
+                }`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ 
+                  opacity: isHovered ? 1 : 0, 
+                  y: isHovered ? 0 : 20,
+                  scale: isHovered ? 1 : 0.95
+                }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+              >
+                {project.description}
+              </motion.p>
+              
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ 
+                  opacity: isHovered ? 1 : 0, 
+                  scale: isHovered ? 1 : 0.9,
+                  y: isHovered ? 0 : -80,  // Button appears where title was
+                  x: isHovered ? 0 : -20   // Subtle right scaling effect
+                }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+              >
+                <motion.div
+                  animate={{
+                    // Gentle animation - 1 second every 5 seconds
+                    x: isHovered ? [0, 0.9, -0.9, 0] : 0,
+                    y: isHovered ? [0, -0.3, 0.3, 0] : 0,
+                    scale: isHovered ? [1, 1.01, 0.99, 1] : 1
+                  }}
+                  transition={{
+                    duration: isHovered ? 1 : 0,
+                    repeat: isHovered ? Infinity : 0,
+                    repeatDelay: isHovered ? 4 : 0, // Wait 4 seconds between animations
+                    ease: 'easeInOut'
+                  }}
+                  whileHover={{ 
+                    scale: 1.03,
+                    transition: { duration: 0.2 }
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Button
+                    variant="primary"
+                    className={`relative overflow-hidden rounded-full font-bold px-8 py-4 text-sm transition-all duration-300 focus:ring-2 focus:ring-offset-2 ${
+                      isHovered 
+                        ? 'bg-gradient-to-r from-white to-white/90 text-black border border-white' 
+                        : 'bg-white/20 backdrop-blur-sm border border-white/30 text-white'
+                    }`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                      const route = PROJECT_ROUTES[project.id as keyof typeof PROJECT_ROUTES];
+                      route ? router.push(route) : window.open(project.url, '_blank', 'noopener,noreferrer');
+                    }}
+                  >
+                    {/* Gentle breathing background - 1 second every 5 seconds */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-white/10 to-white/5 rounded-full"
+                      animate={{ 
+                        scale: isHovered ? [1, 1.02, 1] : 1,
+                        opacity: isHovered ? [0.1, 0.2, 0.1] : 0.1
+                      }}
+                      transition={{ 
+                        duration: isHovered ? 1 : 0,
+                        repeat: isHovered ? Infinity : 0,
+                        repeatDelay: isHovered ? 4 : 0, // Wait 4 seconds between animations
+                        ease: 'easeInOut'
+                      }}
+                    />
+                    
+                    {/* Subtle secondary layer - 1 second every 5 seconds */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-br from-white/8 to-transparent rounded-full"
+                      animate={{ 
+                        scale: isHovered ? [1, 1.015, 1] : 1,
+                        opacity: isHovered ? [0.05, 0.1, 0.05] : 0.05
+                      }}
+                      transition={{ 
+                        duration: isHovered ? 1 : 0,
+                        repeat: isHovered ? Infinity : 0,
+                        repeatDelay: isHovered ? 4 : 0, // Wait 4 seconds between animations
+                        ease: 'easeInOut',
+                        delay: 0.2
+                      }}
+                    />
+                    
+                    {/* Shimmer sweep effect on hover */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                      initial={{ x: '-100%', opacity: 0 }}
+                      animate={{ 
+                        x: isHovered ? '100%' : '-100%',
+                        opacity: isHovered ? 1 : 0
+                      }}
+                      transition={{ duration: 0.8, ease: 'easeInOut' }}
+                    />
+                    
+                    {/* Button content with gentle text animation - 1 second every 5 seconds */}
+                    <motion.span 
+                      className="relative z-10 flex items-center gap-2"
+                      animate={{
+                        // Gentle text breathing - 1 second every 5 seconds
+                        scale: isHovered ? [1, 1.01, 1] : 1
+                      }}
+                      transition={{
+                        duration: isHovered ? 1 : 0,
+                        repeat: isHovered ? Infinity : 0,
+                        repeatDelay: isHovered ? 4 : 0, // Wait 4 seconds between animations
+                        ease: 'easeInOut'
+                      }}
+                    >
+                      View Project
+                    </motion.span>
+                  </Button>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+            
+            {/* Fixed metrics at bottom-right - minimal and grid-aligned */}
+            <div className="absolute bottom-8 right-8 text-white/60 text-xs font-medium tracking-wide">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+              >
+                {project.category}
+              </motion.div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

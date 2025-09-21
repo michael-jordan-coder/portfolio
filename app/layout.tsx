@@ -49,8 +49,8 @@ export const metadata: Metadata = {
     images: ['/twitter-card.jpg'],
   },
   icons: {
-    icon: '/favicon.svg',
-    apple: '/favicon.svg',
+    icon: '/favicon.jpg',
+    apple: '/favicon.jpg',
   },
 }
 
@@ -62,8 +62,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.jpg" type="image/jpeg" />
+        <link rel="apple-touch-icon" href="/favicon.jpg" />
         
         {/* Schema.org structured data - Person */}
         <script
