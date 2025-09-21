@@ -125,7 +125,7 @@ const HeroSection: React.FC = () => {
         {/* Main heading with improved typography */}
         <h1 
           ref={headingRef} 
-          className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl mb-6 sm:mb-8 text-center tracking-tight w-full px-4 max-w-8xl" 
+          className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl mb-6 sm:mb-8 text-center tracking-tight w-full px-4 max-w-9xl" 
           style={{ 
             wordSpacing: '-0.03em', 
             lineHeight: '-0.5em',
