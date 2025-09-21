@@ -131,18 +131,37 @@ const HeroSection: React.FC = () => {
         className="text-center text-white w-full px-4 max-w-7xl mx-auto relative z-30"
         style={{ y: transforms.y2, opacity: transforms.opacity, scale: transforms.scale }}
       >
-        {/* Main heading with improved typography */}
+        {/* Main heading with improved responsive typography */}
         <h1 
           ref={headingRef} 
-          className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-7xl mb-6 sm:mb-8 text-center tracking-tight w-full px-4 max-w-8xl" 
+          className="text-center tracking-tight w-full px-2 sm:px-4 md:px-6 lg:px-8 max-w-6xl mx-auto mb-4 sm:mb-6 md:mb-8" 
           style={{ 
-            wordSpacing: '-0.03em', 
-            lineHeight: '-0.5em',
+            wordSpacing: '-0.02em', 
+            lineHeight: '0.75',
             textShadow: '0 0 30px rgba(255,255,255,0.1)'
           }}
         >
-          <div className="font-bold mb-1 sm:mb-3 md:mb-4 leading-tight max-w-9xl mx-auto whitespace-nowrap">Every problem has a solution.</div>
-          <div className="font-normal text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-gray-300 leading-tight">I'm Daniel, and this is how I approach this world.</div>
+          {/* Main title - optimized for all screen sizes */}
+          <div 
+            className="font-bold mb-2 sm:mb-3 md:mb-4 leading-none"
+            style={{
+              fontSize: 'clamp(2rem, 8vw, 6rem)',
+              lineHeight: '0.8'
+            }}
+          >
+            Solving problems with Flawless UX.
+          </div>
+          
+          {/* Subtitle - responsive scaling */}
+          <div 
+            className="font-normal text-gray-300 leading-tight max-w-2xl mx-auto"
+            style={{
+              fontSize: 'clamp(1rem, 3vw, 2rem)',
+              lineHeight: '1.2'
+            }}
+          >
+            I'm Daniel, a product designer from Tel Aviv.
+          </div>
         </h1>
         
         {/* Accent underline */}
