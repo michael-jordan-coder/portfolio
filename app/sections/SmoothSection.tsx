@@ -70,12 +70,12 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
         
         {/* Ultra-minimal default state - only essential typography */}
         <div className="absolute inset-0 flex flex-col justify-end p-8">
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Animated title: moves from bottom to top on hover */}
             <motion.div 
-              className="space-y-3 "
+              className="space-y-2"
               animate={{ 
-                y: isHovered ? -10 : 180,  // Move from bottom (button area) to top
+                y: isHovered ? -10 : 120,  // Move from bottom (button area) to top - adjusted position
      
               }}
               transition={{ 
@@ -98,7 +98,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
               </motion.h3>
             </motion.div>
             
-            {/* Hover reveal: Category, description, and button with smooth animations */}
+            {/* Hover reveal: Description and button with smooth animations */}
             <motion.div 
               className="space-y-4"
               initial={{ opacity: 0, y: 20 }}
@@ -111,27 +111,6 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                 ease: [0.25, 0.46, 0.45, 0.94]
               }}
             >
-              <motion.span 
-                className={`inline-block backdrop-blur-md font-semibold text-xs px-4 py-2 rounded-full border uppercase tracking-wider transition-all duration-300 ${
-                  isHovered 
-                    ? 'bg-white/25 border-white/40 text-white' 
-                    : 'bg-white/15 border-white/20 text-white'
-                }`}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ 
-                  opacity: isHovered ? 1 : 0, 
-                  scale: isHovered ? 1 : 0.8,
-                  y: isHovered ? 0 : 5
-                }}
-                transition={{ duration: 0.3, delay: 0.1 }}
-                whileHover={{ 
-                  scale: 1.05,
-                  transition: { duration: 0.2 }
-                }}
-              >
-                {project.category}
-              </motion.span>
-              
               <motion.p 
                 className={`text-base leading-relaxed max-w-lg font-medium transition-all duration-300 ${
                   isHovered 
