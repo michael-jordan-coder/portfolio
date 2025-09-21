@@ -20,7 +20,7 @@ interface Project {
 const PROJECTS: Project[] = [
   { id: 'alpha', title: 'Adding AI to Tuqqi.com', description: 'Adding intelligence to Tuqqi, while keeping the design simple and familiar', image: '/tuqqi/tuqqi-car.png', url: '/projects/tuqqi-ai', category: 'Web App - B2B' },
   { id: 'gamma', title: 'Reducing user action for better performance', description: 'A case study on optimizing the note creation flow in Inbox app by reducing user actions from 8 seconds to 4 seconds through strategic UX improvements.', image: '/notes-app/Casestudy/images/bg.webp', url: '/projects/notesapp', category: 'UX Sprint' },
-  { id: 'beta', title: '3D Hand Tracking Interface using AI', description: 'Real-time hand gesture recognition with 3D visualization and interactive controls.', image: '/3d.webp', url: '/projects/web-3d', category: 'Vibe coding experience' }
+  { id: 'beta', title: '3D Hand Tracking Interface using AI', description: 'Real-time hand gesture recognition with 3D visualization and interactive controls.', image: '/3d.webp', url: '/projects/web-3d', category: 'Bonus Project!' }
 ];
 
 // Project route mapping
@@ -98,7 +98,7 @@ const AnimatedCard: React.FC<{ project: Project; index: number }> = ({ project }
   const animations = {
     y: useTransform(centerProgress, [0, 1], [50, 0]),
     opacity: useTransform(centerProgress, [0, 1], [0.3, 1]),
-    scale: useTransform(centerProgress, [0, 1], [0.8, 1]),
+    scale: useTransform(centerProgress, [0, 1], [0.6, 1.2]),
     zIndex: useTransform(centerProgress, [0, 1], [1, 10]),
     filter: useTransform(centerProgress, [0, 1], ['blur(3px)', 'blur(0px)'])
   };
