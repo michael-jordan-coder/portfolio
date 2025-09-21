@@ -125,14 +125,14 @@ const HeroSection: React.FC = () => {
         {/* Main heading with improved typography */}
         <h1 
           ref={headingRef} 
-          className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl mb-6 sm:mb-8 text-center tracking-tight w-full px-4 max-w-8xl" 
+          className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl mb-6 sm:mb-8 text-center tracking-tight w-full px-4 max-w-9xl" 
           style={{ 
             wordSpacing: '-0.04em', 
             lineHeight: '0.75',
             textShadow: '0 0 30px rgba(255,255,255,0.1)'
           }}
         >
-          <div className="font-bold mb-2 sm:mb-3 md:mb-4" style={{ lineHeight: '0.9' }}>Every problem has a solution. You just need to ask the right questions.</div>
+          <div className="font-bold mb-2 sm:mb-3 md:mb-4" style={{ lineHeight: '0.8' }}>Every problem has a solution. You just need to ask the right questions.</div>
           <div className="font-normal text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-gray-300 leading-tight">I'm Daniel, and this is how I approach UX/UI.</div>
         </h1>
         
