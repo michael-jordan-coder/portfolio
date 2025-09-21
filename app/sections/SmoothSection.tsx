@@ -98,7 +98,7 @@ const AnimatedCard: React.FC<{ project: Project; index: number }> = ({ project }
   const animations = {
     y: useTransform(centerProgress, [0, 1], [50, 0]),
     opacity: useTransform(centerProgress, [0, 1], [0.3, 1]),
-    scale: useTransform(centerProgress, [0, 1], [0.6, 1.2]),
+    scale: useTransform(centerProgress, [0, 1], [0.3, 1.1]),
     zIndex: useTransform(centerProgress, [0, 1], [1, 10]),
     filter: useTransform(centerProgress, [0, 1], ['blur(3px)', 'blur(0px)'])
   };
