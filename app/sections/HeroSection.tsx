@@ -127,7 +127,7 @@ const HeroSection: React.FC = () => {
           ref={headingRef} 
           className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl mb-6 sm:mb-8 text-center tracking-tight w-full px-4 max-w-8xl" 
           style={{ 
-            wordSpacing: '-0.03em', 
+            wordSpacing: '-0.04em', 
             lineHeight: '0.75',
             textShadow: '0 0 30px rgba(255,255,255,0.1)'
           }}
