@@ -28,6 +28,41 @@ const PROJECT_ROUTES = { alpha: '/projects/tuqqi-ai', gamma: '/projects/notesapp
 
 // Project Card Component
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
+  // Define button colors based on project ID
+  const getButtonColors = (projectId: string) => {
+    switch (projectId) {
+      case 'alpha':
+        return {
+          hover: 'bg-gradient-to-r from-purple-500 to-purple-600',
+          shimmer: 'via-purple-400',
+          background: 'from-purple-500/10 to-purple-600/5',
+          secondary: 'from-purple-400/8 to-transparent'
+        };
+      case 'gamma':
+        return {
+          hover: 'bg-gradient-to-r from-orange-500 to-orange-600',
+          shimmer: 'via-orange-400',
+          background: 'from-orange-500/10 to-orange-600/5',
+          secondary: 'from-orange-400/8 to-transparent'
+        };
+      case 'beta':
+        return {
+          hover: 'bg-gradient-to-r from-blue-500 to-blue-600',
+          shimmer: 'via-blue-400',
+          background: 'from-blue-500/10 to-blue-600/5',
+          secondary: 'from-blue-400/8 to-transparent'
+        };
+      default:
+        return {
+          hover: 'bg-gradient-to-r from-white to-white/90',
+          shimmer: 'via-white/30',
+          background: 'from-white/10 to-white/5',
+          secondary: 'from-white/8 to-transparent'
+        };
+    }
+  };
+
+  const buttonColors = getButtonColors(project.id);
   const router = useRouter();
   const [isHovered, setIsHovered] = useState(false);
   
@@ -51,7 +86,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
       }}
       whileHover={{ 
         scale: 1.02,
-        transition: { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }
+        transition: { duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }
       }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
@@ -63,7 +98,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
           className="w-full h-full object-cover will-change-transform"
           initial={{ scale: 1, y: 0, boxShadow: '0 0 0 rgba(0,0,0,0)' }}
           whileHover={{ scale: 1.08, y: -10, boxShadow: '0 8px 32px rgba(80,90,228,0.15)' }}
-          transition={{ type: 'spring', stiffness: 200, damping: 18 }}
+          transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/20 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/50 pointer-events-none" />
@@ -107,7 +142,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                 y: isHovered ? 0 : 20 
               }}
               transition={{ 
-                duration: 0.4, 
+                duration: 0.2, 
                 ease: [0.25, 0.46, 0.45, 0.94]
               }}
             >
@@ -123,7 +158,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                   y: isHovered ? 0 : 20,
                   scale: isHovered ? 1 : 0.95
                 }}
-                transition={{ duration: 0.4, delay: 0.2 }}
+                transition={{ duration: 0.2, delay: 0.1 }}
               >
                 {project.description}
               </motion.p>
@@ -136,7 +171,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                   y: isHovered ? 0 : -80,  // Button appears where title was
                   x: isHovered ? 0 : -20   // Subtle right scaling effect
                 }}
-                transition={{ duration: 0.4, delay: 0.3 }}
+                transition={{ duration: 0.2, delay: 0.00 }}
               >
                 <motion.div
                   animate={{
@@ -161,7 +196,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                     variant="primary"
                     className={`relative overflow-hidden rounded-full font-bold px-8 py-4 text-sm transition-all duration-300 focus:ring-2 focus:ring-offset-2 ${
                       isHovered 
-                        ? 'bg-gradient-to-r from-white to-white/90 text-black border border-white' 
+                        ? `${buttonColors.hover} text-white border border-white/20` 
                         : 'bg-white/20 backdrop-blur-sm border border-white/30 text-white'
                     }`}
                     onClick={(e) => {
@@ -173,7 +208,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                   >
                     {/* Gentle breathing background - 1 second every 5 seconds */}
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-white/10 to-white/5 rounded-full"
+                      className={`absolute inset-0 bg-gradient-to-r ${buttonColors.background} rounded-full`}
                       animate={{ 
                         scale: isHovered ? [1, 1.02, 1] : 1,
                         opacity: isHovered ? [0.1, 0.2, 0.1] : 0.1
@@ -188,7 +223,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                     
                     {/* Subtle secondary layer - 1 second every 5 seconds */}
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-br from-white/8 to-transparent rounded-full"
+                      className={`absolute inset-0 bg-gradient-to-br ${buttonColors.secondary} rounded-full`}
                       animate={{ 
                         scale: isHovered ? [1, 1.015, 1] : 1,
                         opacity: isHovered ? [0.05, 0.1, 0.05] : 0.05
@@ -204,7 +239,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                     
                     {/* Shimmer sweep effect on hover */}
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                      className={`absolute inset-0 bg-gradient-to-r from-transparent ${buttonColors.shimmer} to-transparent`}
                       initial={{ x: '-100%', opacity: 0 }}
                       animate={{ 
                         x: isHovered ? '100%' : '-100%',
@@ -239,7 +274,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.8 }}
+                transition={{ duration: 0.6, delay: 0.0}}
               >
                 {project.category}
               </motion.div>
