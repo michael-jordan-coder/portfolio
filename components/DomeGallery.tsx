@@ -491,10 +491,15 @@ export default function DomeGallery({
       `;
 
       const originalImg = overlay.querySelector('img');
+      const originalText = overlay.querySelector('div');
       if (originalImg) {
         const img = originalImg.cloneNode() as HTMLImageElement;
         img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
         animatingOverlay.appendChild(img);
+      }
+      if (originalText) {
+        const textOverlay = originalText.cloneNode(true) as HTMLDivElement;
+        animatingOverlay.appendChild(textOverlay);
       }
 
       overlay.remove();
@@ -605,11 +610,33 @@ export default function DomeGallery({
     overlay.style.cssText = `position:absolute; left:${frameR.left - mainR.left}px; top:${frameR.top - mainR.top}px; width:${frameR.width}px; height:${frameR.height}px; opacity:0; z-index:30; will-change:transform,opacity; transform-origin:top left; transition:transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease; border-radius:${openedImageBorderRadius}; overflow:hidden;`;
     const rawSrc = parent.dataset.src || (el.querySelector('img') as HTMLImageElement)?.src || '';
     const rawAlt = parent.dataset.alt || (el.querySelector('img') as HTMLImageElement)?.alt || '';
+    
+    // Create image
     const img = document.createElement('img');
     img.src = rawSrc;
     img.alt = rawAlt;
     img.style.cssText = `width:100%; height:100%; object-fit:cover; filter:${grayscale ? 'grayscale(1)' : 'none'};`;
     overlay.appendChild(img);
+    
+    // Create text overlay
+    if (rawAlt) {
+      const textOverlay = document.createElement('div');
+      textOverlay.style.cssText = `
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0,0,0,0.8));
+        padding: 20px 16px 16px;
+        color: white;
+        font-size: 14px;
+        line-height: 1.4;
+        text-align: center;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      `;
+      textOverlay.textContent = rawAlt;
+      overlay.appendChild(textOverlay);
+    }
     viewerRef.current!.appendChild(overlay);
     const tx0 = tileR.left - frameR.left;
     const ty0 = tileR.top - frameR.top;

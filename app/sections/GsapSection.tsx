@@ -27,15 +27,15 @@ export default function GsapSection() {
         <div className="h-full rounded-2xl overflow-hidden bg-black backdrop-blur-sm">
           <DomeGallery 
             images={[
-              '/imagetrail/claude.svg',
-              '/imagetrail/cursor.svg',
-              '/imagetrail/figma.svg',
-              '/imagetrail/gemini.svg',
-              '/imagetrail/gpt.svg',
-              '/imagetrail/gsap.svg',
-              '/imagetrail/next.svg',
-              '/imagetrail/swift.svg',
-              '/imagetrail/tailwind.svg'
+              { src: '/imagetrail/claude.svg', alt: 'Claude AI - Advanced AI assistant by Anthropic for coding and creative tasks' },
+              { src: '/imagetrail/cursor.svg', alt: 'Cursor - AI-powered code editor with intelligent autocomplete and chat' },
+              { src: '/imagetrail/figma.svg', alt: 'Figma - Collaborative design tool for UI/UX and prototyping' },
+              { src: '/imagetrail/gemini.svg', alt: 'Google Gemini - Multimodal AI model for text and image generation' },
+              { src: '/imagetrail/gpt.svg', alt: 'ChatGPT - OpenAI conversational AI for various creative and analytical tasks' },
+              { src: '/imagetrail/gsap.svg', alt: 'GSAP - High-performance JavaScript animation library for web' },
+              { src: '/imagetrail/next.svg', alt: 'Next.js - React framework for production with SSR and static generation' },
+              { src: '/imagetrail/swift.svg', alt: 'Swift - Apple programming language for iOS and macOS development' },
+              { src: '/imagetrail/tailwind.svg', alt: 'Tailwind CSS - Utility-first CSS framework for rapid UI development' }
             ]}
             fit={0.6}
             segments={30}
