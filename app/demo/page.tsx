@@ -2,6 +2,7 @@
 
 import WobbleCardDemo from "@/components/ui/wobble-card-demo";
 import { CodeBlock } from "@/components/CodeBlock";
+import DomeGallery from "@/components/DomeGallery";
 import { useState } from "react";
 
 export default function DemoPage() {
@@ -82,6 +83,43 @@ export const MyComponent = () => {
         
         <WobbleCardDemo />
         
+        {/* DomeGallery Demo Section */}
+        <div className="mt-16">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Dome Gallery
+            </h2>
+            <p className="text-lg text-neutral-300 max-w-2xl mx-auto mb-8">
+              Interactive 3D sphere gallery with drag controls and smooth image transitions. 
+              Drag to rotate the sphere and click on images to view them in full size.
+            </p>
+          </div>
+          
+          <div className="max-w-6xl mx-auto">
+            <div className="h-[600px] rounded-2xl overflow-hidden bg-black backdrop-blur-sm border border-white/10">
+              <DomeGallery 
+                images={[
+                  '/imagetrail/claude.svg',
+                  '/imagetrail/cursor.svg',
+                  '/imagetrail/figma.svg',
+                  '/imagetrail/gemini.svg',
+                  '/imagetrail/gpt.svg',
+                  '/imagetrail/gsap.svg',
+                  '/imagetrail/next.svg',
+                  '/imagetrail/tailwind.svg'
+                ]}
+                fit={0.6}
+                segments={30}
+                maxVerticalRotationDeg={8}
+                dragSensitivity={25}
+                grayscale={false}
+                imageBorderRadius="20px"
+                openedImageBorderRadius="30px"
+              />
+            </div>
+          </div>
+        </div>
+        
         {/* CodeBlock Demo Section */}
         <div className="mt-16">
           <div className="text-center mb-8">
@@ -105,26 +143,34 @@ export const MyComponent = () => {
         </div>
         
         <div className="mt-16 text-center">
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 max-w-4xl mx-auto">
-            <h2 className="text-2xl font-semibold text-white mb-4">
-              Features
+          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 max-w-6xl mx-auto">
+            <h2 className="text-2xl font-semibold text-white mb-6">
+              Demo Features
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-neutral-300">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-neutral-300">
               <div>
-                <h3 className="font-semibold text-white mb-2">3D Transform</h3>
+                <h3 className="font-semibold text-white mb-2">3D Wobble Cards</h3>
                 <p>Smooth 3D transforms on hover with mouse tracking</p>
               </div>
               <div>
-                <h3 className="font-semibold text-white mb-2">Responsive</h3>
-                <p>Fully responsive design that works on all devices</p>
+                <h3 className="font-semibold text-white mb-2">Dome Gallery</h3>
+                <p>Interactive 3D sphere with drag controls and image zoom</p>
               </div>
               <div>
-                <h3 className="font-semibold text-white mb-2">Performance</h3>
-                <p>Optimized animations using Framer Motion</p>
+                <h3 className="font-semibold text-white mb-2">CodeBlock Editor</h3>
+                <p>Live code editing with syntax highlighting and copy functionality</p>
               </div>
               <div>
-                <h3 className="font-semibold text-white mb-2">Live Editing</h3>
-                <p>Edit code directly with syntax highlighting and copy functionality</p>
+                <h3 className="font-semibold text-white mb-2">Responsive Design</h3>
+                <p>Fully responsive components that work on all devices</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-white mb-2">Performance Optimized</h3>
+                <p>Optimized animations using Framer Motion and modern web APIs</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-white mb-2">Interactive Controls</h3>
+                <p>Touch, mouse, and keyboard support for all interactions</p>
               </div>
             </div>
           </div>

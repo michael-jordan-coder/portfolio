@@ -1,56 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import LivingSquaresGrid from '../../components/LivingSquaresGrid';
-import CustomCursor from '../../components/CustomCursor';
-import { SectionWrapper, NeonBlob, TECH_STACK_ITEMS } from './_shared';
-
-// Condensed tool descriptions
-const toolDescriptions = {
-  '/imagetrail/gemini.svg': { name: 'Gemini AI', description: 'Creative partner for design ideation and UX exploration.' },
-  '/imagetrail/cursor.svg': { name: 'Cursor', description: 'Design-to-code bridge for pixel-perfect interfaces.' },
-  '/imagetrail/figma.svg': { name: 'Figma', description: 'Heart of my design process for intuitive, accessible UIs.' },
-  '/imagetrail/tailwind.svg': { name: 'Tailwind CSS', description: 'Design system enabler for rapid prototyping.' },
-  '/imagetrail/gsap.svg': { name: 'GSAP', description: 'Magic wand for polished micro-interactions and animations.' },
-  '/imagetrail/claude.svg': { name: 'Claude AI', description: 'UX research partner for user psychology insights.' },
-  '/imagetrail/next.svg': { name: 'Next.js', description: 'Performance foundation for smooth interfaces.' },
-  '/imagetrail/gpt.svg': { name: 'ChatGPT', description: 'Design inspiration and accessibility guidelines assistant.' }
-};
+import DomeGallery from '../../components/DomeGallery';
+import { SectionWrapper, NeonBlob } from './_shared';
 
 export default function GsapSection() {
-  const [cursorState, setCursorState] = useState({
-    isVisible: false,
-    toolName: '',
-    description: '',
-    position: { x: 0, y: 0 }
-  });
-
-  // Update cursor position
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setCursorState(prev => ({ ...prev, position: { x: e.clientX, y: e.clientY } }));
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  // Handle tool hover/leave
-  const handleToolHover = (toolPath: string) => {
-    const tool = toolDescriptions[toolPath as keyof typeof toolDescriptions];
-    if (tool) {
-      setCursorState(prev => ({ ...prev, isVisible: true, toolName: tool.name, description: tool.description }));
-      if (typeof document !== 'undefined') {
-        document.body.classList.add('tech-stack-cursor');
-      }
-    }
-  };
-
-  const handleToolLeave = () => {
-    setCursorState(prev => ({ ...prev, isVisible: false }));
-    if (typeof document !== 'undefined') {
-      document.body.classList.remove('tech-stack-cursor');
-    }
-  };
 
   return (
     <SectionWrapper id="tech-stack" className="py-60">
@@ -70,21 +23,30 @@ export default function GsapSection() {
         </p>
       </div>
 
-      <div className="relative w-full h-[500px] max-w-6xl mx-auto px-4">
-        <LivingSquaresGrid
-          items={TECH_STACK_ITEMS}
-          gridSize={3}
-          onToolHover={handleToolHover}
-          onToolLeave={handleToolLeave}
-        />
+      <div className="relative w-full h-[600px] max-w-6xl mx-auto px-4">
+        <div className="h-full rounded-2xl overflow-hidden bg-black backdrop-blur-sm">
+          <DomeGallery 
+            images={[
+              '/imagetrail/claude.svg',
+              '/imagetrail/cursor.svg',
+              '/imagetrail/figma.svg',
+              '/imagetrail/gemini.svg',
+              '/imagetrail/gpt.svg',
+              '/imagetrail/gsap.svg',
+              '/imagetrail/next.svg',
+              '/imagetrail/tailwind.svg'
+            ]}
+            fit={0.6}
+            segments={30}
+            maxVerticalRotationDeg={8}
+            dragSensitivity={25}
+            grayscale={false}
+            imageBorderRadius="20px"
+            openedImageBorderRadius="30px"
+          />
+        </div>
       </div>
 
-      <CustomCursor
-        isVisible={cursorState.isVisible}
-        toolName={cursorState.toolName}
-        description={cursorState.description}
-        position={cursorState.position}
-      />
     </SectionWrapper>
   )
 }
