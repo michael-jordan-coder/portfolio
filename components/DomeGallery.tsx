@@ -904,7 +904,7 @@ export default function DomeGallery({
               className="scrim absolute inset-0 z-10 pointer-events-none opacity-0 transition-opacity duration-500"
               style={{
                 background: 'rgba(0, 0, 0, 0.4)',
-                backdropFilter: 'blur(3px)'
+                backdropFilter: 'blur(5px)'
               }}
             />
             <div

@@ -19,7 +19,7 @@ export default function GsapSection() {
         <h2 className="text-6xl font-bold mb-6">My Design & UX Toolkit</h2>
         <p className="text-xl text-gray-300 max-w-2xl mx-auto">
           Discover the tools I use to craft exceptional user experiences. 
-          Hover over each tool to learn how it helps create intuitive, accessible designs.
+          Click on each tool to learn how it helps create intuitive, accessible designs.
         </p>
       </div>
 
