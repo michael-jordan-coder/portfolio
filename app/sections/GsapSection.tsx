@@ -33,7 +33,6 @@ export default function GsapSection() {
               '/imagetrail/gemini.svg',
               '/imagetrail/gpt.svg',
               '/imagetrail/gsap.svg',
-              '/imagetrail/linkedin.png',
               '/imagetrail/next.svg',
               '/imagetrail/swift.svg',
               '/imagetrail/tailwind.svg'
