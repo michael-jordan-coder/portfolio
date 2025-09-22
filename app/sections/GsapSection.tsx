@@ -44,6 +44,8 @@ export default function GsapSection() {
             grayscale={false}
             imageBorderRadius="20px"
             openedImageBorderRadius="30px"
+            openedImageWidth="900px"
+            openedImageHeight="500px"
           />
         </div>
       </div>

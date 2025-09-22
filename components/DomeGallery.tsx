@@ -151,8 +151,8 @@ export default function DomeGallery({
   enlargeTransitionMs = DEFAULTS.enlargeTransitionMs,
   segments = DEFAULTS.segments,
   dragDampening = 2,
-  openedImageWidth = '400px',
-  openedImageHeight = '400px',
+  openedImageWidth = '900px',
+  openedImageHeight = '500px',
   imageBorderRadius = '30px',
   openedImageBorderRadius = '30px',
   grayscale = true
@@ -490,16 +490,22 @@ export default function DomeGallery({
         filter: ${grayscale ? 'grayscale(1)' : 'none'};
       `;
 
-      const originalImg = overlay.querySelector('img');
-      const originalText = overlay.querySelector('div');
-      if (originalImg) {
-        const img = originalImg.cloneNode() as HTMLImageElement;
-        img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
-        animatingOverlay.appendChild(img);
-      }
-      if (originalText) {
-        const textOverlay = originalText.cloneNode(true) as HTMLDivElement;
-        animatingOverlay.appendChild(textOverlay);
+      const originalImageContainer = overlay.querySelector('div:last-child');
+      if (originalImageContainer) {
+        const img = originalImageContainer.querySelector('img');
+        if (img) {
+          const clonedImg = img.cloneNode() as HTMLImageElement;
+          clonedImg.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
+          animatingOverlay.appendChild(clonedImg);
+        }
+      } else {
+        // Fallback for simple image layout
+        const originalImg = overlay.querySelector('img');
+        if (originalImg) {
+          const img = originalImg.cloneNode() as HTMLImageElement;
+          img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
+          animatingOverlay.appendChild(img);
+        }
       }
 
       overlay.remove();
@@ -618,24 +624,45 @@ export default function DomeGallery({
     img.style.cssText = `width:100%; height:100%; object-fit:cover; filter:${grayscale ? 'grayscale(1)' : 'none'};`;
     overlay.appendChild(img);
     
-    // Create text overlay
+    // Create text description to the left of image
     if (rawAlt) {
-      const textOverlay = document.createElement('div');
-      textOverlay.style.cssText = `
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(transparent, rgba(0,0,0,0.8));
-        padding: 20px 16px 16px;
-        color: white;
-        font-size: 14px;
-        line-height: 1.4;
-        text-align: center;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      // Modify overlay to be a flex container
+      overlay.style.display = 'flex';
+      overlay.style.alignItems = 'center';
+      overlay.style.gap = '40px';
+      overlay.style.padding = '40px';
+      
+      // Create image container
+      const imageContainer = document.createElement('div');
+      imageContainer.style.cssText = `
+        flex: 0 0 auto;
+        width: 350px;
+        height: 350px;
+        border-radius: ${openedImageBorderRadius};
+        overflow: hidden;
       `;
-      textOverlay.textContent = rawAlt;
-      overlay.appendChild(textOverlay);
+      
+      // Move image to container
+      overlay.removeChild(img);
+      img.style.cssText = `width: 100%; height: 100%; object-fit: cover; filter: ${grayscale ? 'grayscale(1)' : 'none'};`;
+      imageContainer.appendChild(img);
+      
+      // Create text container
+      const textContainer = document.createElement('div');
+      textContainer.style.cssText = `
+        flex: 1;
+        color: white;
+        font-size: 24px;
+        line-height: 1.5;
+        font-weight: 500;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 500px;
+      `;
+      textContainer.textContent = rawAlt;
+      
+      // Add both containers to overlay
+      overlay.appendChild(textContainer);
+      overlay.appendChild(imageContainer);
     }
     viewerRef.current!.appendChild(overlay);
     const tx0 = tileR.left - frameR.left;
