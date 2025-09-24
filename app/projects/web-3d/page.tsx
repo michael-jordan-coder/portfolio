@@ -226,7 +226,6 @@ export default function HandTrackingPage() {
                   playsInline
                   loop
                 >
-                  <source src="/3d.mov" type="video/quicktime" />
                   <source src="/3dvideo.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
