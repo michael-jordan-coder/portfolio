@@ -5,6 +5,12 @@ import { useState, useEffect } from 'react';
 export default function Basic12CaseStudy() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isPlaying1, setIsPlaying1] = useState(true);
+  const [isPlaying2, setIsPlaying2] = useState(true);
+  const [isPlaying3, setIsPlaying3] = useState(true);
+  const [showControls1, setShowControls1] = useState(true);
+  const [showControls2, setShowControls2] = useState(true);
+  const [showControls3, setShowControls3] = useState(true);
 
   useEffect(() => {
     const updateScrollProgress = () => {
@@ -131,10 +137,11 @@ export default function Basic12CaseStudy() {
               The Idea
             </h2>
             <div className="max-w-4xl">
-              <p className="text-2xl leading-relaxed mb-8" style={{color: '#8E8E93'}}>
-                What if notes could organize themselves? SwiftNoteClassifier eliminates the friction between thought capture and organization.
+              <p className="text-3xl leading-relaxed mb-2 font-semibold" style={{color: '#ffffff'}}>
+                What if notes could organize themselves?
               </p>
-              <p className="text-2xl leading-relaxed mb-8" style={{color: '#8E8E93'}}>
+              <p className="text-xl leading-relaxed mb-8" style={{color: '#8E8E93'}}>
+              SwiftNoteClassifier eliminates the friction between thought capture and organization.
                 Users simply type their thoughts. AI instantly categorizes them into 11 distinct categories - from actionable tasks to personal reflections.
               </p>
             </div>
@@ -146,39 +153,42 @@ export default function Basic12CaseStudy() {
       <section id="engine" className="py-24" style={{backgroundColor: '#000000'}}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
-            <h2 className="text-5xl md:text-6xl font-bold mb-12" style={{color: '#FFFFFF'}}>
-              The Engine
-            </h2>
-            <div className="max-w-4xl">
-              <p className="text-2xl leading-relaxed mb-12" style={{color: '#8E8E93'}}>
-                A dual-layer system combining fast heuristics with intelligent language models.
-              </p>
+            <div className="max-w-6xl">
+              <div className="grid lg:grid-cols-2 gap-16 items-start">
+                {/* Left Column - Header and Text Content */}
+                <div className="space-y-12">
+                  <div>
+                    <h2 className="text-5xl md:text-6xl font-bold mb-8" style={{color: '#FFFFFF'}}>
+                      The Engine
+                    </h2>
+                    <p className="text-2xl leading-relaxed mb-8" style={{color: '#8E8E93'}}>
+                      A dual-layer system combining fast heuristics with intelligent language models.
+                    </p>
+                  </div>
 
-              {/* Flowchart */}
-              <div className="my-12 flex justify-center">
-                <div className="w-full max-w-5xl">
+                  <div>
+                    <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Building the engine</h3>
+                    <p className="text-xl leading-relaxed" style={{color: '#8E8E93'}}>
+                      Lightning-fast pattern recognition for clear-cut cases. Instantly identifies code snippets, shopping lists, reminders, and contact information with 95% accuracy.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Test the output</h3>
+                    <p className="text-xl leading-relaxed" style={{color: '#8E8E93'}}>
+                      Local AI handles ambiguous cases with nuanced understanding. Distinguishes between personal reflections and meeting notes while maintaining complete privacy.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Right Column - Flowchart */}
+                <div className="flex justify-center items-center h-full">
                   <img 
-                    src="/basic-assets/diagram.svg" 
+                    src="/basic-assets/engine.svg" 
                     alt="Classification Engine Workflow" 
-                    className="w-full h-auto"
+                    className="w-full h-auto max-h-[700px]"
                     style={{filter: 'invert(1)'}}
                   />
-                </div>
-              </div>
-
-              <div className="space-y-8">
-                <div>
-                  <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Layer 1: Heuristic Classification</h3>
-                  <p className="text-xl leading-relaxed mb-6" style={{color: '#8E8E93'}}>
-                    Lightning-fast pattern recognition for clear-cut cases. Instantly identifies code snippets, shopping lists, reminders, and contact information with 95% accuracy.
-                  </p>
-              </div>
-
-                <div>
-                  <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Layer 2: LLM Classification</h3>
-                  <p className="text-xl leading-relaxed mb-6" style={{color: '#8E8E93'}}>
-                    Local AI handles ambiguous cases with nuanced understanding. Distinguishes between personal reflections and meeting notes while maintaining complete privacy.
-                  </p>
                 </div>
               </div>
             </div>
@@ -187,34 +197,223 @@ export default function Basic12CaseStudy() {
       </section>
 
       {/* User Flows Section */}
-      <section id="flows" className="py-24" style={{backgroundColor: '#1C1C1E'}}>
+      <section id="flows" className="py-24" style={{backgroundColor: '#000000'}}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
             <h2 className="text-5xl md:text-6xl font-bold mb-12" style={{color: '#FFFFFF'}}>
               User Flows
             </h2>
-            <div className="max-w-4xl">
+            <div className="max-w-full">
               <div className="space-y-12">
-                  <div>
-                  <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Note Creation</h3>
-                  <p className="text-xl leading-relaxed mb-6" style={{color: '#8E8E93'}}>
-                    Tap plus, type thoughts, done. AI categorizes instantly while you focus on capturing ideas.
-                  </p>
-              </div>
+                  <div className="grid xl:grid-cols-2 gap-44 items-center border-b border-semantic-border-secondary pb-16">
+                    {/* Left Column - Text Content */}
+                    <div>
+                      <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Note Creation</h3>
+                      <p className="text-xl leading-relaxed" style={{color: '#8E8E93'}}>
+                        Tap plus, type thoughts, done. AI categorizes instantly while you focus on capturing ideas.
+                      </p>
+                    </div>
+                    
+                    {/* Right Column - Video */}
+                    <div className="flex justify-center">
+                      <div 
+                        className="relative w-full max-w-xs"
+                        onMouseEnter={() => {
+                          setShowControls1(true);
+                        }}
+                        onMouseLeave={() => {
+                          setTimeout(() => {
+                            setShowControls1(false);
+                          }, 2000);
+                        }}
+                      >
+                        <video 
+                          ref={(video) => {
+                            if (video) {
+                              video.addEventListener('play', () => setIsPlaying1(true));
+                              video.addEventListener('pause', () => setIsPlaying1(false));
+                            }
+                          }}
+                          src="/basic-assets/flow-create.mp4" 
+                          autoPlay 
+                          loop 
+                          muted 
+                          playsInline
+                          className="w-full rounded-2xl shadow-lg"
+                        >
+                          Your browser does not support the video tag.
+                        </video>
+                        {/* Play/Pause Button Overlay */}
+                        <div 
+                          className={`absolute inset-0 flex items-center justify-center cursor-pointer transition-opacity duration-300 ${
+                            showControls1 ? 'opacity-100' : 'opacity-0'
+                          }`}
+                          onClick={(e) => {
+                            const video = e.currentTarget.previousElementSibling as HTMLVideoElement;
+                            if (video) {
+                              if (isPlaying1) {
+                                video.pause();
+                              } else {
+                                video.play();
+                              }
+                            }
+                          }}
+                        >
+                          <div className="w-16 h-16 rounded-full bg-black bg-opacity-50 flex items-center justify-center hover:bg-opacity-70 transition-all">
+                            {isPlaying1 ? (
+                              <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                              </svg>
+                            ) : (
+                              <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                              </svg>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-                  <div>
-                  <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Discovery</h3>
-                  <p className="text-xl leading-relaxed mb-6" style={{color: '#8E8E93'}}>
-                    Color-coded badges and instant filtering make finding the right note effortless.
-                  </p>
-              </div>
+                  <div className="grid xl:grid-cols-2 gap-44 items-center border-b border-semantic-border-secondary pb-16">
+                    {/* Left Column - Text Content */}
+                    <div>
+                      <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Discovery</h3>
+                      <p className="text-xl leading-relaxed" style={{color: '#8E8E93'}}>
+                        Color-coded badges and instant filtering make finding the right note effortless.
+                      </p>
+                    </div>
+                    
+                    {/* Right Column - Video */}
+                    <div className="flex justify-center">
+                      <div 
+                        className="relative w-full max-w-xs"
+                        onMouseEnter={() => {
+                          setShowControls2(true);
+                        }}
+                        onMouseLeave={() => {
+                          setTimeout(() => {
+                            setShowControls2(false);
+                          }, 2000);
+                        }}
+                      >
+                        <video 
+                          ref={(video) => {
+                            if (video) {
+                              video.addEventListener('play', () => setIsPlaying2(true));
+                              video.addEventListener('pause', () => setIsPlaying2(false));
+                            }
+                          }}
+                          src="/basic-assets/flow-create.mp4" 
+                          autoPlay 
+                          loop 
+                          muted 
+                          playsInline
+                          className="w-full rounded-2xl shadow-lg"
+                        >
+                          Your browser does not support the video tag.
+                        </video>
+                        {/* Play/Pause Button Overlay */}
+                        <div 
+                          className={`absolute inset-0 flex items-center justify-center cursor-pointer transition-opacity duration-300 ${
+                            showControls2 ? 'opacity-100' : 'opacity-0'
+                          }`}
+                          onClick={(e) => {
+                            const video = e.currentTarget.previousElementSibling as HTMLVideoElement;
+                            if (video) {
+                              if (isPlaying2) {
+                                video.pause();
+                              } else {
+                                video.play();
+                              }
+                            }
+                          }}
+                        >
+                          <div className="w-16 h-16 rounded-full bg-black bg-opacity-50 flex items-center justify-center hover:bg-opacity-70 transition-all">
+                            {isPlaying2 ? (
+                              <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                              </svg>
+                            ) : (
+                              <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                              </svg>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-                  <div>
-                  <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Categories</h3>
-                  <p className="text-xl leading-relaxed mb-6" style={{color: '#8E8E93'}}>
-                    11 categories cover everything: Actionable tasks, Reminders, Shopping lists, Code snippets, Journal entries, and more.
-                  </p>
-                </div>
+                  <div className="grid xl:grid-cols-2 gap-44 items-center">
+                    {/* Left Column - Text Content */}
+                    <div>
+                      <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Categories</h3>
+                      <p className="text-xl leading-relaxed" style={{color: '#8E8E93'}}>
+                        11 categories cover everything: Actionable tasks, Reminders, Shopping lists, Code snippets, Journal entries, and more.
+                      </p>
+                    </div>
+                    
+                    {/* Right Column - Video */}
+                    <div className="flex justify-center">
+                      <div 
+                        className="relative w-full max-w-xs"
+                        onMouseEnter={() => {
+                          setShowControls3(true);
+                        }}
+                        onMouseLeave={() => {
+                          setTimeout(() => {
+                            setShowControls3(false);
+                          }, 2000);
+                        }}
+                      >
+                        <video 
+                          ref={(video) => {
+                            if (video) {
+                              video.addEventListener('play', () => setIsPlaying3(true));
+                              video.addEventListener('pause', () => setIsPlaying3(false));
+                            }
+                          }}
+                          src="/basic-assets/flow-create.mp4" 
+                          autoPlay 
+                          loop 
+                          muted 
+                          playsInline
+                          className="w-full rounded-2xl shadow-lg"
+                        >
+                          Your browser does not support the video tag.
+                        </video>
+                        {/* Play/Pause Button Overlay */}
+                        <div 
+                          className={`absolute inset-0 flex items-center justify-center cursor-pointer transition-opacity duration-300 ${
+                            showControls3 ? 'opacity-100' : 'opacity-0'
+                          }`}
+                          onClick={(e) => {
+                            const video = e.currentTarget.previousElementSibling as HTMLVideoElement;
+                            if (video) {
+                              if (isPlaying3) {
+                                video.pause();
+                              } else {
+                                video.play();
+                              }
+                            }
+                          }}
+                        >
+                          <div className="w-16 h-16 rounded-full bg-black bg-opacity-50 flex items-center justify-center hover:bg-opacity-70 transition-all">
+                            {isPlaying3 ? (
+                              <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                              </svg>
+                            ) : (
+                              <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                              </svg>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
               </div>
             </div>
           </div>
