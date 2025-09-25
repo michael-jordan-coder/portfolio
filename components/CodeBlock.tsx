@@ -40,8 +40,30 @@ export const CodeBlock = ({
   const [isHovered, setIsHovered] = React.useState(false);
   const [isEditing, setIsEditing] = React.useState(false);
   const [editCode, setEditCode] = React.useState("");
+  const [canScrollUp, setCanScrollUp] = React.useState(false);
+  const [canScrollDown, setCanScrollDown] = React.useState(false);
+  const scrollRef = React.useRef<HTMLDivElement>(null);
 
   const tabsExist = tabs.length > 0;
+
+  const checkScrollPosition = () => {
+    if (scrollRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+      setCanScrollUp(scrollTop > 0);
+      setCanScrollDown(scrollTop < scrollHeight - clientHeight - 1);
+    }
+  };
+
+  const activeCode = tabsExist ? tabs[activeTab].code : code;
+
+  React.useEffect(() => {
+    checkScrollPosition();
+    const scrollElement = scrollRef.current;
+    if (scrollElement) {
+      scrollElement.addEventListener('scroll', checkScrollPosition);
+      return () => scrollElement.removeEventListener('scroll', checkScrollPosition);
+    }
+  }, [activeTab, activeCode]);
 
   const copyToClipboard = async () => {
     const textToCopy = tabsExist ? tabs[activeTab].code : code;
@@ -69,8 +91,6 @@ export const CodeBlock = ({
     setIsEditing(false);
     setEditCode("");
   };
-
-  const activeCode = tabsExist ? tabs[activeTab].code : code;
   const activeLanguage = tabsExist
     ? tabs[activeTab].language || language
     : language;
@@ -79,7 +99,7 @@ export const CodeBlock = ({
     : highlightLines;
 
   return (
-    <div className="relative w-full h-[400px] rounded-2xl bg-neutral-900 font-mono text-sm flex flex-col">
+    <div className="relative w-full max-h-[600px] min-h-[400px] rounded-2xl bg-neutral-900 font-mono text-sm flex flex-col">
       <div className="flex flex-col gap-2 p-4 pb-2 flex-shrink-0">
         {tabsExist && (
           <div className="flex  overflow-x-auto">
@@ -152,7 +172,18 @@ export const CodeBlock = ({
           </div>
         </div>
       </div>
-      <div className="flex-1 overflow-y-auto px-4 pb-4">
+      <div 
+        ref={scrollRef}
+        className="flex-1 overflow-y-auto px-4 pb-4 scrollbar-thin scrollbar-thumb-neutral-600 scrollbar-track-neutral-800 hover:scrollbar-thumb-neutral-500 relative"
+      >
+        {/* Scroll indicators */}
+        {canScrollUp && (
+          <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-neutral-900 to-transparent pointer-events-none z-10" />
+        )}
+        {canScrollDown && (
+          <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-neutral-900 to-transparent pointer-events-none z-10" />
+        )}
+        
         {isEditing ? (
           <textarea
             value={editCode}

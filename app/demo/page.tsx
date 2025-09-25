@@ -45,38 +45,412 @@ export const MyComponent = () => {
       language: "tsx"
     },
     {
-      name: "styles.css",
-      code: `.code-block {
-  background: #1a1a1a;
-  border-radius: 12px;
-  padding: 16px;
-  font-family: 'Fira Code', monospace;
-}
+      name: "NoteClassifier.swift",
+      code: `//
+//  NoteClassifier.swift
+//  SwiftNoteClassifier
+//
+//  Created by SwiftNoteClassifier on 2025-01-27.
+//
 
-.copy-button {
-  transition: all 0.2s ease;
-}
+import Foundation
+import Combine
 
-.copy-button:hover {
-  transform: scale(1.05);
+/// Main classifier that combines heuristics and LLM
+@MainActor
+public class NoteClassifier: ObservableObject {
+    
+    // Required by ObservableObject when no @Published properties are present
+    public let objectWillChange = ObservableObjectPublisher()
+    
+    // MARK: - Properties
+    
+    private let heuristicClassifier: HeuristicClassifier
+    private let llmClient: LLMClient
+    private let config: OllamaConfig
+    
+    // MARK: - Configuration Constants
+    
+    private let minConfidenceThreshold: Double = 0.6
+    private let heuristicConfidence: Double = 0.95
+    
+    // MARK: - Initialization
+    
+    public init(config: OllamaConfig = OllamaConfig()) {
+        self.config = config
+        self.heuristicClassifier = HeuristicClassifier()
+        self.llmClient = LLMClient(config: config)
+    }
+    
+    // MARK: - Public Methods
+    
+    /// Classify a note using heuristics first, then LLM if needed
+    /// - Parameter note: The note text to classify
+    /// - Returns: ClassificationResult
+    public func classify(_ note: String) async -> ClassificationResult {
+        let trimmedNote = note.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        // Handle empty notes
+        guard !trimmedNote.isEmpty else {
+            return ClassificationResult(
+                label: .notes,
+                confidence: 0.0,
+                subtype: nil,
+                rationale: "empty note"
+            )
+        }
+        
+        // Try heuristics first
+        if let heuristicResult = heuristicClassifier.classify(trimmedNote) {
+            return heuristicResult
+        }
+        
+        // Fall back to LLM
+        let systemPrompt = PromptBuilder.buildSystemPrompt()
+        let userPrompt = PromptBuilder.buildUserPrompt(note: trimmedNote)
+        
+        guard let llmResult = await llmClient.generate(systemPrompt: systemPrompt, userPrompt: userPrompt) else {
+            // Fallback if LLM fails completely
+            return ClassificationResult(
+                label: .notes,
+                confidence: 0.0,
+                subtype: nil,
+                rationale: "LLM unavailable, defaulting to Notes"
+            )
+        }
+        
+        // Apply tie-break logic for low confidence
+        if llmResult.confidence < minConfidenceThreshold {
+            let tieBreakLabel = applyTieBreak(note: trimmedNote, originalLabel: llmResult.label)
+            if tieBreakLabel != llmResult.label {
+                // Adjust confidence based on tie-break
+                let confidenceBoost: Double = tieBreakLabel == .quotes || tieBreakLabel == .people || tieBreakLabel == .snippets ? 0.15 : 0.05
+                let adjustedConfidence = max(0.0, min(1.0, llmResult.confidence + confidenceBoost))
+                
+                // Determine subtype for tie-break result if it's Actionable
+                let subtype = determineSubtypeForActionable(note: trimmedNote, label: tieBreakLabel)
+                
+                return ClassificationResult(
+                    label: tieBreakLabel,
+                    confidence: adjustedConfidence,
+                    subtype: subtype,
+                    rationale: "Enhanced classification from \\(llmResult.label.rawValue): \\(llmResult.rationale)"
+                )
+            }
+        }
+        
+        // Additional validation: if heuristic result exists and LLM confidence is moderate,
+        // prefer heuristic for certain categories where they're highly accurate
+        if let heuristicResult = heuristicClassifier.classify(trimmedNote),
+           llmResult.confidence < 0.85 {
+            // Trust heuristics for categories where they're extremely accurate
+            if [.quotes, .people, .shopping, .links, .snippets, .actionable].contains(heuristicResult.label) {
+                let subtype = determineSubtypeForActionable(note: trimmedNote, label: heuristicResult.label)
+                
+                return ClassificationResult(
+                    label: heuristicResult.label,
+                    confidence: max(llmResult.confidence, 0.90),
+                    subtype: subtype,
+                    rationale: "High-accuracy heuristic override: \\(heuristicResult.rationale)"
+                )
+            }
+        }
+        
+        return llmResult
+    }
+    
+    /// Test if the LLM service is available
+    /// - Returns: true if service is available, false otherwise
+    public func testConnection() async -> Bool {
+        return await llmClient.testConnection()
+    }
+    
+    // MARK: - Private Methods
+    
+    private func applyTieBreak(note: String, originalLabel: Category) -> Category {
+        // Get secondary heuristics that might have been missed
+        if let heuristicResult = heuristicClassifier.classify(note) {
+            return heuristicResult.label
+        }
+        
+        // Return original label if no tie-break available
+        return originalLabel
+    }
+    
+    private func determineSubtypeForActionable(note: String, label: Category) -> ActionableSubtype? {
+        guard label == .actionable else { return nil }
+        
+        let textLower = note.lowercased()
+        
+        // Check for todo-like patterns (imperatives/verbs)
+        let todoPatterns = ["finish", "update", "implement", "call", "buy", "pack", "write", "review", "create", "send", "email", "prepare", "schedule", "book"]
+        let todoCount = todoPatterns.filter { textLower.contains($0) }.count
+        
+        // Check for idea-like patterns (conceptual)
+        let ideaPatterns = ["idea", "concept", "what if", "vision", "maybe", "consider", "think about", "proposal"]
+        let ideaCount = ideaPatterns.filter { textLower.contains($0) }.count
+        
+        // Check for structural indicators using NSRegularExpression with anchorsMatchLines
+        let fullRange = NSRange(note.startIndex..<note.endIndex, in: note)
+        let bulletRegex = try? NSRegularExpression(pattern: #"^\\s*[-*•]\\s+"#, options: [.anchorsMatchLines])
+        let numberedRegex = try? NSRegularExpression(pattern: #"^\\s*\\d+\\.\\s+"#, options: [.anchorsMatchLines])
+        let hasListStructure =
+            (bulletRegex?.firstMatch(in: note, options: [], range: fullRange) != nil) ||
+            (numberedRegex?.firstMatch(in: note, options: [], range: fullRange) != nil)
+        
+        if todoCount > ideaCount || hasListStructure {
+            return .todo
+        } else if ideaCount > todoCount {
+            return .idea
+        } else {
+            return .unknown
+        }
+    }
 }`,
-      language: "css"
+      language: "swift"
     },
     {
-      name: "config.json",
-      code: `{
-  "name": "my-project",
-  "version": "1.0.0",
-  "dependencies": {
-    "react": "^18.0.0",
-    "typescript": "^5.0.0"
-  },
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build"
-  }
+      name: "LLMClient.swift",
+      code: `//
+//  LLMClient.swift
+//  SwiftNoteClassifier
+//
+//  Created by SwiftNoteClassifier on 2025-01-27.
+//
+
+import Foundation
+
+/// HTTP client for communicating with Ollama API
+public class LLMClient {
+    
+    // MARK: - Properties
+    private let config: OllamaConfig
+    private let session: URLSession
+    
+    // MARK: - Initialization
+    
+    public init(config: OllamaConfig = OllamaConfig()) {
+        self.config = config
+        
+        let sessionConfig = URLSessionConfiguration.default
+        sessionConfig.timeoutIntervalForRequest = TimeInterval(config.timeout)
+        sessionConfig.timeoutIntervalForResource = TimeInterval(config.timeout * 2)
+        self.session = URLSession(configuration: sessionConfig)
+    }
+    
+    // MARK: - Public Methods
+    
+    /// Generate a classification from the LLM
+    /// - Parameters:
+    ///   - systemPrompt: System prompt for the LLM
+    ///   - userPrompt: User prompt containing the note to classify
+    /// - Returns: ClassificationResult on success, nil on failure
+    public func generate(systemPrompt: String, userPrompt: String) async -> ClassificationResult? {
+        // Make initial request
+        guard let response = await makeRequest(systemPrompt: systemPrompt, userPrompt: userPrompt) else {
+            return nil
+        }
+        
+        // Try to parse the response
+        if let result = parseJSONResponse(response) {
+            return result
+        }
+        
+        // If parsing failed, try repair prompt
+        print("Initial parsing failed, attempting repair...")
+        return await attemptRepair(systemPrompt: systemPrompt, userPrompt: userPrompt)
+    }
+    
+    /// Test if the LLM service is available
+    /// - Returns: true if service is available, false otherwise
+    public func testConnection() async -> Bool {
+        guard let url = URL(string: "\\(config.url)/api/tags") else {
+            return false
+        }
+        
+        do {
+            let (_, response) = try await session.data(from: url)
+            if let httpResponse = response as? HTTPURLResponse {
+                return httpResponse.statusCode == 200
+            }
+            return false
+        } catch {
+            return false
+        }
+    }
+    
+    // MARK: - Private Methods
+    
+    private func makeRequest(systemPrompt: String, userPrompt: String) async -> [String: Any]? {
+        guard let url = URL(string: "\\(config.url)/api/generate") else {
+            return nil
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let payload: [String: Any] = [
+            "model": config.model,
+            "prompt": "\\(systemPrompt)\\n\\n\\(userPrompt)",
+            "stream": false,
+            "options": [
+                "temperature": config.temperature,
+                "num_predict": 200
+            ],
+            "format": "json"
+        ]
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: payload)
+        } catch {
+            print("Failed to serialize payload: \\(error)")
+            return nil
+        }
+        
+        var lastError: Error?
+        
+        for attempt in 0...config.maxRetries {
+            do {
+                let (data, response) = try await session.data(for: request)
+                
+                if let httpResponse = response as? HTTPURLResponse {
+                    if httpResponse.statusCode == 200 {
+                        if let result = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                            return result
+                        }
+                    } else {
+                        print("HTTP Error \\(httpResponse.statusCode): \\(String(data: data, encoding: .utf8) ?? "Unknown error")")
+                    }
+                }
+            } catch {
+                lastError = error
+                if attempt < config.maxRetries {
+                    let delay = pow(2.0, Double(attempt)) * 1.0 // Exponential backoff
+                    print("Request failed, retrying in \\(delay)s...")
+                    try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+                }
+            }
+        }
+        
+        print("Failed to get response from Ollama after \\(config.maxRetries + 1) attempts")
+        if let lastError = lastError {
+            print("Last error: \\(lastError)")
+        }
+        
+        return nil
+    }
+    
+    private func parseJSONResponse(_ response: [String: Any]) -> ClassificationResult? {
+        guard let responseText = response["response"] as? String,
+              !responseText.isEmpty else {
+            return nil
+        }
+        
+        do {
+            guard let data = responseText.data(using: .utf8) else {
+                return nil
+            }
+            
+            var jsonData = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+            
+            // Clean up the data before validation
+            if let subtype = jsonData?["subtype"] as? String,
+               (subtype.isEmpty || subtype == "null"),
+               let label = jsonData?["label"] as? String,
+               label != "Actionable" {
+                jsonData?.removeValue(forKey: "subtype")
+            }
+            
+            // Map invalid labels to valid ones
+            if let label = jsonData?["label"] as? String {
+                let labelMapping: [String: String] = [
+                    "Ideas": "Actionable",
+                    "Idea": "Actionable",
+                    "Tasks": "Actionable",
+                    "Task": "Actionable",
+                    "Todo": "Actionable",
+                    "To-do": "Actionable",
+                    "Code": "Snippets",
+                    "Command": "Snippets",
+                    "URL": "Links",
+                    "Link": "Links",
+                    "Person": "People",
+                    "Contact": "People",
+                    "Quote": "Quotes",
+                    "Saying": "Quotes",
+                    "Goal": "Goals",
+                    "Target": "Goals",
+                    "Reminder": "Reminders",
+                    "Shopping List": "Shopping",
+                    "Grocery": "Shopping",
+                    "Journal Entry": "Journal",
+                    "Reflection": "Journal",
+                    "Media Item": "Media",
+                    "Movie": "Media",
+                    "Book": "Media",
+                    "Note": "Notes",
+                    "Information": "Notes"
+                ]
+                
+                if let mappedLabel = labelMapping[label] {
+                    jsonData?["label"] = mappedLabel
+                    print("Mapped invalid label to: \\(mappedLabel)")
+                }
+            }
+            
+            // Convert to ClassificationResult
+            guard let finalData = jsonData,
+                  let labelString = finalData["label"] as? String,
+                  let label = Category(rawValue: labelString),
+                  let confidence = finalData["confidence"] as? Double,
+                  let rationale = finalData["rationale"] as? String else {
+                return nil
+            }
+            
+            var subtype: ActionableSubtype?
+            if let subtypeString = finalData["subtype"] as? String {
+                subtype = ActionableSubtype(rawValue: subtypeString)
+            }
+            
+            return ClassificationResult(
+                label: label,
+                confidence: confidence,
+                subtype: subtype,
+                rationale: rationale
+            )
+            
+        } catch {
+            print("Failed to parse JSON: \\(error)")
+            print("Raw response: \\(responseText)")
+            return nil
+        }
+    }
+    
+    private func attemptRepair(systemPrompt: String, userPrompt: String) async -> ClassificationResult? {
+        let repairPrompt = """
+        Please fix the JSON response. Return ONLY valid JSON in this exact format:
+        {
+            "label": "CATEGORY_NAME",
+            "confidence": 0.95,
+            "subtype": "todo",
+            "rationale": "Brief explanation here"
+        }
+        
+        Valid categories: Actionable, Notes, Shopping, Reminders, Journal, Quotes, Links, Goals, Media, Snippets, People
+        Valid subtypes (only for Actionable): todo, idea, unknown
+        
+        Original note: \\(userPrompt)
+        """
+        
+        guard let response = await makeRequest(systemPrompt: systemPrompt, userPrompt: repairPrompt) else {
+            return nil
+        }
+        
+        return parseJSONResponse(response)
+    }
 }`,
-      language: "json"
+      language: "swift"
     }
   ]);
 
