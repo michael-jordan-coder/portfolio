@@ -108,18 +108,15 @@ export default function Basic12CaseStudy() {
       <section id="problem" className="py-24" style={{backgroundColor: '#000000'}}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8" style={{color: '#FFFFFF'}}>
+            <h2 className="text-5xl md:text-6xl font-bold mb-12" style={{color: '#FFFFFF'}}>
               The Problem
             </h2>
             <div className="max-w-4xl">
-              <p className="text-lg leading-relaxed mb-6" style={{color: '#8E8E93'}}>
-                In our digital age, we're drowning in information. Every day, we capture thoughts, ideas, reminders, and insights across multiple platforms - sticky notes, text messages, voice memos, random scraps of paper. The result? A chaotic mess of unstructured content that becomes impossible to find when we need it most.
+              <p className="text-2xl leading-relaxed mb-8" style={{color: '#8E8E93'}}>
+                We're drowning in information. Notes scattered across platforms become impossible to find when needed.
               </p>
-              <p className="text-lg leading-relaxed mb-6" style={{color: '#8E8E93'}}>
-                Traditional note-taking apps force users to manually organize their thoughts into folders or tags. This creates friction - users must stop and think about categorization instead of focusing on capturing their ideas. The cognitive load of organization often leads to abandoned notes, forgotten insights, and lost productivity.
-              </p>
-              <p className="text-lg leading-relaxed mb-6" style={{color: '#8E8E93'}}>
-                The core challenge: How do we capture the natural flow of human thought while automatically organizing it in a way that makes sense and remains discoverable?
+              <p className="text-2xl leading-relaxed mb-8" style={{color: '#8E8E93'}}>
+                Traditional apps force manual organization, creating friction that leads to abandoned systems and lost productivity.
               </p>
             </div>
           </div>
@@ -130,15 +127,15 @@ export default function Basic12CaseStudy() {
       <section id="idea" className="py-24" style={{backgroundColor: '#1C1C1E'}}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8" style={{color: '#FFFFFF'}}>
+            <h2 className="text-5xl md:text-6xl font-bold mb-12" style={{color: '#FFFFFF'}}>
               The Idea
             </h2>
             <div className="max-w-4xl">
-              <p className="text-lg leading-relaxed mb-6" style={{color: '#8E8E93'}}>
-                What if notes could organize themselves? What if we could simply type our thoughts and have an intelligent system automatically categorize them into meaningful groups? SwiftNoteClassifier was born from this simple premise: eliminate the friction between thought capture and organization.
+              <p className="text-2xl leading-relaxed mb-8" style={{color: '#8E8E93'}}>
+                What if notes could organize themselves? SwiftNoteClassifier eliminates the friction between thought capture and organization.
               </p>
-              <p className="text-lg leading-relaxed mb-6" style={{color: '#8E8E93'}}>
-                Instead of forcing users to think about categories, we let artificial intelligence do the heavy lifting. The vision was clear: create an app that feels as natural as thinking, but organizes as systematically as a librarian. Users would simply type their thoughts, and the app would instantly categorize them into 11 distinct categories - from actionable tasks to personal reflections, from code snippets to shopping lists.
+              <p className="text-2xl leading-relaxed mb-8" style={{color: '#8E8E93'}}>
+                Users simply type their thoughts. AI instantly categorizes them into 11 distinct categories - from actionable tasks to personal reflections.
               </p>
             </div>
           </div>
@@ -149,12 +146,12 @@ export default function Basic12CaseStudy() {
       <section id="engine" className="py-24" style={{backgroundColor: '#000000'}}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8" style={{color: '#FFFFFF'}}>
+            <h2 className="text-5xl md:text-6xl font-bold mb-12" style={{color: '#FFFFFF'}}>
               The Engine
             </h2>
             <div className="max-w-4xl">
-              <p className="text-lg leading-relaxed mb-8" style={{color: '#8E8E93'}}>
-                The heart of SwiftNoteClassifier is a sophisticated dual-layer classification system that combines the speed of rule-based heuristics with the intelligence of large language models.
+              <p className="text-2xl leading-relaxed mb-12" style={{color: '#8E8E93'}}>
+                A dual-layer system combining fast heuristics with intelligent language models.
               </p>
 
               {/* Flowchart */}
@@ -171,32 +168,16 @@ export default function Basic12CaseStudy() {
 
               <div className="space-y-8">
                 <div>
-                  <h3 className="text-2xl font-bold mb-4" style={{color: '#007AFF'}}>Layer 1: Heuristic Classification</h3>
-                  <p className="text-lg leading-relaxed mb-4" style={{color: '#8E8E93'}}>
-                    The first line of defense is a comprehensive rule-based system that analyzes text patterns, keywords, and structural elements. This system can instantly recognize:
-                  </p>
-                  <ul className="list-disc list-inside space-y-2 mb-6" style={{color: '#8E8E93'}}>
-                    <li>Code snippets through syntax patterns and programming keywords</li>
-                    <li>Shopping lists through product names and list structures</li>
-                    <li>Time-sensitive reminders through date and time expressions</li>
-                    <li>Quoted material through quotation marks and attribution patterns</li>
-                    <li>Contact information through phone numbers, emails, and professional titles</li>
-                  </ul>
-                  <p className="text-lg leading-relaxed mb-6" style={{color: '#8E8E93'}}>
-                    The heuristic system operates at near-instant speed with 95% accuracy for clear-cut cases. It uses pattern matching, regular expressions, and keyword analysis to make rapid decisions.
+                  <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Layer 1: Heuristic Classification</h3>
+                  <p className="text-xl leading-relaxed mb-6" style={{color: '#8E8E93'}}>
+                    Lightning-fast pattern recognition for clear-cut cases. Instantly identifies code snippets, shopping lists, reminders, and contact information with 95% accuracy.
                   </p>
               </div>
 
                 <div>
-                  <h3 className="text-2xl font-bold mb-4" style={{color: '#007AFF'}}>Layer 2: LLM Classification</h3>
-                  <p className="text-lg leading-relaxed mb-4" style={{color: '#8E8E93'}}>
-                    When heuristics can't reach a confident conclusion, the system falls back to a local large language model (Ollama with llama3). This provides the nuanced understanding needed for ambiguous cases - distinguishing between a personal reflection and a meeting note, or determining if a task is actionable or just an idea.
-                  </p>
-                  <p className="text-lg leading-relaxed mb-4" style={{color: '#8E8E93'}}>
-                    The LLM processes the text through carefully crafted prompts that define each category with examples and context. The system maintains privacy by running everything locally - no data leaves the user's device.
-                  </p>
-                  <p className="text-lg leading-relaxed mb-6" style={{color: '#8E8E93'}}>
-                    <strong>Intelligent Fallbacks:</strong> The system includes sophisticated tie-breaking logic for edge cases. When confidence is low, additional heuristics provide context-aware decisions. The result is a classification system that's both fast and accurate, handling the full spectrum of human communication patterns.
+                  <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Layer 2: LLM Classification</h3>
+                  <p className="text-xl leading-relaxed mb-6" style={{color: '#8E8E93'}}>
+                    Local AI handles ambiguous cases with nuanced understanding. Distinguishes between personal reflections and meeting notes while maintaining complete privacy.
                   </p>
                 </div>
               </div>
@@ -209,54 +190,29 @@ export default function Basic12CaseStudy() {
       <section id="flows" className="py-24" style={{backgroundColor: '#1C1C1E'}}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8" style={{color: '#FFFFFF'}}>
+            <h2 className="text-5xl md:text-6xl font-bold mb-12" style={{color: '#FFFFFF'}}>
               User Flows
             </h2>
             <div className="max-w-4xl">
-              <div className="space-y-8">
-                <div>
-                  <h3 className="text-2xl font-bold mb-4" style={{color: '#007AFF'}}>Primary Flow: Note Creation</h3>
-                  <p className="text-lg leading-relaxed mb-4" style={{color: '#8E8E93'}}>
-                    The user journey begins with a single tap on the plus button in the main interface. This opens a clean, focused input screen with a prominent text field. The interface automatically focuses the keyboard, encouraging immediate input.
-                  </p>
-                  <p className="text-lg leading-relaxed mb-4" style={{color: '#8E8E93'}}>
-                    As the user types, they see a simple, distraction-free interface. When they're ready, they tap send or press return. The system immediately begins classification, showing a subtle 'Organizing your note...' indicator. Within seconds, the note is categorized and stored.
-                  </p>
-                  <p className="text-lg leading-relaxed mb-6" style={{color: '#8E8E93'}}>
-                    The user sees a brief success message before being returned to the main interface, where their newly organized note appears at the top of the list.
-            </p>
-          </div>
-
+              <div className="space-y-12">
                   <div>
-                  <h3 className="text-2xl font-bold mb-4" style={{color: '#007AFF'}}>Secondary Flow: Discovery and Retrieval</h3>
-                  <p className="text-lg leading-relaxed mb-4" style={{color: '#8E8E93'}}>
-                    The main interface presents all notes in a clean, chronological list. Each note displays its category through a color-coded badge, making it easy to scan and understand content at a glance.
-                  </p>
-                  <p className="text-lg leading-relaxed mb-6" style={{color: '#8E8E93'}}>
-                    Users can filter notes by category using horizontal scrollable badges at the top. Tapping a category badge instantly filters the view to show only notes of that type. A search bar allows full-text search across all notes, making it easy to find specific content regardless of category.
+                  <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Note Creation</h3>
+                  <p className="text-xl leading-relaxed mb-6" style={{color: '#8E8E93'}}>
+                    Tap plus, type thoughts, done. AI categorizes instantly while you focus on capturing ideas.
                   </p>
               </div>
 
                   <div>
-                  <h3 className="text-2xl font-bold mb-4" style={{color: '#007AFF'}}>Tertiary Flow: Category Exploration</h3>
-                  <p className="text-lg leading-relaxed mb-4" style={{color: '#8E8E93'}}>
-                    The 11 categories cover the full spectrum of human thought:
+                  <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Discovery</h3>
+                  <p className="text-xl leading-relaxed mb-6" style={{color: '#8E8E93'}}>
+                    Color-coded badges and instant filtering make finding the right note effortless.
                   </p>
-                  <ul className="list-disc list-inside space-y-2 mb-6" style={{color: '#8E8E93'}}>
-                    <li><strong>Actionable:</strong> Tasks and ideas without specific timing</li>
-                    <li><strong>Reminders:</strong> Time-sensitive scheduling and appointments</li>
-                    <li><strong>Shopping:</strong> Grocery lists and household items</li>
-                    <li><strong>Snippets:</strong> Code, commands, and technical content</li>
-                    <li><strong>Links:</strong> URLs and web references</li>
-                    <li><strong>Media:</strong> Books, movies, podcasts, and content consumption</li>
-                    <li><strong>Notes:</strong> Meeting logs, announcements, and information</li>
-                    <li><strong>Journal:</strong> Personal reflections and emotional content</li>
-                    <li><strong>Quotes:</strong> Inspirational sayings and attributed material</li>
-                    <li><strong>Goals:</strong> Targets, objectives, and measurable outcomes</li>
-                    <li><strong>People:</strong> Contact information and professional relationships</li>
-                  </ul>
-                  <p className="text-lg leading-relaxed mb-6" style={{color: '#8E8E93'}}>
-                    Each category has its own visual identity through color coding and SF Symbols, making the interface both functional and aesthetically pleasing.
+              </div>
+
+                  <div>
+                  <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Categories</h3>
+                  <p className="text-xl leading-relaxed mb-6" style={{color: '#8E8E93'}}>
+                    11 categories cover everything: Actionable tasks, Reminders, Shopping lists, Code snippets, Journal entries, and more.
                   </p>
                 </div>
               </div>
@@ -269,12 +225,12 @@ export default function Basic12CaseStudy() {
       <section id="ui" className="py-24" style={{backgroundColor: '#000000'}}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8" style={{color: '#FFFFFF'}}>
+            <h2 className="text-5xl md:text-6xl font-bold mb-12" style={{color: '#FFFFFF'}}>
               The UI
             </h2>
             <div className="max-w-4xl">
-              <p className="text-lg leading-relaxed mb-6" style={{color: '#8E8E93'}}>
-                The interface follows a minimalist philosophy that prioritizes content over decoration. The design language is clean, modern, and deeply integrated with iOS design principles.
+              <p className="text-2xl leading-relaxed mb-8" style={{color: '#8E8E93'}}>
+                Minimalist design that prioritizes content. Clean, modern, and deeply integrated with iOS principles.
               </p>
             </div>
           </div>
