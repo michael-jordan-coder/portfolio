@@ -42,15 +42,23 @@ export const CodeBlock = ({
   const [editCode, setEditCode] = React.useState("");
   const [canScrollUp, setCanScrollUp] = React.useState(false);
   const [canScrollDown, setCanScrollDown] = React.useState(false);
+  const [canScrollLeft, setCanScrollLeft] = React.useState(false);
+  const [canScrollRight, setCanScrollRight] = React.useState(false);
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
   const tabsExist = tabs.length > 0;
 
   const checkScrollPosition = () => {
     if (scrollRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+      const { scrollTop, scrollHeight, clientHeight, scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      
+      // Vertical scroll detection
       setCanScrollUp(scrollTop > 0);
       setCanScrollDown(scrollTop < scrollHeight - clientHeight - 1);
+      
+      // Horizontal scroll detection
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
     }
   };
 
@@ -174,7 +182,7 @@ export const CodeBlock = ({
       </div>
       <div 
         ref={scrollRef}
-        className="flex-1 overflow-y-auto px-4 pb-4 scrollbar-thin scrollbar-thumb-neutral-600 scrollbar-track-neutral-800 hover:scrollbar-thumb-neutral-500 relative"
+        className="flex-1 overflow-auto px-4 pb-4 scrollbar-thin scrollbar-thumb-neutral-600 scrollbar-track-neutral-800 hover:scrollbar-thumb-neutral-500 relative"
       >
         {/* Scroll indicators */}
         {canScrollUp && (
@@ -182,6 +190,12 @@ export const CodeBlock = ({
         )}
         {canScrollDown && (
           <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-neutral-900 to-transparent pointer-events-none z-10" />
+        )}
+        {canScrollLeft && (
+          <div className="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r from-neutral-900 to-transparent pointer-events-none z-10" />
+        )}
+        {canScrollRight && (
+          <div className="absolute top-0 bottom-0 right-0 w-8 bg-gradient-to-l from-neutral-900 to-transparent pointer-events-none z-10" />
         )}
         
         {isEditing ? (
@@ -204,8 +218,9 @@ export const CodeBlock = ({
               padding: 0,
               background: "transparent",
               fontSize: "0.875rem", // text-sm equivalent
+              minWidth: "max-content", // Ensure content doesn't wrap
             }}
-            wrapLines={true}
+            wrapLines={false}
             showLineNumbers={true}
             lineProps={(lineNumber) => ({
               style: {
@@ -213,7 +228,7 @@ export const CodeBlock = ({
                   ? "rgba(255,255,255,0.1)"
                   : "transparent",
                 display: "block",
-                width: "100%",
+                whiteSpace: "pre", // Prevent line wrapping
               },
             })}
             PreTag="div"
