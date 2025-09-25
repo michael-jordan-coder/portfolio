@@ -197,12 +197,15 @@ export default function Basic12CaseStudy() {
       </section>
 
       {/* User Flows Section */}
-      <section id="flows" className="py-24" style={{backgroundColor: '#000000'}}>
+      <section id="flows" className="py-24" style={{backgroundColor: '#010101'}}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
-            <h2 className="text-5xl md:text-6xl font-bold mb-12" style={{color: '#FFFFFF'}}>
-              User Flows
+            <h2 className="text-5xl md:text-5xl font-bold mb-2" style={{color: '#FFFFFF'}}>
+              User Flows 
             </h2>
+            <p className="text-xl leading-relaxed mb-8" style={{color: '#8E8E93'}}>
+              Testing high fidelity wireframes
+            </p>
             <div className="max-w-full">
               <div className="space-y-12">
                   <div className="grid xl:grid-cols-2 gap-44 items-center border-b border-semantic-border-secondary pb-16">
