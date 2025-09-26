@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 export default function Basic12CaseStudy() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,6 +32,18 @@ export default function Basic12CaseStudy() {
 
   return (
     <div className="min-h-screen">
+      {/* Back to home button */}
+      <Link
+        href="/"
+        aria-label="back"
+        className="fixed top-8 right-8 z-50 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-full px-6 py-4 shadow-2xl backdrop-blur-xl border border-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50 flex items-center gap-2"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+        <span className="text-white font-medium">back</span>
+      </Link>
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background */}
@@ -38,8 +51,8 @@ export default function Basic12CaseStudy() {
         <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-10" />
         
         {/* Floating Elements */}
-        <div className="absolute top-20 left-10 w-32 h-32 rounded-full blur-3xl animate-pulse" style={{backgroundColor: 'rgba(0, 122, 255, 0.2)'}} />
-        <div className="absolute bottom-20 right-20 w-40 h-40 rounded-full blur-3xl animate-pulse delay-1000" style={{backgroundColor: 'rgba(0, 86, 204, 0.15)'}} />
+        <div className="absolute top-20 left-10 w-32 h-32 rounded-full blur-3xl animate-pulse" style={{backgroundColor: 'rgba(255, 149, 0, 0.2)'}} />
+        <div className="absolute bottom-20 right-20 w-40 h-40 rounded-full blur-3xl animate-pulse delay-1000" style={{backgroundColor: 'rgba(255, 94, 0, 0.15)'}} />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -47,7 +60,7 @@ export default function Basic12CaseStudy() {
             {/* Left Column - Content */}
             <div className="space-y-8">
               {/* Badge */}
-              <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium border" style={{backgroundColor: 'rgba(0, 122, 255, 0.2)', color: '#007AFF', borderColor: 'rgba(0, 122, 255, 0.3)'}}>
+              <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium border" style={{backgroundColor: 'rgba(255, 149, 0, 0.2)', color: '#FF9500', borderColor: 'rgba(255, 149, 0, 0.3)'}}>
                 <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                 </svg>
@@ -72,8 +85,8 @@ export default function Basic12CaseStudy() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={() => setIsModalOpen(true)}
-                  className="px-8 py-4 text-white rounded-full font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                  style={{background: 'linear-gradient(to right, #007AFF, #0056CC)'}}
+                  className="px-8 py-4 text-white rounded-full font-semibold transition-all duration-200 transform hover:scale-105"
+                  style={{backgroundColor: '#FF9500'}}
                 >
                   Read Full Case Study
                 </button>
@@ -167,14 +180,14 @@ export default function Basic12CaseStudy() {
                   </div>
 
                   <div>
-                    <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Building the engine</h3>
+                    <h3 className="text-3xl font-bold mb-6" style={{color: '#FF9500'}}>Building the engine</h3>
                     <p className="text-xl leading-relaxed" style={{color: '#8E8E93'}}>
                       Lightning-fast pattern recognition for clear-cut cases. Instantly identifies code snippets, shopping lists, reminders, and contact information with 95% accuracy.
                     </p>
                   </div>
 
                   <div>
-                    <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Test the output</h3>
+                    <h3 className="text-3xl font-bold mb-6" style={{color: '#FF9500'}}>Test the output</h3>
                     <p className="text-xl leading-relaxed" style={{color: '#8E8E93'}}>
                       Local AI handles ambiguous cases with nuanced understanding. Distinguishes between personal reflections and meeting notes while maintaining complete privacy.
                     </p>
@@ -211,7 +224,7 @@ export default function Basic12CaseStudy() {
                   <div className="grid xl:grid-cols-2 gap-44 items-center border-b border-semantic-border-secondary pb-16">
                     {/* Left Column - Text Content */}
                     <div>
-                      <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Note Creation</h3>
+                      <h3 className="text-3xl font-bold mb-6" style={{color: '#FF9500'}}>Note Creation</h3>
                       <p className="text-xl leading-relaxed" style={{color: '#8E8E93'}}>
                         Tap plus, type thoughts, done. AI categorizes instantly while you focus on capturing ideas.
                       </p>
@@ -220,7 +233,7 @@ export default function Basic12CaseStudy() {
                     {/* Right Column - Video */}
                     <div className="flex justify-center">
                       <div 
-                        className="relative w-full max-w-xs"
+                        className="relative w-full max-w-[300px]"
                         onMouseEnter={() => {
                           setShowControls1(true);
                         }}
@@ -281,7 +294,7 @@ export default function Basic12CaseStudy() {
                   <div className="grid xl:grid-cols-2 gap-44 items-center border-b border-semantic-border-secondary pb-16">
                     {/* Left Column - Text Content */}
                     <div>
-                      <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Discovery</h3>
+                      <h3 className="text-3xl font-bold mb-6" style={{color: '#FF9500'}}>Discovery</h3>
                       <p className="text-xl leading-relaxed" style={{color: '#8E8E93'}}>
                         Color-coded badges and instant filtering make finding the right note effortless.
                       </p>
@@ -290,7 +303,7 @@ export default function Basic12CaseStudy() {
                     {/* Right Column - Video */}
                     <div className="flex justify-center">
                       <div 
-                        className="relative w-full max-w-xs"
+                        className="relative w-full max-w-[300px]"
                         onMouseEnter={() => {
                           setShowControls2(true);
                         }}
@@ -351,7 +364,7 @@ export default function Basic12CaseStudy() {
                   <div className="grid xl:grid-cols-2 gap-44 items-center">
                     {/* Left Column - Text Content */}
                     <div>
-                      <h3 className="text-3xl font-bold mb-6" style={{color: '#007AFF'}}>Categories</h3>
+                      <h3 className="text-3xl font-bold mb-6" style={{color: '#FF9500'}}>Categories</h3>
                       <p className="text-xl leading-relaxed" style={{color: '#8E8E93'}}>
                         11 categories cover everything: Actionable tasks, Reminders, Shopping lists, Code snippets, Journal entries, and more.
                       </p>
@@ -360,7 +373,7 @@ export default function Basic12CaseStudy() {
                     {/* Right Column - Video */}
                     <div className="flex justify-center">
                       <div 
-                        className="relative w-full max-w-xs"
+                        className="relative w-full max-w-[300px]"
                         onMouseEnter={() => {
                           setShowControls3(true);
                         }}
@@ -488,8 +501,8 @@ export default function Basic12CaseStudy() {
               </button>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="px-6 py-2 rounded-lg transition-colors text-white hover:bg-[#0056CC]"
-                style={{backgroundColor: '#007AFF'}}
+                className="px-6 py-2 rounded-lg transition-colors text-white hover:bg-[#E6850E]"
+                style={{backgroundColor: '#FF9500'}}
               >
                 Start Reading
               </button>

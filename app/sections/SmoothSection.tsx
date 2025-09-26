@@ -19,12 +19,12 @@ interface Project {
 // Projects data
 const PROJECTS: Project[] = [
   { id: 'alpha', title: 'Adding AI to Tuqqi.com', description: 'Adding intelligence to Tuqqi, while keeping the design simple and familiar', image: '/tuqqi/tuqqi-car.png', url: '/projects/tuqqi-ai', category: 'Web App - B2B' },
-  { id: 'gamma', title: 'Reducing user action for better performance', description: 'A case study on optimizing the note creation flow in Inbox app by reducing user actions from 8 seconds to 4 seconds through strategic UX improvements.', image: '/notes-app/Casestudy/images/bg.webp', url: '/projects/notesapp', category: 'UX Sprint' },
+  { id: 'gamma', title: 'Capturing your notes', description: 'How we built a privacy-first AI note organization system using a hybrid approach of rule-based heuristics and large language models to achieve 94% categorization accuracy.', image: '/basic-assets/mockup.png', url: '/projects/basic12', category: 'AI Case Study' },
   { id: 'beta', title: '3D Hand Tracking Game', description: 'Real-time hand gesture recognition with 3D visualization and interactive controls.', image: '/3d.webp', url: '/projects/web-3d', category: 'Bonus Project!' }
 ];
 
 // Project route mapping
-const PROJECT_ROUTES = { alpha: '/projects/tuqqi-ai', gamma: '/projects/notesapp', beta: '/projects/web-3d' };
+const PROJECT_ROUTES = { alpha: '/projects/tuqqi-ai', gamma: '/projects/basic12', beta: '/projects/web-3d' };
 
 // Project Card Component
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
