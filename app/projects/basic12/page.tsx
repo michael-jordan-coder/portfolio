@@ -373,7 +373,7 @@ export default function Basic12CaseStudy() {
                     {/* Right Column - Video */}
                     <div className="flex justify-center">
                       <div 
-                        className="relative w-full max-w-[300px]"
+                        className="relative w-full max-w-[400px]"
                         onMouseEnter={() => {
                           setShowControls3(true);
                         }}
@@ -390,7 +390,7 @@ export default function Basic12CaseStudy() {
                               video.addEventListener('pause', () => setIsPlaying3(false));
                             }
                           }}
-                          src="/basic-assets/flow-create.mp4" 
+                          src="/basic-assets/only-category.mp4" 
                           autoPlay 
                           loop 
                           muted 

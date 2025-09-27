@@ -19,7 +19,7 @@ interface Project {
 // Projects data
 const PROJECTS: Project[] = [
   { id: 'alpha', title: 'Adding AI to Tuqqi.com', description: 'Adding intelligence to Tuqqi, while keeping the design simple and familiar', image: '/tuqqi/tuqqi-car.png', url: '/projects/tuqqi-ai', category: 'Web App - B2B' },
-  { id: 'gamma', title: 'Capturing your notes', description: 'How we built a privacy-first AI note organization system using a hybrid approach of rule-based heuristics and large language models to achieve 94% categorization accuracy.', image: '/basic-assets/mockup.png', url: '/projects/basic12', category: 'AI Case Study' },
+  { id: 'gamma', title: 'Capturing your notes', description: 'How we built a privacy-first AI note organization system using a hybrid approach of rule-based heuristics and large language models to achieve 94% categorization accuracy.', image: '/basic-assets/card-notes.svg', url: '/projects/basic12', category: 'AI Case Study' },
   { id: 'beta', title: '3D Hand Tracking Game', description: 'Real-time hand gesture recognition with 3D visualization and interactive controls.', image: '/3d.webp', url: '/projects/web-3d', category: 'Bonus Project!' }
 ];
 
@@ -100,8 +100,8 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
           whileHover={{ scale: 1.08, y: -10, boxShadow: '0 8px 32px rgba(80,90,228,0.15)' }}
           transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/20 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/50 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/30 pointer-events-none" />
         
         {/* Ultra-minimal default state - only essential typography */}
         <div className="absolute inset-0 flex flex-col justify-end p-8">
