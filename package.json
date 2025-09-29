@@ -16,6 +16,7 @@
     "@types/react-syntax-highlighter": "^15.5.13",
     "@use-gesture/react": "^10.3.1",
     "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.6",
     "gsap": "^3.12.2",
