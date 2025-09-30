@@ -318,7 +318,7 @@ export default function Page() {
       <main className="min-h-screen bg-white">
         {/* 1) Hero */}
         <section className="pt-28 pb-16 px-6">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-[90rem] mx-auto">
             <Reveal>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900">Tuqqi Mind — Case Study</h1>
             </Reveal>
@@ -336,15 +336,18 @@ export default function Page() {
               </div>
             </Reveal>
             <Reveal delay={220}>
-              <div className="aspect-[16/9] w-full bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-lg">
-                <iframe 
-                  src="https://rover-symbol-10191448.figma.site/"
-                  width="100%" 
-                  height="100%" 
-                  className="w-full h-full border-0"
-                  title="Tuqqi AI Case Study - Figma Site"
-                  allowFullScreen
-                />
+              <div className="flex justify-center items-center w-full">
+                <div className="w-[1483px] h-[900px] bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-lg">
+                    <iframe 
+                      src="https://syntax-strong-29615144.figma.site/"
+                      width="1483" 
+                      height="800" 
+                      className="w-full h-full border-0"
+                      style={{ objectFit: 'contain' }}
+                      title="Tuqqi AI Case Study - Figma Site"
+                      allowFullScreen
+                    />
+                </div>
               </div>
             </Reveal>
           </div>
@@ -352,7 +355,7 @@ export default function Page() {
 
         {/* 2) Context */}
         <section className="px-6 py-16">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="Context" title="About, Challenge, Role" description="A concise snapshot that frames the initiative." />
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
               {[{ t: 'About Tuqqi', d: 'Work management platform helping teams collaborate and execute.' }, { t: 'The Challenge', d: 'Introduce AI that feels native, trustworthy, and genuinely helpful.' }, { t: 'My Role', d: 'End-to-end product design: research, UX/UI, prototyping, and validation.' }].map((b, i) => (
@@ -394,7 +397,7 @@ export default function Page() {
 
           {/* 8) Outcome & Metrics */}
           <section className="px-6 py-16">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="kpi assumptions" title="What success looks like" />
             <Reveal>
               <div className="grid sm:grid-cols-3 gap-8 items-center">
@@ -420,7 +423,7 @@ export default function Page() {
 
         {/* 5) User Flows */}
         <section className="px-6 py-16 bg-gray-50">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="User Flows" title="AI interaction pathways" />
             <Reveal>
               <div className="rounded-2xl border border-gray-200 bg-white p-6">
@@ -457,7 +460,7 @@ export default function Page() {
 
         {/* 6) Notebook Sketches Carousel */}
         <section className="px-6 py-16">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="Design Process" title="Notebook Sketches" description="Early conceptual explorations and wireframes documenting the iterative design process." />
             <Reveal>
               <NotebookSketchesCarousel />
@@ -467,9 +470,9 @@ export default function Page() {
 
         {/* 7) Final Screens */}
         <section className="px-6 py-16 bg-gray-50">
-          <div className="max-w-[100vw] overflow-x-hidden">
+          <div className="max-w-[90rem] mx-auto overflow-x-hidden">
             <SectionHeader eyebrow="Final Screens" title="Polished UI moments" />
-            <div className="relative max-w-6xl mx-auto">
+            <div className="relative max-w-[90rem] mx-auto">
               <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-2">
                 {[0, 1, 2].map((i) => (
                   <div key={i} className="snap-center shrink-0 w-[85vw] md:w-[720px]">
@@ -521,7 +524,7 @@ export default function Page() {
 
         {/* 9) Reflection */}
         <section className="px-6 py-16 bg-gray-50">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             <SectionHeader eyebrow="Reflection" title="What I learned" align="left" />
             <Reveal>
               <p className="text-gray-700 leading-relaxed">

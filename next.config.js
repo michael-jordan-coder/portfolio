@@ -60,7 +60,7 @@ const nextConfig = {
   
   // Configure image optimization
   images: {
-    domains: ['images.unsplash.com', 'rover-symbol-10191448.figma.site', 'embed.figma.com'],
+    domains: ['images.unsplash.com', 'syntax-strong-29615144.figma.site', 'embed.figma.com'],
     unoptimized: false, // Enable optimization for better mobile performance
     formats: ['image/webp', 'image/avif'],
   },
