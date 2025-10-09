@@ -185,7 +185,7 @@ const HeroSection: React.FC = () => {
                 document.getElementById('smooth')?.scrollIntoView({ behavior: 'smooth' });
               }
             }}>
-  Why You Should Hire Me
+About me
   </Button>
         </div>
       </motion.div>
