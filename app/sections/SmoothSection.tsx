@@ -12,6 +12,7 @@ interface Project {
   title: string;
   description: string;
   image: string;
+  video?: string;
   url: string;
   category: string;
 }
@@ -19,7 +20,7 @@ interface Project {
 // Projects data
 const PROJECTS: Project[] = [
   { id: 'alpha', title: 'Adding AI to Tuqqi.com', description: 'Adding intelligence to Tuqqi, while keeping the design simple and familiar', image: '/tuqqi/tuqqi-car.png', url: '/projects/tuqqi-ai', category: 'Web App - B2B' },
-  { id: 'gamma', title: 'Capturing your notes', description: 'How we built a privacy-first AI note organization system using a hybrid approach of rule-based heuristics and large language models to achieve 94% categorization accuracy.', image: '/basic-assets/card-notes.svg', url: '/projects/basic12', category: 'AI Case Study' },
+  { id: 'gamma', title: 'KEYCHAIN SaaS Dashboard', description: 'An advanced SaaS dashboard solution designed for modern business applications. Features innovative workspace management, secure authentication systems, and comprehensive analytics. Built with cutting-edge design principles and scalability in mind for enterprise-level SaaS products.', image: '/basic-assets/card-notes.svg', video: '/keychain/full-hero.mp4', url: '/projects/basic12', category: 'UI' },
   { id: 'beta', title: '3D Hand Tracking Game', description: 'Real-time hand gesture recognition with 3D visualization and interactive controls.', image: '/3d.webp', url: '/projects/web-3d', category: 'Bonus Project!' }
 ];
 
@@ -28,36 +29,32 @@ const PROJECT_ROUTES = { alpha: '/projects/tuqqi-ai', gamma: '/projects/basic12'
 
 // Project Card Component
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
-  // Define button colors based on project ID
+  // Define button colors based on project ID - professional neutral palette
   const getButtonColors = (projectId: string) => {
     switch (projectId) {
       case 'alpha':
         return {
-          hover: 'bg-gradient-to-r from-purple-500 to-purple-600',
-          shimmer: 'via-purple-400',
-          background: 'from-purple-500/10 to-purple-600/5',
-          secondary: 'from-purple-400/8 to-transparent'
+          hover: 'bg-neutral-700 hover:bg-neutral-600',
+          background: 'from-neutral-700/20 to-neutral-800/10',
+          secondary: 'from-neutral-600/10 to-transparent'
         };
       case 'gamma':
         return {
-          hover: 'bg-gradient-to-r from-orange-500 to-orange-600',
-          shimmer: 'via-orange-400',
-          background: 'from-orange-500/10 to-orange-600/5',
-          secondary: 'from-orange-400/8 to-transparent'
+          hover: 'bg-neutral-700 hover:bg-neutral-600',
+          background: 'from-neutral-700/20 to-neutral-800/10',
+          secondary: 'from-neutral-600/10 to-transparent'
         };
       case 'beta':
         return {
-          hover: 'bg-gradient-to-r from-blue-500 to-blue-600',
-          shimmer: 'via-blue-400',
-          background: 'from-blue-500/10 to-blue-600/5',
-          secondary: 'from-blue-400/8 to-transparent'
+          hover: 'bg-neutral-700 hover:bg-neutral-600',
+          background: 'from-neutral-700/20 to-neutral-800/10',
+          secondary: 'from-neutral-600/10 to-transparent'
         };
       default:
         return {
-          hover: 'bg-gradient-to-r from-white to-white/90',
-          shimmer: 'via-white/30',
-          background: 'from-white/10 to-white/5',
-          secondary: 'from-white/8 to-transparent'
+          hover: 'bg-neutral-700 hover:bg-neutral-600',
+          background: 'from-neutral-700/20 to-neutral-800/10',
+          secondary: 'from-neutral-600/10 to-transparent'
         };
     }
   };
@@ -74,7 +71,9 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
 
   return (
     <motion.div
-      className="w-full max-w-4xl h-[500px] rounded-[40px] overflow-hidden shadow-2xl bg-white/10 backdrop-blur-lg border border-white/20 will-change-transform cursor-pointer transition-all duration-300 hover:bg-white/20 hover:shadow-2xl group"
+      className="w-full max-w-4xl h-auto rounded-[32px] overflow-hidden shadow-lg bg-white/5 backdrop-blur-md border border-white/10 will-change-transform cursor-pointer transition-all duration-300 hover:bg-white/8 hover:shadow-xl group origin-center"
+      initial={{ scale: 0.75 }}
+      animate={{ scale: 0.75 }}
       onClick={handleProjectClick}
       role="button"
       tabIndex={0}
@@ -85,199 +84,89 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
         }
       }}
       whileHover={{ 
-        scale: 1.02,
+        scale: 0.7575,
         transition: { duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }
       }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
-      <div className="relative w-full h-full">
-        <motion.img
-          src={project.image}
-          alt={project.title}
-          className="w-full h-full object-cover will-change-transform"
-          initial={{ scale: 1, y: 0, boxShadow: '0 0 0 rgba(0,0,0,0)' }}
-          whileHover={{ scale: 1.08, y: -10, boxShadow: '0 8px 32px rgba(80,90,228,0.15)' }}
-          transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/30 pointer-events-none" />
+      <div className="relative w-full flex flex-col">
+        {project.video ? (
+          // Video container - flexible height, grows taller
+          <div className="relative w-full min-h-[280px] flex-1 bg-neutral-800 overflow-hidden">
+            <motion.video
+              src={project.video}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover will-change-transform"
+              initial={{ scale: 1 }}
+              whileHover={{ scale: 1.04 }}
+              transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            />
+            {/* Fallback image for browsers that don't support video */}
+            <img
+              src={project.image}
+              alt={project.title}
+              className="absolute inset-0 w-full h-full object-cover opacity-0 pointer-events-none"
+              aria-hidden="true"
+            />
+          </div>
+        ) : (
+          // Image container - flexible height, grows taller
+          <div className="relative w-full min-h-[280px] flex-1 overflow-hidden">
+            <motion.img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover will-change-transform"
+              initial={{ scale: 1 }}
+              whileHover={{ scale: 1.04 }}
+              transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            />
+          </div>
+        )}
         
-        {/* Ultra-minimal default state - only essential typography */}
-        <div className="absolute inset-0 flex flex-col justify-end p-8">
-          <div className="space-y-4">
-            {/* Animated title: moves from bottom to top on hover */}
-            <motion.div 
-              className="space-y-2"
-              animate={{ 
-                y: isHovered ? -10 : 120,  // Move from bottom (button area) to top - adjusted position
-     
-              }}
-              transition={{ 
-                duration: 0.5, 
-                ease: [0.25, 0.46, 0.45, 0.94]
-              }}
-            >
-              <motion.h3 
-                className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight drop-shadow-2xl tracking-tight"
-                animate={{
-                  scale: isHovered ? 1 : 1  // Slightly smaller when at bottom
-                
-                }}
-                transition={{ 
-                  duration: 0.5, 
-                  ease: [0.25, 0.46, 0.45, 0.94]
-                }}
-              >
-                {project.title}
-              </motion.h3>
-            </motion.div>
+        {/* Dedicated black content area at bottom - fixed height */}
+        <div className="relative w-full h-[225px] bg-black flex flex-col justify-center p-8">
+          <div className="space-y-3">
+            {/* Static title - professional typography */}
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-[1.2] tracking-tight">
+              {project.title}
+            </h3>
             
-            {/* Hover reveal: Description and button with smooth animations */}
-            <motion.div 
-              className="space-y-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ 
-                opacity: isHovered ? 1 : 0, 
-                y: isHovered ? 0 : 20 
-              }}
-              transition={{ 
-                duration: 0.2, 
-                ease: [0.25, 0.46, 0.45, 0.94]
-              }}
-            >
-              <motion.p 
-                className={`text-base leading-relaxed max-w-lg font-medium transition-all duration-300 ${
-                  isHovered 
-                    ? 'text-white' 
-                    : 'text-white/90'
-                }`}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ 
-                  opacity: isHovered ? 1 : 0, 
-                  y: isHovered ? 0 : 20,
-                  scale: isHovered ? 1 : 0.95
-                }}
-                transition={{ duration: 0.2, delay: 0.1 }}
-              >
+            {/* Always-visible description */}
+            <div className="space-y-4">
+              <p className="text-base leading-relaxed max-w-lg font-medium text-white/90 line-clamp-2">
                 {project.description}
-              </motion.p>
+              </p>
               
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ 
-                  opacity: isHovered ? 1 : 0, 
-                  scale: isHovered ? 1 : 0.9,
-                  y: isHovered ? 0 : -80,  // Button appears where title was
-                  x: isHovered ? 0 : -20   // Subtle right scaling effect
-                }}
-                transition={{ duration: 0.2, delay: 0.00 }}
-              >
-                <motion.div
-                  animate={{
-                    // Gentle animation - 1 second every 5 seconds
-                    x: isHovered ? [0, 0.9, -0.9, 0] : 0,
-                    y: isHovered ? [0, -0.3, 0.3, 0] : 0,
-                    scale: isHovered ? [1, 1.01, 0.99, 1] : 1
+              {/* Button - subtle when not hovered, professional on hover */}
+              <div className="pt-2 mt-4">
+                <Button
+                  variant="primary"
+                  className={`relative overflow-hidden rounded-full font-semibold px-8 py-3.5 text-sm transition-all duration-200 focus:ring-2 focus:ring-offset-2 hover:scale-[1.02] active:scale-[0.98] ${
+                    isHovered 
+                      ? `${buttonColors.hover} text-white border border-white/20` 
+                      : 'bg-white/15 backdrop-blur-sm border border-white/20 text-white/90'
+                  }`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                    const route = PROJECT_ROUTES[project.id as keyof typeof PROJECT_ROUTES];
+                    route ? router.push(route) : window.open(project.url, '_blank', 'noopener,noreferrer');
                   }}
-                  transition={{
-                    duration: isHovered ? 1 : 0,
-                    repeat: isHovered ? Infinity : 0,
-                    repeatDelay: isHovered ? 4 : 0, // Wait 4 seconds between animations
-                    ease: 'easeInOut'
-                  }}
-                  whileHover={{ 
-                    scale: 1.03,
-                    transition: { duration: 0.2 }
-                  }}
-                  whileTap={{ scale: 0.98 }}
                 >
-                  <Button
-                    variant="primary"
-                    className={`relative overflow-hidden rounded-full font-bold px-8 py-4 text-sm transition-all duration-300 focus:ring-2 focus:ring-offset-2 ${
-                      isHovered 
-                        ? `${buttonColors.hover} text-white border border-white/20` 
-                        : 'bg-white/20 backdrop-blur-sm border border-white/30 text-white'
-                    }`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-                      const route = PROJECT_ROUTES[project.id as keyof typeof PROJECT_ROUTES];
-                      route ? router.push(route) : window.open(project.url, '_blank', 'noopener,noreferrer');
-                    }}
-                  >
-                    {/* Gentle breathing background - 1 second every 5 seconds */}
-                    <motion.div
-                      className={`absolute inset-0 bg-gradient-to-r ${buttonColors.background} rounded-full`}
-                      animate={{ 
-                        scale: isHovered ? [1, 1.02, 1] : 1,
-                        opacity: isHovered ? [0.1, 0.2, 0.1] : 0.1
-                      }}
-                      transition={{ 
-                        duration: isHovered ? 1 : 0,
-                        repeat: isHovered ? Infinity : 0,
-                        repeatDelay: isHovered ? 4 : 0, // Wait 4 seconds between animations
-                        ease: 'easeInOut'
-                      }}
-                    />
-                    
-                    {/* Subtle secondary layer - 1 second every 5 seconds */}
-                    <motion.div
-                      className={`absolute inset-0 bg-gradient-to-br ${buttonColors.secondary} rounded-full`}
-                      animate={{ 
-                        scale: isHovered ? [1, 1.015, 1] : 1,
-                        opacity: isHovered ? [0.05, 0.1, 0.05] : 0.05
-                      }}
-                      transition={{ 
-                        duration: isHovered ? 1 : 0,
-                        repeat: isHovered ? Infinity : 0,
-                        repeatDelay: isHovered ? 4 : 0, // Wait 4 seconds between animations
-                        ease: 'easeInOut',
-                        delay: 0.2
-                      }}
-                    />
-                    
-                    {/* Shimmer sweep effect on hover */}
-                    <motion.div
-                      className={`absolute inset-0 bg-gradient-to-r from-transparent ${buttonColors.shimmer} to-transparent`}
-                      initial={{ x: '-100%', opacity: 0 }}
-                      animate={{ 
-                        x: isHovered ? '100%' : '-100%',
-                        opacity: isHovered ? 1 : 0
-                      }}
-                      transition={{ duration: 0.8, ease: 'easeInOut' }}
-                    />
-                    
-                    {/* Button content with gentle text animation - 1 second every 5 seconds */}
-                    <motion.span 
-                      className="relative z-10 flex items-center gap-2"
-                      animate={{
-                        // Gentle text breathing - 1 second every 5 seconds
-                        scale: isHovered ? [1, 1.01, 1] : 1
-                      }}
-                      transition={{
-                        duration: isHovered ? 1 : 0,
-                        repeat: isHovered ? Infinity : 0,
-                        repeatDelay: isHovered ? 4 : 0, // Wait 4 seconds between animations
-                        ease: 'easeInOut'
-                      }}
-                    >
-                      View Project
-                    </motion.span>
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </motion.div>
+                  <span className="relative z-10 flex items-center gap-2">
+                    View Project
+                  </span>
+                </Button>
+              </div>
+            </div>
             
-            {/* Fixed metrics at bottom-right - minimal and grid-aligned */}
-            <div className="absolute bottom-8 right-8 text-white/60 text-xs font-medium tracking-wide">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.0}}
-              >
-                {project.category}
-              </motion.div>
+            {/* Fixed category badge at bottom-right */}
+            <div className="absolute bottom-8 right-8 text-white/70 text-xs font-medium tracking-wide">
+              {project.category}
             </div>
           </div>
         </div>
