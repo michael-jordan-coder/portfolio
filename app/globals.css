@@ -84,4 +84,27 @@
     from { transform: rotate(360deg); }
     to { transform: rotate(0deg); }
   }
+  
+  .animate-dash {
+    animation: dash 6s linear infinite;
+  }
+  @keyframes dash {
+    to {
+      stroke-dashoffset: -48;
+    }
+  }
+  
+  .animate-pill {
+    animation: pillFade 3s ease-in-out infinite;
+  }
+  @keyframes pillFade {
+    0%, 100% {
+      opacity: 0.4;
+      transform: translateY(0);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+  }
 }

@@ -32,20 +32,22 @@ function SectionHeader({
   title,
   description,
   align = 'center',
+  id,
 }: {
   eyebrow?: string
   title: string
   description?: string
   align?: 'center' | 'left'
+  id?: string
 }) {
   return (
-    <header className={align === 'center' ? 'text-center mb-12' : 'mb-8'}>
+    <header className={align === 'center' ? 'text-center mb-6' : 'mb-8'}>
       {eyebrow ? (
         <span className="inline-block bg-black border border-gray-700 text-gray-300 text-xs tracking-wide uppercase px-3 py-1 rounded-full mb-3">
           {eyebrow}
         </span>
       ) : null}
-      <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white mb-4">{title}</h3>
+      <h3 id={id} className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white">{title}</h3>
       {description ? (
         <p className="text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
           {description}
@@ -150,6 +152,184 @@ function MarkdownText({ text }: { text: string }) {
   )
 }
 
+function DataFlowVisualization() {
+  const leftFrameRef = useRef<HTMLDivElement>(null)
+  const rightFrameRef = useRef<HTMLDivElement>(null)
+  const svgRef = useRef<SVGSVGElement>(null)
+  const [pathData, setPathData] = useState<{ d: string; viewBox: string; startX: number; startY: number; endX: number; endY: number } | null>(null)
+  const [reducedMotion, setReducedMotion] = useState(false)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    
+    setReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+    
+    const calculatePath = () => {
+      if (!leftFrameRef.current || !rightFrameRef.current) return
+      
+      const leftRect = leftFrameRef.current.getBoundingClientRect()
+      const rightRect = rightFrameRef.current.getBoundingClientRect()
+      const containerRect = leftFrameRef.current.parentElement?.getBoundingClientRect()
+      
+      if (!containerRect) return
+      
+      const isMobile = window.innerWidth < 1024
+      
+      if (isMobile) {
+        // Vertical path for mobile
+        const leftX = leftRect.left - containerRect.left + leftRect.width / 2
+        const leftY = leftRect.bottom - containerRect.top
+        const rightX = rightRect.left - containerRect.left + rightRect.width / 2
+        const rightY = rightRect.top - containerRect.top
+        
+        const midX = (leftX + rightX) / 2
+        const midY = (leftY + rightY) / 2
+        
+        const d = `M ${leftX} ${leftY} Q ${midX} ${midY} ${rightX} ${rightY}`
+        setPathData({ d, viewBox: `0 0 ${containerRect.width} ${containerRect.height}`, startX: leftX, startY: leftY, endX: rightX, endY: rightY })
+      } else {
+        // Horizontal bezier path for desktop
+        const leftX = leftRect.right - containerRect.left
+        const leftY = leftRect.top - containerRect.top + leftRect.height / 2
+        const rightX = rightRect.left - containerRect.left
+        const rightY = rightRect.top - containerRect.top + rightRect.height / 2
+        
+        const controlX1 = leftX + (rightX - leftX) * 0.5
+        const controlY1 = leftY - 40
+        const controlX2 = leftX + (rightX - leftX) * 0.5
+        const controlY2 = rightY + 40
+        
+        const d = `M ${leftX} ${leftY} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${rightX} ${rightY}`
+        setPathData({ d, viewBox: `0 0 ${containerRect.width} ${containerRect.height}`, startX: leftX, startY: leftY, endX: rightX, endY: rightY })
+      }
+    }
+    
+    calculatePath()
+    
+    const resizeObserver = new ResizeObserver(calculatePath)
+    if (leftFrameRef.current?.parentElement) {
+      resizeObserver.observe(leftFrameRef.current.parentElement)
+    }
+    
+    window.addEventListener('resize', calculatePath)
+    
+    return () => {
+      resizeObserver.disconnect()
+      window.removeEventListener('resize', calculatePath)
+    }
+  }, [])
+
+  return (
+    <div className="relative max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-48">
+        {/* Left: Code Frame */}
+        <div
+          ref={leftFrameRef}
+          className="relative rounded-2xl overflow-hidden bg-gray-900 border border-gray-700 shadow-lg focus-within:ring-2 focus-within:ring-gray-400/50 focus-within:ring-offset-2 focus-within:ring-offset-black transition-all duration-300 hover:shadow-xl"
+          tabIndex={0}
+        >
+          <div className="bg-gray-800/50 px-4 py-2 flex items-center gap-2 border-b border-gray-700/50">
+            <div className="flex gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-full bg-gray-600"></div>
+              <div className="w-2.5 h-2.5 rounded-full bg-gray-600"></div>
+              <div className="w-2.5 h-2.5 rounded-full bg-gray-600"></div>
+            </div>
+            <span className="text-xs text-gray-400 font-mono ml-2">Cost Distribution</span>
+          </div>
+          <div className="aspect-[3/2] relative">
+            <Image
+              src={ASSETS.images.code}
+              alt="KPI code snippet showing cost metrics"
+              width={1200}
+              height={800}
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        {/* Right: Device Frame */}
+        <div
+          ref={rightFrameRef}
+          className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-gray-800/30 to-gray-700/30 shadow-lg focus-within:ring-2 focus-within:ring-gray-400/50 focus-within:ring-offset-2 focus-within:ring-offset-black transition-all duration-300 hover:shadow-xl"
+          style={{ boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.3)' }}
+          tabIndex={0}
+        >
+          <div className="aspect-[3/2] relative p-4">
+            <Image
+              src={ASSETS.images.section3}
+              alt="LLM card rendering total cost insight"
+              width={1200}
+              height={800}
+              className="w-full h-full object-cover rounded-lg"
+              loading="lazy"
+            />
+          </div>
+          <div className="absolute bottom-2 right-2 text-xs text-gray-500 px-2 py-1">
+            Example: Total Cost insight with delta vs. last period
+          </div>
+        </div>
+      </div>
+
+      {/* SVG Connection Path */}
+      {pathData && (
+        <svg
+          ref={svgRef}
+          className="absolute inset-0 pointer-events-none z-10"
+          viewBox={pathData.viewBox}
+          preserveAspectRatio="none"
+          role="img"
+          aria-label="Data flow from KPI code to LLM insight"
+        >
+          <defs>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <path
+            d={pathData.d}
+            fill="none"
+            stroke="rgb(156, 163, 175)"
+            strokeWidth="2"
+            strokeDasharray="8 4"
+            strokeLinecap="round"
+            className={reducedMotion ? '' : 'animate-dash'}
+            style={
+              reducedMotion
+                ? {}
+                : {
+                    filter: 'drop-shadow(0 0 4px rgba(156, 163, 175, 0.3))',
+                  }
+            }
+          />
+          {/* Connection Nodes */}
+          <circle
+            cx={pathData.startX}
+            cy={pathData.startY}
+            r="4"
+            fill="rgb(156, 163, 175)"
+            className="group-hover:opacity-100 transition-opacity"
+            style={{ filter: 'drop-shadow(0 0 6px rgba(156, 163, 175, 0.5))' }}
+          />
+          <circle
+            cx={pathData.endX}
+            cy={pathData.endY}
+            r="4"
+            fill="rgb(156, 163, 175)"
+            className="group-hover:opacity-100 transition-opacity"
+            style={{ filter: 'drop-shadow(0 0 6px rgba(156, 163, 175, 0.5))' }}
+          />
+        </svg>
+      )}
+
+    </div>
+  )
+}
+
 export default function Page() {
   useScrollToTopOnNavigation();
 
@@ -193,7 +373,7 @@ export default function Page() {
         </section>
 
         {/* 01. Overview */}
-        <section className="px-6 py-16">
+        <section className="px-6 py-32">
           <div className="max-w-7xl mx-auto">
             <SectionHeader eyebrow="01" title="Overview" />
             <Reveal>
@@ -216,7 +396,7 @@ export default function Page() {
         </section>
 
         {/* 02. Workspace Management */}
-        <section className="px-6 py-16 bg-black">
+        <section className="px-6 py-32 bg-black">
           <div className="max-w-7xl mx-auto">
             <SectionHeader eyebrow="02" title="Key Components" />
             <Reveal>
@@ -250,7 +430,7 @@ export default function Page() {
         </section>
 
         {/* 03. AI-Powered Features */}
-        <section className="px-6 py-16">
+        <section className="px-6 py-32">
           <div className="max-w-7xl mx-auto">
             <SectionHeader eyebrow="03" title="AI-Powered Features" />
             <Reveal>
@@ -294,70 +474,24 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 04. Design System & Components */}
-        <section className="px-6 py-16 bg-black">
+        {/* 04. Data delivery and integration */}
+        <section className="px-6 py-16 bg-black" aria-labelledby="data-integration-title">
           <div className="max-w-7xl mx-auto">
-            <SectionHeader eyebrow="04" title="Design System & Components" />
+            <SectionHeader eyebrow="04" title="Data delivery and integration" id="data-integration-title" />
             <Reveal>
               <div className="max-w-4xl mx-auto mb-12">
-                <MarkdownText text="Built with a **comprehensive design system** that ensures consistency and scalability. The component library includes reusable UI elements, custom icons, and carefully crafted interactions that create a cohesive user experience." />
+                <p className="text-gray-300 leading-relaxed text-base sm:text-lg text-center">
+                  We transform raw KPI metrics into structured context the LLM can reason about—so it can explain the numbers and recommend next steps.
+                </p>
               </div>
             </Reveal>
             <Reveal delay={120}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto mb-8">
-                <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-sm">
-                  <Image
-                    src={ASSETS.images.code}
-                    alt="Code Components"
-                    width={1200}
-                    height={800}
-                    className="w-full h-auto"
-                  />
-                </div>
-                <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-sm">
-                  <Image
-                    src={ASSETS.images.section3}
-                    alt="Section 3 Design"
-                    width={1200}
-                    height={800}
-                    className="w-full h-auto"
-                  />
-                </div>
-              </div>
+              <DataFlowVisualization />
             </Reveal>
           </div>
         </section>
 
-        {/* 05. Models & Architecture */}
-        <section className="px-6 py-16">
-          <div className="max-w-7xl mx-auto">
-            <SectionHeader eyebrow="05" title="Models & Architecture" />
-            <Reveal>
-              <div className="max-w-4xl mx-auto mb-12">
-                <MarkdownText text="The dashboard architecture is built for **scalability and performance**. Advanced data models support complex business logic while maintaining clean, maintainable code structure." />
-              </div>
-            </Reveal>
-            <Reveal delay={120}>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-sm">
-                  <Image
-                    src={ASSETS.images.models}
-                    alt="Data Models"
-                    width={1200}
-                    height={800}
-                    className="w-full h-auto"
-                  />
-                </div>
-                <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-sm">
-                  <VideoPlayer
-                    src={ASSETS.videos.models}
-                    className="w-full"
-                  />
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </section>
+        
 
         {/* Next Project Button */}
         <div className="pb-12">
