@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import gsap from 'gsap'
 import { SplitText } from 'gsap/SplitText'
 import { motion, useScroll, useTransform } from 'framer-motion'
@@ -10,6 +11,7 @@ import { Button } from '../../components/Button'
 gsap.registerPlugin(SplitText);
 
 const HeroSection: React.FC = () => {
+  const router = useRouter();
   const heroRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
@@ -149,18 +151,7 @@ const HeroSection: React.FC = () => {
               lineHeight: '0.8'
             }}
           >
-            Solving problems with Flawless UX.
-          </div>
-          
-          {/* Subtitle - responsive scaling */}
-          <div 
-            className="font-normal text-gray-300 leading-tight max-w-2xl mx-auto"
-            style={{
-              fontSize: 'clamp(1rem, 3vw, 2rem)',
-              lineHeight: '1.2'
-            }}
-          >
-            I'm Daniel, a product designer from Tel Aviv.
+            Ai product designer with frontend skills.
           </div>
         </h1>
         
@@ -181,12 +172,10 @@ const HeroSection: React.FC = () => {
             Explore Projects
           </Button>
           <Button variant="primary" size="lg" onClick={() => {
-              if (typeof document !== 'undefined') {
-                document.getElementById('smooth')?.scrollIntoView({ behavior: 'smooth' });
-              }
+              router.push('/about');
             }}>
-About me
-  </Button>
+            About me
+          </Button>
         </div>
       </motion.div>
     </section>
