@@ -169,15 +169,15 @@ export default function Page() {
       <main className="min-h-screen bg-black">
         {/* Hero Section */}
         <section className="pt-28 pb-16 px-6">
-          <div className="max-w-[90rem] mx-auto">
+          <div className="max-w-[80rem] mx-auto">
             <Reveal>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white text-center">
-                Clara AI — Case Study
+              <h1 className="text-3xl sm:text-3xl xl:text-5xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white text-center">
+                Increase sign ups by 23% by a new conversational interface
               </h1>
             </Reveal>
             <Reveal delay={120}>
               <p className="mt-4 text-xl text-gray-400 max-w-3xl mx-auto pb-6 text-center">
-                The Social Manager That Talks Back — A 24/7 AI-powered social media manager built to help creators and businesses plan, design, and publish content effortlessly.
+                Clara AI is a 24/7 AI-powered social media manager built to help creators and businesses plan, design, and publish content effortlessly.
               </p>
             </Reveal>
             <Reveal delay={180}>
@@ -351,6 +351,17 @@ The product blends **AI generation** with real **human-like conversation** — t
                 <MarkdownText text="Experience how Clara transforms ideas into fully-designed social posts through natural conversation." />
               </div>
             </Reveal>
+            {/* Live Demo Badge */}
+            <div className="flex justify-center mb-6">
+              <div className="inline-flex items-center gap-2 bg-green-500/20 border border-green-500/50 text-green-400 px-6 py-3 rounded-full shadow-lg backdrop-blur-sm">
+                <div className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                </div>
+                <span className="font-semibold text-sm uppercase tracking-wide">Live Interactive Demo</span>
+                <span className="text-xs">— Click to interact</span>
+              </div>
+            </div>
             <div className="relative mx-auto mb-12 flex justify-center">
               {/* iPhone 16 frame (no selfie camera) */}
               <div className="relative w-[340px] max-w-full aspect-[9/19.5] rounded-[2.6rem] border-[7px] border-[#0e0e0e] bg-black shadow-[0_0_35px_rgba(0,0,0,0.6)] overflow-hidden">
@@ -391,6 +402,17 @@ The product blends **AI generation** with real **human-like conversation** — t
             </Reveal>
             <Reveal delay={120}>
               <div className="max-w-6xl mx-auto mb-12">
+                {/* Live Demo Badge */}
+                <div className="flex justify-center mb-4">
+                  <div className="inline-flex items-center gap-2 bg-green-500/20 border border-green-500/50 text-green-400 px-6 py-3 rounded-full shadow-lg backdrop-blur-sm">
+                    <div className="relative flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </div>
+                    <span className="font-semibold text-sm uppercase tracking-wide">Live Interactive Demo</span>
+                    <span className="text-xs">—try "create post" and send</span>
+                  </div>
+                </div>
                 {/* Desktop/Laptop frame */}
                 <div className="relative mx-auto rounded-2xl overflow-hidden border border-gray-700 shadow-lg bg-gray-900">
                   {/* Browser chrome */}
