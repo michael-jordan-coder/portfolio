@@ -1,9 +1,8 @@
 'use client'
 
-import React from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
 import { useScrollToTopOnNavigation } from '../../../lib/utils'
 import NextProjectButton from '../../../components/NextProjectButton'
 
@@ -27,7 +26,32 @@ const ASSETS = {
   },
 } as const
 
-function SectionHeader({
+// Constants
+const INTERSECTION_OPTIONS: IntersectionObserverInit = { threshold: 0.15 }
+const MARKDOWN_BOLD_REGEX = /(\*\*.*?\*\*)/g
+const MOBILE_BREAKPOINT = 1024
+const RESIZE_DEBOUNCE_MS = 150
+
+// Back button icon SVG
+const BackIcon = (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white" aria-hidden="true">
+    <path d="M15 18l-6-6 6-6" />
+  </svg>
+)
+
+// Throttle utility for resize events
+function throttle<T extends (...args: any[]) => any>(func: T, limit: number): T {
+  let inThrottle: boolean
+  return ((...args: Parameters<T>) => {
+    if (!inThrottle) {
+      func(...args)
+      inThrottle = true
+      setTimeout(() => (inThrottle = false), limit)
+    }
+  }) as T
+}
+
+const SectionHeader = memo(function SectionHeader({
   eyebrow,
   title,
   description,
@@ -55,26 +79,37 @@ function SectionHeader({
       ) : null}
     </header>
   )
-}
+})
 
-function useInView(options: IntersectionObserverInit = { threshold: 0.15 }) {
+function useInView(options: IntersectionObserverInit = INTERSECTION_OPTIONS) {
   const ref = useRef<HTMLDivElement | null>(null)
   const [inView, setInView] = useState(false)
+  const optionsRef = useRef(options)
+  
+  // Update options ref when it changes
   useEffect(() => {
-    if (!ref.current) return
+    optionsRef.current = options
+  }, [options])
+
+  useEffect(() => {
+    const element = ref.current
+    if (!element) return
+
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
         setInView(true)
         observer.disconnect()
       }
-    }, options)
-    observer.observe(ref.current)
+    }, optionsRef.current)
+    
+    observer.observe(element)
     return () => observer.disconnect()
-  }, [options])
+  }, []) // Empty deps - options are accessed via ref
+
   return { ref, inView }
 }
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+const Reveal = memo(function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const { ref, inView } = useInView()
   return (
     <div
@@ -87,9 +122,9 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
       {children}
     </div>
   )
-}
+})
 
-function VideoPlayer({ src, poster, className = '' }: { src: string; poster?: string; className?: string }) {
+const VideoPlayer = memo(function VideoPlayer({ src, poster, className = '' }: { src: string; poster?: string; className?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
@@ -97,15 +132,26 @@ function VideoPlayer({ src, poster, className = '' }: { src: string; poster?: st
     if (!video) return
 
     const handleCanPlay = () => {
-      video.play().catch((error) => {
-        console.log('Autoplay prevented:', error)
+      video.play().catch(() => {
+        // Silently handle autoplay prevention
       })
     }
 
-    video.addEventListener('canplay', handleCanPlay)
+    video.addEventListener('canplay', handleCanPlay, { once: true })
 
     return () => {
       video.removeEventListener('canplay', handleCanPlay)
+    }
+  }, [])
+
+  const handleClick = useCallback(() => {
+    const video = videoRef.current
+    if (!video) return
+    
+    if (video.paused) {
+      video.play().catch(() => {})
+    } else {
+      video.pause()
     }
   }, [])
 
@@ -119,29 +165,20 @@ function VideoPlayer({ src, poster, className = '' }: { src: string; poster?: st
       playsInline
       preload="metadata"
       poster={poster}
-      onClick={() => {
-        const video = videoRef.current
-        if (video) {
-          if (video.paused) {
-            video.play()
-          } else {
-            video.pause()
-          }
-        }
-      }}
+      onClick={handleClick}
     >
       <source src={src} type="video/mp4" />
       <source src={src} type="video/quicktime" />
       Your browser does not support the video tag.
     </video>
   )
-}
+})
 
-function MarkdownText({ text }: { text: string }) {
-  const regex = /(\*\*.*?\*\*)/g
-  const parts = text.split(regex)
+const MarkdownText = memo(function MarkdownText({ text }: { text: string }) {
+  const parts = useMemo(() => text.split(MARKDOWN_BOLD_REGEX), [text])
+  
   return (
-    <p className="text-gray-300 leading-relaxed text-base sm:text-lg">
+    <p className="text-gray-300 leading-relaxed text-base sm:text-lg text-center">
       {parts.map((part, i) => {
         if (part.startsWith('**') && part.endsWith('**')) {
           return <strong key={i} className="font-semibold text-white">{part.slice(2, -2)}</strong>
@@ -150,74 +187,104 @@ function MarkdownText({ text }: { text: string }) {
       })}
     </p>
   )
-}
+})
 
-function DataFlowVisualization() {
+const DataFlowVisualization = memo(function DataFlowVisualization() {
   const leftFrameRef = useRef<HTMLDivElement>(null)
   const rightFrameRef = useRef<HTMLDivElement>(null)
   const svgRef = useRef<SVGSVGElement>(null)
   const [pathData, setPathData] = useState<{ d: string; viewBox: string; startX: number; startY: number; endX: number; endY: number } | null>(null)
   const [reducedMotion, setReducedMotion] = useState(false)
 
+  const calculatePath = useCallback(() => {
+    if (!leftFrameRef.current || !rightFrameRef.current) return
+    
+    const leftRect = leftFrameRef.current.getBoundingClientRect()
+    const rightRect = rightFrameRef.current.getBoundingClientRect()
+    const containerRect = leftFrameRef.current.parentElement?.getBoundingClientRect()
+    
+    if (!containerRect) return
+    
+    const isMobile = window.innerWidth < MOBILE_BREAKPOINT
+    
+    if (isMobile) {
+      // Vertical path for mobile
+      const leftX = leftRect.left - containerRect.left + leftRect.width / 2
+      const leftY = leftRect.bottom - containerRect.top
+      const rightX = rightRect.left - containerRect.left + rightRect.width / 2
+      const rightY = rightRect.top - containerRect.top
+      
+      const midX = (leftX + rightX) / 2
+      const midY = (leftY + rightY) / 2
+      
+      const d = `M ${leftX} ${leftY} Q ${midX} ${midY} ${rightX} ${rightY}`
+      setPathData({ 
+        d, 
+        viewBox: `0 0 ${containerRect.width} ${containerRect.height}`, 
+        startX: leftX, 
+        startY: leftY, 
+        endX: rightX, 
+        endY: rightY 
+      })
+    } else {
+      // Horizontal bezier path for desktop
+      const leftX = leftRect.right - containerRect.left
+      const leftY = leftRect.top - containerRect.top + leftRect.height / 2
+      const rightX = rightRect.left - containerRect.left
+      const rightY = rightRect.top - containerRect.top + rightRect.height / 2
+      
+      const controlX1 = leftX + (rightX - leftX) * 0.5
+      const controlY1 = leftY - 40
+      const controlX2 = leftX + (rightX - leftX) * 0.5
+      const controlY2 = rightY + 40
+      
+      const d = `M ${leftX} ${leftY} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${rightX} ${rightY}`
+      setPathData({ 
+        d, 
+        viewBox: `0 0 ${containerRect.width} ${containerRect.height}`, 
+        startX: leftX, 
+        startY: leftY, 
+        endX: rightX, 
+        endY: rightY 
+      })
+    }
+  }, [])
+
+  const throttledCalculatePath = useMemo(
+    () => throttle(calculatePath, RESIZE_DEBOUNCE_MS),
+    [calculatePath]
+  )
+
   useEffect(() => {
     if (typeof window === 'undefined') return
     
-    setReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReducedMotion(mediaQuery.matches)
     
-    const calculatePath = () => {
-      if (!leftFrameRef.current || !rightFrameRef.current) return
-      
-      const leftRect = leftFrameRef.current.getBoundingClientRect()
-      const rightRect = rightFrameRef.current.getBoundingClientRect()
-      const containerRect = leftFrameRef.current.parentElement?.getBoundingClientRect()
-      
-      if (!containerRect) return
-      
-      const isMobile = window.innerWidth < 1024
-      
-      if (isMobile) {
-        // Vertical path for mobile
-        const leftX = leftRect.left - containerRect.left + leftRect.width / 2
-        const leftY = leftRect.bottom - containerRect.top
-        const rightX = rightRect.left - containerRect.left + rightRect.width / 2
-        const rightY = rightRect.top - containerRect.top
-        
-        const midX = (leftX + rightX) / 2
-        const midY = (leftY + rightY) / 2
-        
-        const d = `M ${leftX} ${leftY} Q ${midX} ${midY} ${rightX} ${rightY}`
-        setPathData({ d, viewBox: `0 0 ${containerRect.width} ${containerRect.height}`, startX: leftX, startY: leftY, endX: rightX, endY: rightY })
-      } else {
-        // Horizontal bezier path for desktop
-        const leftX = leftRect.right - containerRect.left
-        const leftY = leftRect.top - containerRect.top + leftRect.height / 2
-        const rightX = rightRect.left - containerRect.left
-        const rightY = rightRect.top - containerRect.top + rightRect.height / 2
-        
-        const controlX1 = leftX + (rightX - leftX) * 0.5
-        const controlY1 = leftY - 40
-        const controlX2 = leftX + (rightX - leftX) * 0.5
-        const controlY2 = rightY + 40
-        
-        const d = `M ${leftX} ${leftY} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${rightX} ${rightY}`
-        setPathData({ d, viewBox: `0 0 ${containerRect.width} ${containerRect.height}`, startX: leftX, startY: leftY, endX: rightX, endY: rightY })
-      }
+    const handleReducedMotionChange = (e: MediaQueryListEvent) => {
+      setReducedMotion(e.matches)
     }
     
+    mediaQuery.addEventListener('change', handleReducedMotionChange)
+    
+    // Initial calculation
     calculatePath()
     
-    const resizeObserver = new ResizeObserver(calculatePath)
-    if (leftFrameRef.current?.parentElement) {
-      resizeObserver.observe(leftFrameRef.current.parentElement)
+    const resizeObserver = new ResizeObserver(throttledCalculatePath)
+    const parentElement = leftFrameRef.current?.parentElement
+    
+    if (parentElement) {
+      resizeObserver.observe(parentElement)
     }
     
-    window.addEventListener('resize', calculatePath)
+    window.addEventListener('resize', throttledCalculatePath, { passive: true })
     
     return () => {
+      mediaQuery.removeEventListener('change', handleReducedMotionChange)
       resizeObserver.disconnect()
-      window.removeEventListener('resize', calculatePath)
+      window.removeEventListener('resize', throttledCalculatePath)
     }
-  }, [])
+  }, [calculatePath, throttledCalculatePath])
 
   return (
     <div className="relative max-w-6xl mx-auto">
@@ -242,8 +309,10 @@ function DataFlowVisualization() {
               alt="KPI code snippet showing cost metrics"
               width={1200}
               height={800}
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="w-full h-full object-cover"
               loading="lazy"
+              quality={85}
             />
           </div>
         </div>
@@ -261,8 +330,10 @@ function DataFlowVisualization() {
               alt="LLM card rendering total cost insight"
               width={1200}
               height={800}
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="w-full h-full object-cover rounded-lg"
               loading="lazy"
+              quality={85}
             />
           </div>
           <div className="absolute bottom-2 right-2 text-xs text-gray-500 px-2 py-1">
@@ -328,7 +399,7 @@ function DataFlowVisualization() {
 
     </div>
   )
-}
+})
 
 export default function Page() {
   useScrollToTopOnNavigation();
@@ -341,9 +412,7 @@ export default function Page() {
         aria-label="back"
         className="fixed top-8 right-8 z-50 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-full px-6 py-4 shadow-2xl backdrop-blur-xl border border-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500/50 flex items-center gap-2"
       >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-          <path d="M15 18l-6-6 6-6" />
-        </svg>
+        {BackIcon}
         <span className="text-white font-medium">back</span>
       </Link>
 
@@ -388,7 +457,10 @@ export default function Page() {
                   alt="KEYCHAIN Overview"
                   width={1920}
                   height={1080}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
                   className="w-full h-auto"
+                  loading="lazy"
+                  quality={90}
                 />
               </div>
             </Reveal>
@@ -406,22 +478,28 @@ export default function Page() {
             </Reveal>
             <Reveal delay={120}>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto">
-                <div className="rounded-2xl overflow-hidden  shadow-sm">
+                <div className="rounded-2xl overflow-hidden shadow-sm">
                   <Image
                     src={ASSETS.images.card}
                     alt="Workspace Card"
                     width={1200}
                     height={800}
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                     className="w-full h-auto"
+                    loading="lazy"
+                    quality={85}
                   />
                 </div>
-                <div className="rounded-2xl overflow-hidden  shadow-sm">
+                <div className="rounded-2xl overflow-hidden shadow-sm">
                   <Image
                     src={ASSETS.images.tablist}
                     alt="Tab List Interface"
                     width={1200}
                     height={800}
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                     className="w-full h-auto"
+                    loading="lazy"
+                    quality={85}
                   />
                 </div>
               </div>
