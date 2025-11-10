@@ -278,7 +278,7 @@ The product blends **AI generation** with real **human-like conversation** — t
                       5%
                     </div>
                     <div className="text-xl md:text-2xl font-semibold text-gray-300 mb-2">
-                      Demo Exit Rate
+                      sign ups after trying the free demo
                     </div>
                     <div className="text-gray-400">
                       Users leaving site after trying the free demo
