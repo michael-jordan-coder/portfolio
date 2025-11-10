@@ -19,9 +19,9 @@ interface Project {
 
 // Projects data
 const PROJECTS: Project[] = [
+  { id: 'keychain', title: 'KEYCHAIN SaaS Dashboard', description: 'An advanced SaaS dashboard with workspace management, secure authentication, and comprehensive analytics for modern businesses.', image: '/keychain/overview.png', video: '/keychain/full-hero.mp4', url: '/projects/keychain-saas-dashboard', category: 'UI' },
+  { id: 'clara', title: 'Clara AI', description: 'A 24/7 AI-powered social media manager that helps creators plan, design, and publish content through natural conversation.', image: '/clara/clara-header.png', url: '/projects/clara', category: 'UI' },
   { id: 'alpha', title: 'Adding AI to Tuqqi.com', description: 'Adding intelligence to Tuqqi, while keeping the design simple and familiar', image: '/tuqqi/tuqqi-car.png', url: '/projects/tuqqi-ai', category: 'Web App - B2B' },
-  { id: 'clara', title: 'Clara AI', description: 'The Social Manager That Talks Back — A 24/7 AI-powered social media manager built to help creators and businesses plan, design, and publish content effortlessly. The product blends AI generation with real human-like conversation — turning everyday content creation into a creative dialogue.', image: '/clara/clara-header.png', url: '/projects/clara', category: 'UI' },
-  { id: 'keychain', title: 'KEYCHAIN SaaS Dashboard', description: 'An advanced SaaS dashboard solution designed for modern business applications. Features innovative workspace management, secure authentication systems, and comprehensive analytics. Built with cutting-edge design principles and scalability in mind for enterprise-level SaaS products.', image: '/keychain/overview.png', video: '/keychain/full-hero.mp4', url: '/projects/keychain-saas-dashboard', category: 'UI' },
   { id: 'beta', title: '3D Hand Tracking Game', description: 'Real-time hand gesture recognition with 3D visualization and interactive controls.', image: '/3d.webp', url: '/projects/web-3d', category: 'Bonus Project!' }
 ];
 
@@ -70,10 +70,46 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
   const router = useRouter();
   const [isHovered, setIsHovered] = useState(false);
   
+  useEffect(() => {
+    // Ensure scroll to top on route changes
+    const handleRouteChange = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    };
+    
+    // Listen for route changes
+    window.addEventListener('popstate', handleRouteChange);
+    
+    return () => {
+      window.removeEventListener('popstate', handleRouteChange);
+    };
+  }, []);
+  
   const handleProjectClick = () => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     const route = PROJECT_ROUTES[project.id as keyof typeof PROJECT_ROUTES];
-    route ? router.push(route) : window.open(project.url, '_blank', 'noopener,noreferrer');
+    if (route) {
+      // Scroll to top immediately before navigation using Lenis if available
+      const lenis = (window as any).lenis || (document.body as any).__lenis;
+      if (lenis) {
+        lenis.scrollTo(0, { immediate: true });
+      } else {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      }
+      
+      router.push(route);
+      
+      // Additional scroll after navigation (handled by useScrollToTopOnNavigation hook in destination page)
+      // This setTimeout ensures scroll happens even if hook hasn't fired yet
+      setTimeout(() => {
+        const lenisAfter = (window as any).lenis || (document.body as any).__lenis;
+        if (lenisAfter) {
+          lenisAfter.scrollTo(0, { immediate: true });
+        } else {
+          window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        }
+      }, 100);
+    } else {
+      window.open(project.url, '_blank', 'noopener,noreferrer');
+    }
   };
 
   return (
@@ -144,7 +180,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
             
             {/* Always-visible description */}
             <div className="space-y-4">
-              <p className="text-base leading-relaxed max-w-lg font-medium text-white/90 line-clamp-2">
+              <p className="text-xl leading-relaxed max-w-2xl font-regular text-white/90 line-clamp-2">
                 {project.description}
               </p>
               
@@ -159,9 +195,31 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                   }`}
                   onClick={(e) => {
                     e.stopPropagation();
-                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
                     const route = PROJECT_ROUTES[project.id as keyof typeof PROJECT_ROUTES];
-                    route ? router.push(route) : window.open(project.url, '_blank', 'noopener,noreferrer');
+                    if (route) {
+                      // Scroll to top immediately before navigation using Lenis if available
+                      const lenis = (window as any).lenis || (document.body as any).__lenis;
+                      if (lenis) {
+                        lenis.scrollTo(0, { immediate: true });
+                      } else {
+                        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                      }
+                      
+                      router.push(route);
+                      
+                      // Additional scroll after navigation (handled by useScrollToTopOnNavigation hook in destination page)
+                      // This setTimeout ensures scroll happens even if hook hasn't fired yet
+                      setTimeout(() => {
+                        const lenisAfter = (window as any).lenis || (document.body as any).__lenis;
+                        if (lenisAfter) {
+                          lenisAfter.scrollTo(0, { immediate: true });
+                        } else {
+                          window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                        }
+                      }, 100);
+                    } else {
+                      window.open(project.url, '_blank', 'noopener,noreferrer');
+                    }
                   }}
                 >
                   <span className="relative z-10 flex items-center gap-2">

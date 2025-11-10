@@ -408,9 +408,9 @@ export default function HandTrackingPage() {
         {/* Next Project Button */}
         <div className="pb-12"> 
           <NextProjectButton
-            nextProjectPath="/projects/notesapp"
-            nextProjectTitle="Notes App UX Optimization"
-            nextProjectDescription="Strategic UX optimization initiative focused on streamlining the note creation workflow."
+            nextProjectPath="/projects/keychain-saas-dashboard"
+            nextProjectTitle="KEYCHAIN SaaS Dashboard"
+            nextProjectDescription="An advanced SaaS dashboard with workspace management, secure authentication, and comprehensive analytics for modern businesses."
             className="bg-black"
           />
         </div>

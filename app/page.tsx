@@ -32,6 +32,7 @@ const GsapSection = dynamic(() => import('./sections/GsapSection'), {
 
 // Regular imports for lighter sections
 import SmoothSection from './sections/SmoothSection'
+import AboutCTASection from './sections/AboutCTASection'
 import ResponsiveSection from './sections/ResponsiveSection'
 
 export default function Home() {
@@ -64,6 +65,8 @@ export default function Home() {
 
         
         <SmoothSection />
+        
+        <AboutCTASection />
         
         <Suspense fallback={
           <div className="py-40 bg-black">

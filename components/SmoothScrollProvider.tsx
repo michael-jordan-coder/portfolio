@@ -45,6 +45,12 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
     })
 
     lenisRef.current = lenis
+    
+    // Store Lenis instance globally so scroll utilities can access it
+    if (typeof window !== 'undefined') {
+      (window as any).lenis = lenis;
+      (document.body as any).__lenis = lenis;
+    }
 
     let scrollTrigger: any
     try {
@@ -78,6 +84,11 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
       lenis.destroy()
       if (scrollTrigger) {
         scrollTrigger.removeEventListener('refresh', () => lenis.resize())
+      }
+      // Clean up global reference
+      if (typeof window !== 'undefined') {
+        delete (window as any).lenis;
+        delete (document.body as any).__lenis;
       }
     }
   }, [])

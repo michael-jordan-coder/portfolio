@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 
 /**
  * Utility function to merge Tailwind CSS classes
@@ -40,17 +40,54 @@ export function useScrollToTop() {
   }
 }
 
+// Helper to get Lenis instance from window (if available)
+function getLenisInstance(): any {
+  if (typeof window === 'undefined') return null;
+  
+  // Try to find Lenis instance from the global scope or document
+  // Lenis stores itself on window or we can access it via document.body
+  const lenis = (window as any).lenis || (document.body as any).__lenis;
+  
+  // Alternative: try to find it via the SmoothScrollProvider's ref
+  // Since we can't directly access it, we'll use a different approach
+  return lenis;
+}
+
 // Enhanced scroll restoration for Next.js navigation
 export function ensureScrollToTop() {
-  if (typeof window !== 'undefined') {
-    // Immediate scroll
+  if (typeof window === 'undefined') return;
+  
+  // Try to use Lenis if available (for smooth scrolling)
+  const lenis = getLenisInstance();
+  
+  if (lenis) {
+    // Use Lenis scrollTo with immediate option
+    lenis.scrollTo(0, { immediate: true });
+    
+    // Additional scrolls to ensure it works
+    setTimeout(() => {
+      lenis.scrollTo(0, { immediate: true });
+    }, 10);
+    
+    setTimeout(() => {
+      lenis.scrollTo(0, { immediate: true });
+    }, 50);
+    
+    setTimeout(() => {
+      lenis.scrollTo(0, { immediate: true });
+    }, 100);
+    
+    setTimeout(() => {
+      lenis.scrollTo(0, { immediate: true });
+    }, 300);
+  } else {
+    // Fallback to native scroll for mobile or when Lenis is not available
     window.scrollTo({
       top: 0,
       left: 0,
       behavior: 'instant'
     });
     
-    // Multiple delayed scrolls to ensure it works with Next.js navigation
     setTimeout(() => {
       window.scrollTo({
         top: 0,
@@ -75,7 +112,6 @@ export function ensureScrollToTop() {
       });
     }, 100);
     
-    // Final scroll after component is fully mounted
     setTimeout(() => {
       window.scrollTo({
         top: 0,
@@ -104,23 +140,50 @@ export function useScrollRestoration() {
 // Enhanced hook for scroll restoration with router navigation
 export function useScrollToTopOnNavigation() {
   const router = useRouter();
+  const pathname = usePathname();
   
   useEffect(() => {
-    // Scroll to top immediately when component mounts
-    ensureScrollToTop();
-    
-    // Listen for route changes and scroll to top
-    const handleRouteChange = () => {
+    // Function to scroll to top with multiple attempts
+    const scrollToTopWithRetries = () => {
+      // Immediate attempt
       ensureScrollToTop();
+      
+      // Use requestAnimationFrame for better timing
+      requestAnimationFrame(() => {
+        ensureScrollToTop();
+        
+        // Additional attempts after delays to handle async rendering
+        setTimeout(() => ensureScrollToTop(), 0);
+        setTimeout(() => ensureScrollToTop(), 10);
+        setTimeout(() => ensureScrollToTop(), 50);
+        setTimeout(() => ensureScrollToTop(), 100);
+        setTimeout(() => ensureScrollToTop(), 200);
+        setTimeout(() => ensureScrollToTop(), 300);
+      });
     };
     
-    // Add event listener for popstate (back/forward navigation)
-    window.addEventListener('popstate', handleRouteChange);
+    // Scroll to top immediately when component mounts or pathname changes
+    scrollToTopWithRetries();
+    
+    // Listen for route changes via popstate (browser back/forward)
+    const handlePopState = () => {
+      scrollToTopWithRetries();
+    };
+    
+    window.addEventListener('popstate', handlePopState);
+    
+    // Also listen for hash changes
+    const handleHashChange = () => {
+      scrollToTopWithRetries();
+    };
+    
+    window.addEventListener('hashchange', handleHashChange);
     
     return () => {
-      window.removeEventListener('popstate', handleRouteChange);
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('hashchange', handleHashChange);
     };
-  }, []);
+  }, [pathname]); // Re-run when pathname changes
   
   return router;
 }

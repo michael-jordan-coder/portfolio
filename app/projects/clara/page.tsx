@@ -520,9 +520,9 @@ This project reminded me that the future of AI isn't about replacing people — 
         {/* Next Project Button */}
         <div className="pb-12">
           <NextProjectButton
-            nextProjectPath="/projects/web-3d"
-            nextProjectTitle="3D Hand Tracking Interface"
-            nextProjectDescription="Real-time hand gesture recognition with 3D visualization using MediaPipe and WebGL."
+            nextProjectPath="/projects/tuqqi-ai"
+            nextProjectTitle="Adding AI to Tuqqi.com"
+            nextProjectDescription="Adding intelligence to Tuqqi, while keeping the design simple and familiar"
             className="bg-black"
           />
         </div>

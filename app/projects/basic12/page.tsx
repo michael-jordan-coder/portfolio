@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useScrollToTopOnNavigation } from '../../../lib/utils';
 
 export default function Basic12CaseStudy() {
+  useScrollToTopOnNavigation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isPlaying1, setIsPlaying1] = useState(true);
