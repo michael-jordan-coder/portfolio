@@ -138,7 +138,7 @@ function MarkdownText({ text }: { text: string }) {
   const regex = /(\*\*.*?\*\*)/g
   const parts = text.split(regex)
   return (
-    <p className="text-gray-300 leading-relaxed text-base sm:text-lg">
+    <p className="text-gray-300 leading-relaxed text-base sm:text-lg text-center">
       {parts.map((part, i) => {
         if (part.startsWith('**') && part.endsWith('**')) {
           return <strong key={i} className="font-semibold text-white">{part.slice(2, -2)}</strong>
@@ -171,12 +171,12 @@ export default function Page() {
         <section className="pt-28 pb-16 px-6">
           <div className="max-w-[90rem] mx-auto">
             <Reveal>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white text-center">
                 Clara AI — Case Study
               </h1>
             </Reveal>
             <Reveal delay={120}>
-              <p className="mt-4 text-xl text-gray-400 max-w-3xl pb-6">
+              <p className="mt-4 text-xl text-gray-400 max-w-3xl mx-auto pb-6 text-center">
                 The Social Manager That Talks Back — A 24/7 AI-powered social media manager built to help creators and businesses plan, design, and publish content effortlessly.
               </p>
             </Reveal>
@@ -196,7 +196,7 @@ export default function Page() {
         </section>
 
         {/* 01. Context */}
-        <section className="px-6 py-16">
+        <section className="px-6 py-32">
           <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="01" title="Context" />
             <Reveal>
@@ -210,7 +210,7 @@ The product blends **AI generation** with real **human-like conversation** — t
         </section>
 
         {/* 02. The Challenge */}
-        <section className="px-6 py-16 bg-black">
+        <section className="px-6 py-32 bg-black">
           <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="02" title="The Challenge" />
             <Reveal>
@@ -262,37 +262,54 @@ The product blends **AI generation** with real **human-like conversation** — t
         </section>
 
         {/* 03. The Insight */}
-        <section className="px-6 py-16">
+        <section className="px-6 py-32">
           <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="03" title="The Insight" />
             <Reveal>
-              <div className="max-w-4xl mx-auto">
+              <div className="max-w-4xl mx-auto mb-12">
                 <MarkdownText text={'Real creators don\'t think in **inputs and outputs** — they think in **ideas**.\n\nThey say things like "make this feel more playful" or "try a darker tone."\n\nSo instead of forcing users into rigid fields, I wanted to design a space that **listens, understands, and responds**.\n\nThe insight: make AI creation feel as natural as **texting your social media manager on WhatsApp**.'} />
+              </div>
+            </Reveal>
+            <Reveal delay={120}>
+              <div className="max-w-4xl mx-auto">
+                <div className="bg-gradient-to-br from-gray-800/30 to-gray-700/30 rounded-2xl p-8 md:p-12 border border-gray-700/50">
+                  <div className="text-center">
+                    <div className="text-6xl md:text-7xl font-bold text-red-500 mb-4">
+                      5%
+                    </div>
+                    <div className="text-xl md:text-2xl font-semibold text-gray-300 mb-2">
+                      Demo Exit Rate
+                    </div>
+                    <div className="text-gray-400">
+                      Users leaving site after trying the free demo
+                    </div>
+                  </div>
+                </div>
               </div>
             </Reveal>
           </div>
         </section>
 
         {/* 04. The Shift */}
-        <section className="px-6 py-16 bg-black">
+        <section className="px-6 py-32 bg-black">
           <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="04" title="The Shift" />
             <Reveal>
               <div className="max-w-4xl mx-auto mb-12">
                 <div className="space-y-6">
                   <div>
-                    <h4 className="text-xl font-semibold text-white mb-3">WEB-FIRST → MOBILE-FIRST</h4>
+                    <h4 className="text-xl font-semibold text-white mb-3 text-center">WEB-FIRST → MOBILE-FIRST</h4>
                     <div className="space-y-4">
                       <div>
-                        <h5 className="font-semibold text-white mb-2">The Challenge</h5>
+                        <h5 className="font-semibold text-white mb-2 text-center">The Challenge</h5>
                         <MarkdownText text="Instead of shrinking a desktop experience, we redesigned Clara's flow **from the ground up** for mobile." />
                       </div>
                       <div>
-                        <h5 className="font-semibold text-white mb-2">The Approach</h5>
+                        <h5 className="font-semibold text-white mb-2 text-center">The Approach</h5>
                         <MarkdownText text="We built **mobile-first**, then seamlessly adapted it for web — **intelligently**." />
                       </div>
                       <div>
-                        <h5 className="font-semibold text-white mb-2">The Result</h5>
+                        <h5 className="font-semibold text-white mb-2 text-center">The Result</h5>
                         <MarkdownText text="An **intuitive** experience everywhere. A **strategic shift**, not just responsive design." />
                       </div>
                     </div>
@@ -326,7 +343,7 @@ The product blends **AI generation** with real **human-like conversation** — t
         </section>
 
         {/* Live Preview */}
-        <section className="px-6 py-16">
+        <section className="px-6 py-32">
           <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="Live Preview" title="Try the conversational interface yourself" />
             <Reveal>
@@ -334,39 +351,22 @@ The product blends **AI generation** with real **human-like conversation** — t
                 <MarkdownText text="Experience how Clara transforms ideas into fully-designed social posts through natural conversation." />
               </div>
             </Reveal>
-            <Reveal delay={120}>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto mb-8">
-                <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-sm">
-                  <VideoPlayer
-                    src={ASSETS.videos.createPostPhone}
-                    className="w-full"
-                  />
-                </div>
-                <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-sm">
-                  <Image
-                    src={ASSETS.images.flowFigma}
-                    alt="Clara flow diagram"
-                    width={1200}
-                    height={800}
-                    className="w-full h-auto"
-                  />
-                </div>
-              </div>
-            </Reveal>
-            <Reveal delay={180}>
-              <div className="max-w-6xl mx-auto rounded-2xl overflow-hidden border border-gray-700 shadow-lg">
-                <div
-                  className="w-full"
-                  style={{ paddingBottom: '125%', position: 'relative', height: 0 }}
-                >
+            <div className="relative mx-auto mb-12 flex justify-center">
+              {/* iPhone 16 frame (no selfie camera) */}
+              <div className="relative w-[340px] max-w-full aspect-[9/19.5] rounded-[2.6rem] border-[7px] border-[#0e0e0e] bg-black shadow-[0_0_35px_rgba(0,0,0,0.6)] overflow-hidden">
+                
+                {/* Power + Volume buttons (visual only) */}
+                <div className="absolute top-20 -left-1 w-1 h-14 bg-gray-700 rounded-r-full"></div>
+                <div className="absolute top-[168px] -left-1 w-1 h-9 bg-gray-700 rounded-r-full"></div>
+                <div className="absolute top-28 -right-1 w-1 h-[72px] bg-gray-700 rounded-l-full"></div>
+
+                {/* Screen area */}
+                <div className="absolute inset-[7px] bg-black rounded-[2.2rem] overflow-hidden">
                   <iframe
+                    className="w-full h-full"
                     style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '100%',
-                      height: '100%',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      border: 'none',
+                      borderRadius: '2rem',
                     }}
                     src="https://money-home-80432019.figma.site/"
                     allowFullScreen
@@ -374,12 +374,14 @@ The product blends **AI generation** with real **human-like conversation** — t
                   />
                 </div>
               </div>
-            </Reveal>
+            </div>
+
+            
           </div>
         </section>
 
         {/* 05. Responsive for Web as Well */}
-        <section className="px-6 py-16 bg-black">
+        <section className="px-6 py-32 bg-black">
           <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="05" title="Responsive for Web as Well" />
             <Reveal>
@@ -388,6 +390,36 @@ The product blends **AI generation** with real **human-like conversation** — t
               </div>
             </Reveal>
             <Reveal delay={120}>
+              <div className="max-w-6xl mx-auto mb-12">
+                {/* Desktop/Laptop frame */}
+                <div className="relative mx-auto rounded-2xl overflow-hidden border border-gray-700 shadow-lg bg-gray-900">
+                  {/* Browser chrome */}
+                  <div className="bg-gray-800 px-4 py-3 flex items-center gap-2 border-b border-gray-700">
+                    <div className="flex gap-1.5">
+                      <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+                    </div>
+                    <div className="flex-1 mx-4 bg-gray-700/50 rounded-lg px-4 py-1.5 text-xs text-gray-400 text-center">
+                      https://money-home-80432019.figma.site/
+                    </div>
+                  </div>
+                  {/* Screen area */}
+                  <div className="relative w-full" style={{ aspectRatio: '16/9', minHeight: '640px' }}>
+                    <iframe
+                      className="w-full h-full absolute inset-0"
+                      style={{
+                        border: 'none',
+                      }}
+                      src="https://money-home-80432019.figma.site/"
+                      allowFullScreen
+                      title="Clara AI Interactive Demo - Web"
+                    />
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+            <Reveal delay={180}>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
                 <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-sm">
                   <VideoPlayer
@@ -410,7 +442,7 @@ The product blends **AI generation** with real **human-like conversation** — t
         </section>
 
         {/* 06. The Impact */}
-        <section className="px-6 py-16">
+        <section className="px-6 py-32">
           <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="06" title="The Impact" />
             <Reveal>
@@ -428,14 +460,14 @@ A conversational experience didn't just make Clara friendlier — it made **the 
               <div className="max-w-4xl mx-auto">
                 <div className="bg-gradient-to-br from-gray-800/30 to-gray-700/30 rounded-2xl p-8 md:p-12 border border-gray-700/50">
                   <div className="text-center">
-                    <div className="text-6xl md:text-7xl font-bold text-white mb-4">
-                      +37%
+                    <div className="text-6xl md:text-7xl font-bold text-green-500 mb-4">
+                      +23%
                     </div>
                     <div className="text-xl md:text-2xl font-semibold text-gray-300 mb-2">
-                      Completion Rate
+                    active users sign in
                     </div>
                     <div className="text-gray-400">
-                      More users finish their posts
+                     from the first month of launch
                     </div>
                   </div>
                 </div>
@@ -445,11 +477,11 @@ A conversational experience didn't just make Clara friendlier — it made **the 
         </section>
 
         {/* 07. Reflection */}
-        <section className="px-6 py-16 bg-black">
+        <section className="px-6 py-32 bg-black">
           <div className="max-w-[90rem] mx-auto">
-            <SectionHeader eyebrow="07" title="Reflection" align="left" />
+            <SectionHeader eyebrow="07" title="Reflection" />
             <Reveal>
-              <div className="max-w-4xl">
+              <div className="max-w-4xl mx-auto">
                 <MarkdownText text="Designing for AI means designing for **trust**.
 
 When an interface **talks like a person**, people treat it like one — they **open up, explore, and create**.
@@ -458,7 +490,7 @@ This project reminded me that the future of AI isn't about replacing people — 
               </div>
             </Reveal>
             <Reveal delay={120}>
-              <div className="mt-8 text-right font-semibold text-white">— Daniel Gur Arye</div>
+              <div className="mt-8 text-center font-semibold text-white">— Daniel Gur Arye</div>
             </Reveal>
           </div>
         </section>
