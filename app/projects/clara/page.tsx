@@ -41,13 +41,13 @@ function SectionHeader({
   return (
     <header className={align === 'center' ? 'text-center mb-12' : 'mb-8'}>
       {eyebrow ? (
-        <span className="inline-block bg-gray-100 text-gray-700 text-xs tracking-wide uppercase px-3 py-1 rounded-full mb-3">
+        <span className="inline-block bg-black border border-gray-700 text-gray-300 text-xs tracking-wide uppercase px-3 py-1 rounded-full mb-3">
           {eyebrow}
         </span>
       ) : null}
-      <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 mb-4">{title}</h3>
+      <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white mb-4">{title}</h3>
       {description ? (
-        <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
+        <p className="text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
           {description}
         </p>
       ) : null}
@@ -138,10 +138,10 @@ function MarkdownText({ text }: { text: string }) {
   const regex = /(\*\*.*?\*\*)/g
   const parts = text.split(regex)
   return (
-    <p className="text-gray-700 leading-relaxed text-base sm:text-lg">
+    <p className="text-gray-300 leading-relaxed text-base sm:text-lg">
       {parts.map((part, i) => {
         if (part.startsWith('**') && part.endsWith('**')) {
-          return <strong key={i} className="font-semibold text-gray-900">{part.slice(2, -2)}</strong>
+          return <strong key={i} className="font-semibold text-white">{part.slice(2, -2)}</strong>
         }
         return <span key={i}>{part}</span>
       })}
@@ -166,22 +166,22 @@ export default function Page() {
         <span className="text-white font-medium">back</span>
       </Link>
 
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen bg-black">
         {/* Hero Section */}
         <section className="pt-28 pb-16 px-6">
           <div className="max-w-[90rem] mx-auto">
             <Reveal>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white">
                 Clara AI — Case Study
               </h1>
             </Reveal>
             <Reveal delay={120}>
-              <p className="mt-4 text-xl text-gray-600 max-w-3xl pb-6">
+              <p className="mt-4 text-xl text-gray-400 max-w-3xl pb-6">
                 The Social Manager That Talks Back — A 24/7 AI-powered social media manager built to help creators and businesses plan, design, and publish content effortlessly.
               </p>
             </Reveal>
             <Reveal delay={180}>
-              <div className="mt-8 rounded-2xl overflow-hidden border border-gray-200 shadow-lg">
+              <div className="mt-8 rounded-2xl overflow-hidden border border-gray-700 shadow-lg">
                 <Image
                   src={ASSETS.images.header}
                   alt="Clara AI Header"
@@ -210,7 +210,7 @@ The product blends **AI generation** with real **human-like conversation** — t
         </section>
 
         {/* 02. The Challenge */}
-        <section className="px-6 py-16 bg-gray-50">
+        <section className="px-6 py-16 bg-black">
           <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="02" title="The Challenge" />
             <Reveal>
@@ -220,7 +220,7 @@ The product blends **AI generation** with real **human-like conversation** — t
             </Reveal>
             <Reveal delay={120}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
-                <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
+                <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-sm">
                   <Image
                     src={ASSETS.images.old}
                     alt="Clara old interface"
@@ -229,7 +229,7 @@ The product blends **AI generation** with real **human-like conversation** — t
                     className="w-full h-auto"
                   />
                 </div>
-                <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
+                <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-sm">
                   <Image
                     src={ASSETS.images.createPost2Old}
                     alt="Create post old interface"
@@ -238,7 +238,7 @@ The product blends **AI generation** with real **human-like conversation** — t
                     className="w-full h-auto"
                   />
                 </div>
-                <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
+                <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-sm">
                   <Image
                     src={ASSETS.images.createPostOld}
                     alt="Create post old interface 2"
@@ -247,7 +247,7 @@ The product blends **AI generation** with real **human-like conversation** — t
                     className="w-full h-auto"
                   />
                 </div>
-                <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
+                <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-sm">
                   <Image
                     src={ASSETS.images.ctaOld}
                     alt="CTA old interface"
@@ -274,25 +274,25 @@ The product blends **AI generation** with real **human-like conversation** — t
         </section>
 
         {/* 04. The Shift */}
-        <section className="px-6 py-16 bg-gray-50">
+        <section className="px-6 py-16 bg-black">
           <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="04" title="The Shift" />
             <Reveal>
               <div className="max-w-4xl mx-auto mb-12">
                 <div className="space-y-6">
                   <div>
-                    <h4 className="text-xl font-semibold text-gray-900 mb-3">WEB-FIRST → MOBILE-FIRST</h4>
+                    <h4 className="text-xl font-semibold text-white mb-3">WEB-FIRST → MOBILE-FIRST</h4>
                     <div className="space-y-4">
                       <div>
-                        <h5 className="font-semibold text-gray-900 mb-2">The Challenge</h5>
+                        <h5 className="font-semibold text-white mb-2">The Challenge</h5>
                         <MarkdownText text="Instead of shrinking a desktop experience, we redesigned Clara's flow **from the ground up** for mobile." />
                       </div>
                       <div>
-                        <h5 className="font-semibold text-gray-900 mb-2">The Approach</h5>
+                        <h5 className="font-semibold text-white mb-2">The Approach</h5>
                         <MarkdownText text="We built **mobile-first**, then seamlessly adapted it for web — **intelligently**." />
                       </div>
                       <div>
-                        <h5 className="font-semibold text-gray-900 mb-2">The Result</h5>
+                        <h5 className="font-semibold text-white mb-2">The Result</h5>
                         <MarkdownText text="An **intuitive** experience everywhere. A **strategic shift**, not just responsive design." />
                       </div>
                     </div>
@@ -301,7 +301,7 @@ The product blends **AI generation** with real **human-like conversation** — t
               </div>
             </Reveal>
             <Reveal delay={120}>
-              <div className="max-w-6xl mx-auto rounded-2xl overflow-hidden border border-gray-200 shadow-lg">
+              <div className="max-w-6xl mx-auto rounded-2xl overflow-hidden border border-gray-700 shadow-lg">
                 <div
                   className="w-full"
                   style={{ paddingBottom: '56.25%', position: 'relative', height: 0 }}
@@ -313,7 +313,7 @@ The product blends **AI generation** with real **human-like conversation** — t
                       left: 0,
                       width: '100%',
                       height: '100%',
-                      border: '1px solid rgba(0, 0, 0, 0.1)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
                     }}
                     src="https://embed.figma.com/board/gxkAoRUvulZxWTJOt1S4OC/ClaraAI-%E2%80%93-Instagram-Post-Creation-Flow?node-id=0-1&embed-host=share"
                     allowFullScreen
@@ -336,13 +336,13 @@ The product blends **AI generation** with real **human-like conversation** — t
             </Reveal>
             <Reveal delay={120}>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto mb-8">
-                <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
+                <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-sm">
                   <VideoPlayer
                     src={ASSETS.videos.createPostPhone}
                     className="w-full"
                   />
                 </div>
-                <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
+                <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-sm">
                   <Image
                     src={ASSETS.images.flowFigma}
                     alt="Clara flow diagram"
@@ -354,7 +354,7 @@ The product blends **AI generation** with real **human-like conversation** — t
               </div>
             </Reveal>
             <Reveal delay={180}>
-              <div className="max-w-6xl mx-auto rounded-2xl overflow-hidden border border-gray-200 shadow-lg">
+              <div className="max-w-6xl mx-auto rounded-2xl overflow-hidden border border-gray-700 shadow-lg">
                 <div
                   className="w-full"
                   style={{ paddingBottom: '125%', position: 'relative', height: 0 }}
@@ -366,7 +366,7 @@ The product blends **AI generation** with real **human-like conversation** — t
                       left: 0,
                       width: '100%',
                       height: '100%',
-                      border: '1px solid rgba(0, 0, 0, 0.1)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
                     }}
                     src="https://money-home-80432019.figma.site/"
                     allowFullScreen
@@ -379,7 +379,7 @@ The product blends **AI generation** with real **human-like conversation** — t
         </section>
 
         {/* 05. Responsive for Web as Well */}
-        <section className="px-6 py-16 bg-gray-50">
+        <section className="px-6 py-16 bg-black">
           <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="05" title="Responsive for Web as Well" />
             <Reveal>
@@ -389,13 +389,13 @@ The product blends **AI generation** with real **human-like conversation** — t
             </Reveal>
             <Reveal delay={120}>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
+                <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-sm">
                   <VideoPlayer
                     src={ASSETS.videos.postCreation}
                     className="w-full"
                   />
                 </div>
-                <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
+                <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-sm">
                   <Image
                     src={ASSETS.images.postNew}
                     alt="Clara post creation new interface"
@@ -426,15 +426,15 @@ A conversational experience didn't just make Clara friendlier — it made **the 
             </Reveal>
             <Reveal delay={120}>
               <div className="max-w-4xl mx-auto">
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 md:p-12 border border-blue-100">
+                <div className="bg-gradient-to-br from-gray-800/30 to-gray-700/30 rounded-2xl p-8 md:p-12 border border-gray-700/50">
                   <div className="text-center">
-                    <div className="text-6xl md:text-7xl font-bold text-gray-900 mb-4">
+                    <div className="text-6xl md:text-7xl font-bold text-white mb-4">
                       +37%
                     </div>
-                    <div className="text-xl md:text-2xl font-semibold text-gray-700 mb-2">
+                    <div className="text-xl md:text-2xl font-semibold text-gray-300 mb-2">
                       Completion Rate
                     </div>
-                    <div className="text-gray-600">
+                    <div className="text-gray-400">
                       More users finish their posts
                     </div>
                   </div>
@@ -445,7 +445,7 @@ A conversational experience didn't just make Clara friendlier — it made **the 
         </section>
 
         {/* 07. Reflection */}
-        <section className="px-6 py-16 bg-gray-50">
+        <section className="px-6 py-16 bg-black">
           <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="07" title="Reflection" align="left" />
             <Reveal>
@@ -458,7 +458,7 @@ This project reminded me that the future of AI isn't about replacing people — 
               </div>
             </Reveal>
             <Reveal delay={120}>
-              <div className="mt-8 text-right font-semibold text-gray-900">— Daniel Gur Arye</div>
+              <div className="mt-8 text-right font-semibold text-white">— Daniel Gur Arye</div>
             </Reveal>
           </div>
         </section>
@@ -469,7 +469,7 @@ This project reminded me that the future of AI isn't about replacing people — 
             nextProjectPath="/projects/web-3d"
             nextProjectTitle="3D Hand Tracking Interface"
             nextProjectDescription="Real-time hand gesture recognition with 3D visualization using MediaPipe and WebGL."
-            className="bg-white"
+            className="bg-black"
           />
         </div>
       </main>
