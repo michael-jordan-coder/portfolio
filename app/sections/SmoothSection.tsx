@@ -21,12 +21,12 @@ interface Project {
 const PROJECTS: Project[] = [
   { id: 'alpha', title: 'Adding AI to Tuqqi.com', description: 'Adding intelligence to Tuqqi, while keeping the design simple and familiar', image: '/tuqqi/tuqqi-car.png', url: '/projects/tuqqi-ai', category: 'Web App - B2B' },
   { id: 'clara', title: 'Clara AI', description: 'The Social Manager That Talks Back — A 24/7 AI-powered social media manager built to help creators and businesses plan, design, and publish content effortlessly. The product blends AI generation with real human-like conversation — turning everyday content creation into a creative dialogue.', image: '/clara/clara-header.png', url: '/projects/clara', category: 'UI' },
-  { id: 'gamma', title: 'KEYCHAIN SaaS Dashboard', description: 'An advanced SaaS dashboard solution designed for modern business applications. Features innovative workspace management, secure authentication systems, and comprehensive analytics. Built with cutting-edge design principles and scalability in mind for enterprise-level SaaS products.', image: '/basic-assets/card-notes.svg', video: '/keychain/full-hero.mp4', url: '/projects/basic12', category: 'UI' },
+  { id: 'keychain', title: 'KEYCHAIN SaaS Dashboard', description: 'An advanced SaaS dashboard solution designed for modern business applications. Features innovative workspace management, secure authentication systems, and comprehensive analytics. Built with cutting-edge design principles and scalability in mind for enterprise-level SaaS products.', image: '/keychain/overview.png', video: '/keychain/full-hero.mp4', url: '/projects/keychain-saas-dashboard', category: 'UI' },
   { id: 'beta', title: '3D Hand Tracking Game', description: 'Real-time hand gesture recognition with 3D visualization and interactive controls.', image: '/3d.webp', url: '/projects/web-3d', category: 'Bonus Project!' }
 ];
 
 // Project route mapping
-const PROJECT_ROUTES = { alpha: '/projects/tuqqi-ai', clara: '/projects/clara', gamma: '/projects/basic12', beta: '/projects/web-3d' };
+const PROJECT_ROUTES = { alpha: '/projects/tuqqi-ai', clara: '/projects/clara', keychain: '/projects/keychain-saas-dashboard', beta: '/projects/web-3d' };
 
 // Project Card Component
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
@@ -45,7 +45,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
           background: 'from-neutral-700/20 to-neutral-800/10',
           secondary: 'from-neutral-600/10 to-transparent'
         };
-      case 'gamma':
+      case 'keychain':
         return {
           hover: 'bg-neutral-700 hover:bg-neutral-600',
           background: 'from-neutral-700/20 to-neutral-800/10',
