@@ -114,7 +114,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
 
   return (
     <motion.div
-      className="w-full max-w-4xl h-auto rounded-[32px] overflow-hidden shadow-lg bg-white/5 backdrop-blur-md border border-white/10 will-change-transform cursor-pointer transition-all duration-300 hover:bg-white/8 hover:shadow-xl group origin-center"
+      className="w-full max-w-4xl h-auto rounded-2xl sm:rounded-[32px] overflow-hidden shadow-lg bg-white/5 backdrop-blur-md border border-white/10 will-change-transform cursor-pointer transition-all duration-300 hover:bg-white/8 hover:shadow-xl group origin-center"
       initial={{ scale: 0.75 }}
       animate={{ scale: 0.75 }}
       onClick={handleProjectClick}
@@ -136,7 +136,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
       <div className="relative w-full flex flex-col">
         {project.video ? (
           // Video container - flexible height, grows taller
-          <div className="relative w-full min-h-[280px] flex-1 bg-neutral-800 overflow-hidden">
+          <div className="relative w-full min-h-[200px] sm:min-h-[280px] flex-1 bg-neutral-800 overflow-hidden">
             <motion.video
               src={project.video}
               autoPlay
@@ -158,7 +158,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
           </div>
         ) : (
           // Image container - flexible height, grows taller
-          <div className="relative w-full min-h-[280px] flex-1 overflow-hidden">
+          <div className="relative w-full min-h-[200px] sm:min-h-[280px] flex-1 overflow-hidden">
             <motion.img
               src={project.image}
               alt={project.title}
@@ -170,25 +170,25 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
           </div>
         )}
         
-        {/* Dedicated black content area at bottom - fixed height */}
-        <div className="relative w-full h-[225px] bg-black flex flex-col justify-center p-8">
-          <div className="space-y-3">
+        {/* Dedicated black content area at bottom - responsive height */}
+        <div className="relative w-full min-h-[200px] sm:h-[225px] bg-black flex flex-col justify-center p-4 sm:p-6 md:p-8">
+          <div className="space-y-2 sm:space-y-3">
             {/* Static title - professional typography */}
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-[1.2] tracking-tight">
+            <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-[1.2] tracking-tight">
               {project.title}
             </h3>
             
             {/* Always-visible description */}
-            <div className="space-y-4">
-              <p className="text-xl leading-relaxed max-w-2xl font-regular text-white/90 line-clamp-2">
+            <div className="space-y-3 sm:space-y-4">
+              <p className="text-base sm:text-lg md:text-xl leading-relaxed max-w-2xl font-regular text-white/90 line-clamp-2">
                 {project.description}
               </p>
               
               {/* Button - subtle when not hovered, professional on hover */}
-              <div className="pt-2 mt-4">
+              <div className="pt-1 sm:pt-2 mt-2 sm:mt-4">
                 <Button
                   variant="primary"
-                  className={`relative overflow-hidden rounded-full font-semibold px-8 py-3.5 text-sm transition-all duration-200 focus:ring-2 focus:ring-offset-2 hover:scale-[1.02] active:scale-[0.98] ${
+                  className={`relative overflow-hidden rounded-full font-semibold px-6 py-2.5 sm:px-8 sm:py-3.5 text-xs sm:text-sm transition-all duration-200 focus:ring-2 focus:ring-offset-2 hover:scale-[1.02] active:scale-[0.98] ${
                     isHovered 
                       ? `${buttonColors.hover} text-white border border-white/20` 
                       : 'bg-white/15 backdrop-blur-sm border border-white/20 text-white/90'
@@ -230,7 +230,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
             </div>
             
             {/* Fixed category badge at bottom-right */}
-            <div className="absolute bottom-8 right-8 text-white/70 text-xs font-medium tracking-wide">
+            <div className="absolute bottom-4 right-4 sm:bottom-8 sm:right-8 text-white/70 text-[10px] sm:text-xs font-medium tracking-wide">
               {project.category}
             </div>
           </div>
@@ -254,7 +254,7 @@ const AnimatedCard: React.FC<{ project: Project; index: number }> = ({ project }
   };
 
   return (
-    <motion.div ref={cardRef} className="h-[70vh] flex items-center justify-center px-4" style={animations}>
+    <motion.div ref={cardRef} className="h-[50vh] sm:h-[60vh] md:h-[70vh] flex items-center justify-center px-3 sm:px-4" style={animations}>
       <ProjectCard project={project} />
     </motion.div>
   );
@@ -323,19 +323,19 @@ const SmoothCarousel: React.FC = () => {
       )}
       
       <motion.div className="text-center text-white pt-4 px-4" style={{ y: transforms.y2, opacity: transforms.opacity }}>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4" aria-live="polite">Project Showcase</h2>
-        <p className="text-base sm:text-lg md:text-xl mb-6 max-w-2xl mx-auto">Experience the last projects i worked on</p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center py-10">
-          <div className="text-white/80 text-sm">{PROJECTS.length} projects</div>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 sm:mb-4" aria-live="polite">Project Showcase</h2>
+        <p className="text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-6 max-w-2xl mx-auto">Experience the last projects i worked on</p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center py-6 sm:py-10">
+          <div className="text-white/80 text-xs sm:text-sm">{PROJECTS.length} projects</div>
         </div>
       </motion.div>
 
       <motion.div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 50%, transparent 100%)', opacity: useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]) }} />
       <div className="relative w-full max-w-4xl mx-auto" aria-label="Project carousel" role="region" aria-live="polite" aria-atomic="true">
         {PROJECTS.map((project, index) => (<AnimatedCard key={project.id} project={project} index={index} />))}
-        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 text-white/60 text-sm text-center z-50">
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 text-white/60 text-xs sm:text-sm text-center z-50 px-4">
           <div className="font-medium">Scroll to explore projects</div>
-          <div className="text-xs">Center-focused animations powered by Framer Motion</div>
+          <div className="text-[10px] sm:text-xs">Center-focused animations powered by Framer Motion</div>
         </div>
       </div>
     </SectionWrapper>

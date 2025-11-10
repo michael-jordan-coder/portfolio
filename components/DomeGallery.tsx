@@ -626,18 +626,27 @@ export default function DomeGallery({
     
     // Create text description to the left of image
     if (rawAlt) {
-      // Modify overlay to be a flex container
-      overlay.style.display = 'flex';
-      overlay.style.alignItems = 'center';
-      overlay.style.gap = '40px';
-      overlay.style.padding = '40px';
+      // Detect mobile screen size
+      const isMobile = window.innerWidth < 640;
+      const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024;
       
-      // Create image container
+      // Modify overlay to be a flex container with responsive direction
+      overlay.style.display = 'flex';
+      overlay.style.flexDirection = isMobile ? 'column' : 'row';
+      overlay.style.alignItems = isMobile ? 'stretch' : 'center';
+      overlay.style.justifyContent = 'center'; // Changed from conditional to always center
+      overlay.style.gap = isMobile ? '16px' : isTablet ? '24px' : '40px';
+      overlay.style.padding = isMobile ? '16px' : isTablet ? '24px' : '40px';
+      overlay.style.overflowY = isMobile ? 'auto' : 'visible';
+      
+      // Create image container with responsive sizing
       const imageContainer = document.createElement('div');
+      const imageSize = isMobile ? '200px' : isTablet ? '280px' : '350px';
       imageContainer.style.cssText = `
         flex: 0 0 auto;
-        width: 350px;
-        height: 350px;
+        width: ${imageSize};
+        height: ${imageSize};
+        ${isMobile ? 'width: 100%; max-width: 280px; aspect-ratio: 1; margin: 0 auto;' : ''}
         border-radius: ${openedImageBorderRadius};
         overflow: hidden;
       `;
@@ -647,22 +656,30 @@ export default function DomeGallery({
       img.style.cssText = `width: 100%; height: 100%; object-fit: cover; filter: ${grayscale ? 'grayscale(1)' : 'none'};`;
       imageContainer.appendChild(img);
       
-      // Create text container
+      // Create text container with responsive typography
       const textContainer = document.createElement('div');
+      const fontSize = isMobile ? '16px' : isTablet ? '20px' : '24px';
+      const maxWidth = isMobile ? '100%' : isTablet ? '400px' : '500px';
       textContainer.style.cssText = `
-        flex: 1;
+        flex: ${isMobile ? '0 0 auto' : '1'};
         color: white;
-        font-size: 24px;
+        font-size: ${fontSize};
         line-height: 1.5;
         font-weight: 500;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        max-width: 500px;
+        max-width: ${maxWidth};
+        ${isMobile ? 'text-align: center; width: 100%;' : ''}
       `;
       textContainer.textContent = rawAlt;
       
-      // Add both containers to overlay
-      overlay.appendChild(textContainer);
-      overlay.appendChild(imageContainer);
+      // Add containers to overlay - order changes for mobile
+      if (isMobile) {
+        overlay.appendChild(imageContainer);
+        overlay.appendChild(textContainer);
+      } else {
+        overlay.appendChild(textContainer);
+        overlay.appendChild(imageContainer);
+      }
     }
     viewerRef.current!.appendChild(overlay);
     const tx0 = tileR.left - frameR.left;
