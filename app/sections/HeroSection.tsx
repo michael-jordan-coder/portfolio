@@ -7,11 +7,17 @@ import { SplitText } from 'gsap/SplitText'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Aurora from '../../components/Aurora'
 import { Button } from '../../components/Button'
+import { useIsMobile } from '../../hooks/useIsMobile'
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 
 gsap.registerPlugin(SplitText);
 
 const HeroSection: React.FC = () => {
   const router = useRouter();
+  const isMobile = useIsMobile();
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldAnimate = !isMobile && !prefersReducedMotion;
+  
   const heroRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
@@ -22,14 +28,22 @@ const HeroSection: React.FC = () => {
     offset: ["start start", "end start"]
   });
   const transforms = {
-    y2: useTransform(scrollYProgress, [0, 1], [0, -150]),
+    y2: useTransform(scrollYProgress, [0, 1], [0, isMobile ? -50 : -150]),
     opacity: useTransform(scrollYProgress, [0, 0.8, 1], [1, 0.3, 0]),
-    scale: useTransform(scrollYProgress, [0, 1], [1, 0.8])
+    scale: useTransform(scrollYProgress, [0, 1], [1, isMobile ? 0.95 : 0.8])
   };
 
   useEffect(() => {
     // Check if all refs are available before proceeding
     if (!headingRef.current || !buttonsRef.current || !accentRef.current) {
+      return;
+    }
+
+    // Simple mobile version - just show content immediately
+    if (!shouldAnimate) {
+      gsap.set(headingRef.current, { opacity: 1, filter: 'blur(0px)', letterSpacing: '0em' });
+      gsap.set(buttonsRef.current, { opacity: 1, y: 0 });
+      gsap.set(accentRef.current, { scaleX: 1 });
       return;
     }
 
@@ -91,20 +105,24 @@ const HeroSection: React.FC = () => {
     }, "-=0.05");
 
     // Ambient breathing to keep the hero feeling alive, extremely subtle
-    const ambient = gsap.to(headingRef.current, {
-      scale: 1.006,
-      duration: 6,
-      yoyo: true,
-      repeat: -1,
-      ease: 'sine.inOut'
-    });
+    // Only add ambient breathing if not mobile
+    let ambient: gsap.core.Tween | null = null;
+    if (!isMobile) {
+      ambient = gsap.to(headingRef.current, {
+        scale: 1.006,
+        duration: 6,
+        yoyo: true,
+        repeat: -1,
+        ease: 'sine.inOut'
+      });
+    }
 
     return () => {
       tl.kill();
-      ambient.kill();
+      if (ambient) ambient.kill();
       splitHeading.revert();
     };
-  }, []);
+  }, [isMobile, prefersReducedMotion, shouldAnimate]);
 
   return (
     <section

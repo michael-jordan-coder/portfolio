@@ -5,8 +5,14 @@ import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { SectionWrapper, NeonBlob } from './_shared';
 import { Button } from '../../components/Button';
+import { useIsMobile } from '../../hooks/useIsMobile';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 
 const AboutCTASection: React.FC = () => {
+  const isMobile = useIsMobile();
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldAnimate = !isMobile && !prefersReducedMotion;
+  
   const sectionRef = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ 
     target: sectionRef, 
@@ -14,7 +20,7 @@ const AboutCTASection: React.FC = () => {
   });
   
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
-  const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
+  const y = useTransform(scrollYProgress, [0, 1], [isMobile ? 25 : 50, isMobile ? -25 : -50]);
 
   return (
     <SectionWrapper id="about-cta" variant="default">
@@ -24,7 +30,7 @@ const AboutCTASection: React.FC = () => {
         size="md" 
         colors={['#a855f7', '#ec4899', '#ef4444']} 
         opacity={0.3} 
-        animated 
+        animated={shouldAnimate}
       />
       <NeonBlob 
         position="custom" 
@@ -32,7 +38,7 @@ const AboutCTASection: React.FC = () => {
         size="sm" 
         colors={['#06b6d4', '#3b82f6', '#6366f1']} 
         opacity={0.25} 
-        animated 
+        animated={shouldAnimate}
       />
       
       <motion.div 

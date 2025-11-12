@@ -5,6 +5,8 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { Button } from '../../components/Button';
 import { SectionWrapper, NeonBlob } from './_shared';
+import { useIsMobile } from '../../hooks/useIsMobile';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 
 // Project data structure
 interface Project {
@@ -242,15 +244,37 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
 
 // Individual Card with Center-based Animation
 const AnimatedCard: React.FC<{ project: Project; index: number }> = ({ project }) => {
+  const isMobile = useIsMobile();
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldAnimate = !isMobile && !prefersReducedMotion;
+  
   const cardRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: cardRef, offset: ["start end", "end start"] });
   const centerProgress = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
-  const animations = {
-    y: useTransform(centerProgress, [0, 1], [50, 0]),
-    opacity: useTransform(centerProgress, [0, 1], [0.3, 1]),
-    scale: useTransform(centerProgress, [0, 1], [0.3, 1.1]),
-    zIndex: useTransform(centerProgress, [0, 1], [1, 10]),
-    filter: useTransform(centerProgress, [0, 1], ['blur(3px)', 'blur(0px)'])
+  
+  // Always call all hooks unconditionally to follow Rules of Hooks
+  const yAnimated = useTransform(centerProgress, [0, 1], [50, 0]);
+  const opacityAnimated = useTransform(centerProgress, [0, 1], [0.3, 1]);
+  const scaleAnimated = useTransform(centerProgress, [0, 1], [0.3, 1.1]);
+  const zIndexAnimated = useTransform(centerProgress, [0, 1], [1, 10]);
+  const filterAnimated = useTransform(centerProgress, [0, 1], ['blur(3px)', 'blur(0px)']);
+  
+  const ySimple = useTransform(centerProgress, [0, 1], [20, 0]);
+  const opacitySimple = useTransform(centerProgress, [0, 1], [0.5, 1]);
+  
+  // Conditionally use the transforms based on shouldAnimate
+  const animations = shouldAnimate ? {
+    y: yAnimated,
+    opacity: opacityAnimated,
+    scale: scaleAnimated,
+    zIndex: zIndexAnimated,
+    filter: filterAnimated
+  } : {
+    y: ySimple,
+    opacity: opacitySimple,
+    scale: 1,
+    zIndex: 1,
+    filter: 'blur(0px)'
   };
 
   return (
@@ -281,11 +305,14 @@ const FLOATING_ELEMENTS = [
 
 // Main Carousel Component
 const SmoothCarousel: React.FC = () => {
+  const isMobile = useIsMobile();
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldAnimate = !isMobile && !prefersReducedMotion;
   const [isClient, setIsClient] = useState(false);
   const { scrollYProgress } = useScroll({ offset: ["start end", "end start"] });
   const transforms = {
-    y1: useTransform(scrollYProgress, [0, 1], [200, -100]),
-    y2: useTransform(scrollYProgress, [0, 1], [100, -50]),
+    y1: useTransform(scrollYProgress, [0, 1], [isMobile ? 50 : 200, isMobile ? -25 : -100]),
+    y2: useTransform(scrollYProgress, [0, 1], [isMobile ? 25 : 100, isMobile ? -12 : -50]),
     opacity: useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0])
   };
 
@@ -300,10 +327,10 @@ const SmoothCarousel: React.FC = () => {
   
   return (
     <SectionWrapper id="smooth">
-      <NeonBlob position="custom" customClass="right-1/3 bottom-1/4 -rotate-12" size="md" colors={['#a855f7', '#ec4899', '#ef4444']} opacity={0.4} animated />
-      <NeonBlob position="custom" customClass="left-1/3 top-1/2 rotate-6" size="sm" colors={['#06b6d4', '#3b82f6', '#6366f1']} opacity={0.3} animated />
-      {/* Only render floating elements on client to avoid hydration issues */}
-      {isClient && (
+      <NeonBlob position="custom" customClass="right-1/3 bottom-1/4 -rotate-12" size="md" colors={['#a855f7', '#ec4899', '#ef4444']} opacity={0.4} animated={shouldAnimate} />
+      <NeonBlob position="custom" customClass="left-1/3 top-1/2 rotate-6" size="sm" colors={['#06b6d4', '#3b82f6', '#6366f1']} opacity={0.3} animated={shouldAnimate} />
+      {/* Only render floating elements on client and if not mobile to avoid hydration issues */}
+      {isClient && !isMobile && (
         <motion.div className="absolute inset-0 pointer-events-none" style={{ opacity: transforms.opacity }}>
           {FLOATING_ELEMENTS.map((element, i) => (
             <motion.div 

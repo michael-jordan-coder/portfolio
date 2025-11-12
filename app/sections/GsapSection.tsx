@@ -2,15 +2,17 @@
 
 import DomeGallery from '../../components/DomeGallery';
 import { SectionWrapper, NeonBlob } from './_shared';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 export default function GsapSection() {
+  const isMobile = useIsMobile();
+  
   // Responsive opened image dimensions based on screen size
   const getOpenedImageDimensions = () => {
     if (typeof window === 'undefined') {
       return { width: '900px', height: '500px' };
     }
     
-    const isMobile = window.innerWidth < 640;
     const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024;
     
     if (isMobile) {
@@ -56,10 +58,10 @@ export default function GsapSection() {
               { src: '/imagetrail/swift.svg', alt: 'Swift - Apple programming language for iOS and macOS development' },
               { src: '/imagetrail/tailwind.svg', alt: 'Tailwind CSS - Utility-first CSS framework for rapid UI development' }
             ]}
-            fit={0.6}
-            segments={30}
+            fit={isMobile ? 0.5 : 0.6}
+            segments={isMobile ? 15 : 30}
             maxVerticalRotationDeg={8}
-            dragSensitivity={25}
+            dragSensitivity={isMobile ? 35 : 25}
             grayscale={false}
             imageBorderRadius="20px"
             openedImageBorderRadius="30px"

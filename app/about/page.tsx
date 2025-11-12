@@ -7,11 +7,16 @@ import SplashCursor from '../../components/SplashCursor';
 import ContactModal from '../../components/ContactModal';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useIsMobile } from '../../hooks/useIsMobile';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 
 const AboutPage: React.FC = () => {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [splashCursorKey, setSplashCursorKey] = useState(0);
+  const isMobile = useIsMobile();
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldAnimate = !isMobile && !prefersReducedMotion;
 
   // Refs for GSAP animations
   const aboutSectionRef = useRef<HTMLDivElement>(null);
@@ -26,190 +31,83 @@ const AboutPage: React.FC = () => {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    // About section animation - SplitText only for header
-    if (aboutSectionRef.current) {
-      const titleElement = aboutSectionRef.current.querySelector('h1');
-      const textElement = aboutSectionRef.current.querySelector('p');
+    // Helper function to animate a section
+    const animateSection = (sectionRef: React.RefObject<HTMLDivElement>) => {
+      if (!sectionRef.current) return;
       
-      if (titleElement && textElement) {
-        // Split title into characters manually
-        const titleText = titleElement.textContent || '';
-        titleElement.innerHTML = titleText.split('').map(char => 
-          char === ' ' ? ' ' : `<span class="char">${char}</span>`
-        ).join('');
-
-        // Get character elements
-        const chars = titleElement.querySelectorAll('.char');
-
-        // Set initial states for characters
-        gsap.set(chars, {
-          y: 80,
-          opacity: 0,
-          rotationX: 70,
-          transformOrigin: "center bottom"
-        });
-
-        // Set initial state for paragraph
-        gsap.set(textElement, {
-          y: 40,
-          opacity: 0
-        });
-
-        const aboutTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: aboutSectionRef.current,
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play reverse play reverse"
-          }
-        });
-
-        // Animate title characters with wave effect
-        aboutTl
-          .to(chars, {
-            y: 0,
-            opacity: 1,
-            rotationX: 0,
-            duration: 0.8,
-            ease: "back.out(1.7)",
-            stagger: {
-              amount: 0.6,
-              from: "start"
-            }
-          })
-          .to(textElement, {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            ease: "power2.out"
-          }, "-=0.4");
-      }
-    }
-
-    // Philosophy section animation - SplitText for header
-    if (philosophySectionRef.current) {
-      const titleElement = philosophySectionRef.current.querySelector('h1');
-      const textElement = philosophySectionRef.current.querySelector('p');
+      const titleElement = sectionRef.current.querySelector('h1');
+      const textElement = sectionRef.current.querySelector('p');
       
-      if (titleElement && textElement) {
-        // Split title into characters manually
-        const titleText = titleElement.textContent || '';
-        titleElement.innerHTML = titleText.split('').map(char => 
-          char === ' ' ? ' ' : `<span class="char">${char}</span>`
-        ).join('');
+      if (!titleElement || !textElement) return;
 
-        // Get character elements
-        const chars = titleElement.querySelectorAll('.char');
-
-        // Set initial states for characters
-        gsap.set(chars, {
-          y: 80,
-          opacity: 0,
-          rotationX: 70,
-          transformOrigin: "center bottom"
-        });
-
-        // Set initial state for paragraph
-        gsap.set(textElement, {
-          y: 40,
-          opacity: 0
-        });
-
-        const philosophyTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: philosophySectionRef.current,
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play reverse play reverse"
-          }
-        });
-
-        // Animate title characters with wave effect
-        philosophyTl
-          .to(chars, {
-            y: 0,
-            opacity: 1,
-            rotationX: 0,
-            duration: 0.8,
-            ease: "back.out(1.7)",
-            stagger: {
-              amount: 0.6,
-              from: "start"
-            }
-          })
-          .to(textElement, {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            ease: "power2.out"
-          }, "-=0.4");
+      if (!shouldAnimate) {
+        // Simple mobile version - just show content
+        gsap.set([titleElement, textElement], { opacity: 1, y: 0 });
+        return;
       }
-    }
 
-    // Strengths section animation - SplitText for header
-    if (strengthsSectionRef.current) {
-      const titleElement = strengthsSectionRef.current.querySelector('h1');
-      const textElement = strengthsSectionRef.current.querySelector('p');
-      
-      if (titleElement && textElement) {
-        // Split title into characters manually
-        const titleText = titleElement.textContent || '';
-        titleElement.innerHTML = titleText.split('').map(char => 
-          char === ' ' ? ' ' : `<span class="char">${char}</span>`
-        ).join('');
+      // Split title into characters manually
+      const titleText = titleElement.textContent || '';
+      titleElement.innerHTML = titleText.split('').map(char => 
+        char === ' ' ? ' ' : `<span class="char">${char}</span>`
+      ).join('');
 
-        // Get character elements
-        const chars = titleElement.querySelectorAll('.char');
+      // Get character elements
+      const chars = titleElement.querySelectorAll('.char');
 
-        // Set initial states for characters
-        gsap.set(chars, {
-          y: 80,
-          opacity: 0,
-          rotationX: 70,
-          transformOrigin: "center bottom"
-        });
+      // Set initial states for characters
+      gsap.set(chars, {
+        y: 80,
+        opacity: 0,
+        rotationX: 70,
+        transformOrigin: "center bottom"
+      });
 
-        // Set initial state for paragraph
-        gsap.set(textElement, {
-          y: 40,
-          opacity: 0
-        });
+      // Set initial state for paragraph
+      gsap.set(textElement, {
+        y: 40,
+        opacity: 0
+      });
 
-        const strengthsTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: strengthsSectionRef.current,
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play reverse play reverse"
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play reverse play reverse"
+        }
+      });
+
+      // Animate title characters with wave effect
+      tl
+        .to(chars, {
+          y: 0,
+          opacity: 1,
+          rotationX: 0,
+          duration: 0.8,
+          ease: "back.out(1.7)",
+          stagger: {
+            amount: 0.6,
+            from: "start"
           }
-        });
+        })
+        .to(textElement, {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.out"
+        }, "-=0.4");
+    };
 
-        // Animate title characters with wave effect
-        strengthsTl
-          .to(chars, {
-            y: 0,
-            opacity: 1,
-            rotationX: 0,
-            duration: 0.8,
-            ease: "back.out(1.7)",
-            stagger: {
-              amount: 0.6,
-              from: "start"
-            }
-          })
-          .to(textElement, {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            ease: "power2.out"
-          }, "-=0.4");
-      }
-    }
+    // Animate all sections
+    animateSection(aboutSectionRef);
+    animateSection(philosophySectionRef);
+    animateSection(strengthsSectionRef);
 
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
-  }, []);
+  }, [isMobile, prefersReducedMotion, shouldAnimate]);
 
   // Refresh splash cursor every 30 seconds
   useEffect(() => {
