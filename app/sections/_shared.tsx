@@ -1,5 +1,5 @@
 // Shared components and utilities for sections
-import { ReactNode } from 'react';
+import { ReactNode, forwardRef } from 'react';
 import { motion } from 'framer-motion';
 
 // Common section wrapper with noise overlay and gradient background
@@ -10,22 +10,26 @@ interface SectionWrapperProps {
   variant?: 'default' | 'hero' | 'responsive';
 }
 
-export const SectionWrapper = ({ id, children, className = '', variant = 'default' }: SectionWrapperProps) => {
-  const baseClasses = "relative overflow-hidden";
-  
-  const variantClasses = {
-    default: "py-20 bg-gradient-to-b from-black via-[#000000] to-black",
-    hero: "min-h-screen flex items-center justify-center bg-black",
-    responsive: "h-auto bg-gradient-to-b from-black via-[#060607] to-black flex items-center justify-center px-4 sm:px-6 md:px-8 overflow-visible p-4 sm:p-6 pt-[15vh] sm:pt-[20vh] pb-[15vh] sm:pb-[20vh]"
-  };
+export const SectionWrapper = forwardRef<HTMLElement, SectionWrapperProps>(
+  ({ id, children, className = '', variant = 'default' }, ref) => {
+    const baseClasses = "relative overflow-hidden";
+    
+    const variantClasses = {
+      default: "py-20 bg-gradient-to-b from-black via-[#000000] to-black",
+      hero: "min-h-screen flex items-center justify-center bg-black",
+      responsive: "h-auto bg-gradient-to-b from-black via-[#060607] to-black flex items-center justify-center px-4 sm:px-6 md:px-8 overflow-visible p-4 sm:p-6 pt-[15vh] sm:pt-[20vh] pb-[15vh] sm:pb-[20vh]"
+    };
 
-  return (
-    <section id={id} className={`${baseClasses} ${variantClasses[variant]} ${className}`}>
-      {variant !== 'hero' && <NoiseOverlay />}
-      {children}
-    </section>
-  );
-};
+    return (
+      <section ref={ref} id={id} className={`${baseClasses} ${variantClasses[variant]} ${className}`}>
+        {variant !== 'hero' && <NoiseOverlay />}
+        {children}
+      </section>
+    );
+  }
+);
+
+SectionWrapper.displayName = 'SectionWrapper';
 
 // Reusable noise overlay component
 export const NoiseOverlay = () => (
