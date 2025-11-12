@@ -1,9 +1,12 @@
 "use client";
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { DotPattern } from '../../../../components/DotPattern';
 import { useScrollToTopOnNavigation } from '../../../../lib/utils';
 import CodeBlock from '../../../../components/ui/TerminalCard';
+import Navbar from '../../../../components/Navbar';
+import ContactModal from '../../../../components/ContactModal';
 
 // Architecture component card
 const ArchitectureCard: React.FC<{ title: string; description: string; details: string[]; icon: React.ReactNode }> = ({ title, description, details, icon }) => (
@@ -50,9 +53,12 @@ const ChallengeCard: React.FC<{ challenge: string; solution: string; impact: str
 
 export default function HandTrackingComponentPage() {
   useScrollToTopOnNavigation();
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   return (
     <>
+      <Navbar onOpenContact={() => setIsContactModalOpen(true)} />
+      
       {/* Schema for Component Case Study */}
       <script
         type="application/ld+json"
@@ -78,7 +84,7 @@ export default function HandTrackingComponentPage() {
       <Link
         href="/projects/web-3d"
         aria-label="Back to project overview"
-        className="fixed top-8 right-8 z-50 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-full px-6 py-4 shadow-2xl backdrop-blur-xl border border-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500/50 flex items-center gap-2"
+        className="fixed top-20 right-8 z-50 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-full px-6 py-4 shadow-2xl backdrop-blur-xl border border-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500/50 flex items-center gap-2"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
           <path d="M15 18l-6-6 6-6" />
@@ -564,6 +570,10 @@ class GestureProcessor {
           </Link>
         </div>
       </main>
+      <ContactModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+      />
     </>
   );
 }

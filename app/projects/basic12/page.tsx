@@ -3,10 +3,13 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useScrollToTopOnNavigation } from '../../../lib/utils';
+import Navbar from '../../../components/Navbar';
+import ContactModal from '../../../components/ContactModal';
 
 export default function Basic12CaseStudy() {
   useScrollToTopOnNavigation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isPlaying1, setIsPlaying1] = useState(true);
   const [isPlaying2, setIsPlaying2] = useState(true);
@@ -34,11 +37,13 @@ export default function Basic12CaseStudy() {
 
   return (
     <div className="min-h-screen">
+      <Navbar onOpenContact={() => setIsContactModalOpen(true)} />
+      
       {/* Back to home button */}
       <Link
         href="/"
         aria-label="back"
-        className="fixed top-8 right-8 z-50 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-full px-6 py-4 shadow-2xl backdrop-blur-xl border border-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50 flex items-center gap-2"
+        className="fixed top-20 right-8 z-50 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-full px-6 py-4 shadow-2xl backdrop-blur-xl border border-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50 flex items-center gap-2"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
           <path d="M15 18l-6-6 6-6" />
@@ -512,6 +517,10 @@ export default function Basic12CaseStudy() {
           </div>
         </div>
       )}
+      <ContactModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+      />
     </div>
   );
 }

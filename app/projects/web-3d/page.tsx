@@ -6,6 +6,8 @@ import NextProjectButton from '../../../components/NextProjectButton';
 import { useScrollToTopOnNavigation } from '../../../lib/utils';
 import { CodeBlock } from '../../../components/CodeBlock';
 import { useState, useEffect } from 'react';
+import Navbar from '../../../components/Navbar';
+import ContactModal from '../../../components/ContactModal';
 
 // Simple feature highlight component
 const FeatureHighlight: React.FC<{ icon: React.ReactNode; text: string }> = ({ icon, text }) => (
@@ -98,6 +100,7 @@ export default function HandTrackingPage() {
   const [showCameraModal, setShowCameraModal] = useState(false);
   const [cameraPermissionGranted, setCameraPermissionGranted] = useState(false);
   const [showIframe, setShowIframe] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   const handleCameraPermissionGranted = () => {
     setCameraPermissionGranted(true);
@@ -117,6 +120,8 @@ export default function HandTrackingPage() {
 
   return (
     <>
+      <Navbar onOpenContact={() => setIsContactModalOpen(true)} />
+      
       {/* Schema for Beta Project */}
       <script
         type="application/ld+json"
@@ -143,7 +148,7 @@ export default function HandTrackingPage() {
       <Link
         href="/"
         aria-label="back"
-        className="fixed top-8 right-8 z-50 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-full px-6 py-4 shadow-2xl backdrop-blur-xl border border-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500/50 flex items-center gap-2"
+        className="fixed top-20 right-8 z-50 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-full px-6 py-4 shadow-2xl backdrop-blur-xl border border-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500/50 flex items-center gap-2"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
           <path d="M15 18l-6-6 6-6" />
@@ -421,6 +426,10 @@ export default function HandTrackingPage() {
         isOpen={showCameraModal}
         onClose={() => setShowCameraModal(false)}
         onGranted={handleCameraPermissionGranted}
+      />
+      <ContactModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
       />
     </>
   );

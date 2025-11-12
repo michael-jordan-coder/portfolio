@@ -6,6 +6,8 @@ import Image from 'next/image'
 import { useScrollToTopOnNavigation } from '../../../lib/utils'
 import NextProjectButton from '../../../components/NextProjectButton'
 import { CodeBlock } from '../../../components/CodeBlock'
+import Navbar from '../../../components/Navbar'
+import ContactModal from '../../../components/ContactModal'
 
 // Asset configuration
 const ASSETS = {
@@ -407,14 +409,17 @@ const kpis: KPIMetric[] = [
 
 export default function Page() {
   useScrollToTopOnNavigation();
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   return (
     <>
+      <Navbar onOpenContact={() => setIsContactModalOpen(true)} />
+      
       {/* Back to home button */}
       <Link
         href="/"
         aria-label="back"
-        className="fixed top-8 right-8 z-50 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-full px-6 py-4 shadow-2xl backdrop-blur-xl border border-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500/50 flex items-center gap-2"
+        className="fixed top-20 right-8 z-50 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-full px-6 py-4 shadow-2xl backdrop-blur-xl border border-white/10 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500/50 flex items-center gap-2"
       >
         {BackIcon}
         <span className="text-white font-medium">back</span>
@@ -585,6 +590,10 @@ export default function Page() {
           />
         </div>
       </main>
+      <ContactModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+      />
     </>
   )
 }

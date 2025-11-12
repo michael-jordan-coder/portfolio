@@ -1,11 +1,13 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { KPICard } from '../../../components/ui';
 import { useScrollToTopOnNavigation } from '../../../lib/utils';
 import NextProjectButton from '../../../components/NextProjectButton';
+import Navbar from '../../../components/Navbar';
+import ContactModal from '../../../components/ContactModal';
 
 // Asset configuration - centralized and type-safe
 const ASSETS = {
@@ -108,14 +110,17 @@ const VideoPlayer = ({ src, poster }: { src: string; poster: string }) => {
 
 export default function GammaPage() {
   useScrollToTopOnNavigation();
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   
   return (
     <div className="bg-white min-h-[100svh]">
+      <Navbar onOpenContact={() => setIsContactModalOpen(true)} />
+      
       {/* Back to home button */}
       <Link
         href="/"
         aria-label="back"
-        className="fixed top-8 right-8 z-50 bg-black hover:bg-black/80 transition-all duration-300 rounded-full px-6 py-4 shadow-2xl border border-black/20 hover:border-black/40 focus:outline-none focus:ring-2 focus:ring-black/50 flex items-center gap-2"
+        className="fixed top-20 right-8 z-50 bg-black hover:bg-black/80 transition-all duration-300 rounded-full px-6 py-4 shadow-2xl border border-black/20 hover:border-black/40 focus:outline-none focus:ring-2 focus:ring-black/50 flex items-center gap-2"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
           <path d="M15 18l-6-6 6-6" />
@@ -393,6 +398,10 @@ export default function GammaPage() {
           className="bg-white"
         />
       </div>
+      <ContactModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+      />
     </div>
   );
 }

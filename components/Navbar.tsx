@@ -88,7 +88,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
     <motion.nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-black/10 backdrop-blur-lg border-b border-white/10' 
+          ? 'bg-black/30 backdrop-blur-xl border-b border-white/10' 
           : 'bg-transparent'
       }`}
       initial={{ y: -100, opacity: 0 }}
