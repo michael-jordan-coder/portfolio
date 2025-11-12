@@ -358,8 +358,8 @@ The product blends **AI generation** with real **human-like conversation** — t
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                 </div>
-                <span className="font-semibold text-sm uppercase tracking-wide">Live Interactive Demo</span>
-                <span className="text-xs">— Click to interact</span>
+                <span className="font-semibold text-sm uppercase tracking-wide">try "create post" and send</span>
+                <span className="text-xs">live demo</span>
               </div>
             </div>
             <div className="relative mx-auto mb-12 flex justify-center">
@@ -409,8 +409,8 @@ The product blends **AI generation** with real **human-like conversation** — t
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                     </div>
-                    <span className="font-semibold text-sm uppercase tracking-wide">Live Interactive Demo</span>
-                    <span className="text-xs">—try "create post" and send</span>
+                    <span className="font-semibold text-sm uppercase tracking-wide">try "create post" and send</span>
+                    <span className="text-xs">live demo</span>
                   </div>
                 </div>
                 {/* Desktop/Laptop frame */}

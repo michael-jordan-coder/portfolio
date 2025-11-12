@@ -18,18 +18,21 @@
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "clsx": "^2.1.1",
+    "face-api.js": "^0.22.2",
     "framer-motion": "^12.23.6",
     "gsap": "^3.12.2",
     "lenis": "^1.3.8",
     "lucide-react": "^0.536.0",
     "next": "^14.2.31",
     "ogl": "^1.0.11",
+    "postprocessing": "^6.38.0",
     "re-resizable": "^6.11.2",
     "react": "^18",
     "react-dom": "^18",
     "react-syntax-highlighter": "^15.6.1",
     "tailwind-merge": "^3.3.1",
-    "tech-stack-icons": "^3.3.2"
+    "tech-stack-icons": "^3.3.2",
+    "three": "^0.181.1"
   },
   "devDependencies": {
     "@stagewise-plugins/react": "^0.6.2",

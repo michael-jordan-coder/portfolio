@@ -23,6 +23,7 @@ import TextType from "@/components/TextType";
 import { AnimatedTestimonialsDemo } from "@/components/ui";
 import { KPICard } from "@/components/ui";
 import TerminalCard from "@/components/ui/TerminalCard";
+import { GridScan } from "@/components/GridScan";
 
 export default function DemoPage() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -814,6 +815,46 @@ public class LLMClient {
             />
           </div>
         </div>
+
+        {/* GridScan Component Demo */}
+        <div className="mt-16">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              GridScan 3D Grid
+            </h2>
+            <p className="text-lg text-neutral-300 max-w-2xl mx-auto mb-8">
+              Interactive 3D grid visualization with WebGL. Move your mouse to see the grid respond. 
+              Features animated scan lines, customizable colors, and smooth mouse tracking.
+            </p>
+          </div>
+          <div className="h-[500px] rounded-2xl overflow-hidden bg-black backdrop-blur-sm border border-white/10 relative">
+            <GridScan
+              lineThickness={1.5}
+              linesColor="#392e4e"
+              scanColor="#ff475a"
+              scanOpacity={0.6}
+              gridScale={0.12}
+              lineStyle="solid"
+              lineJitter={0.0}
+              scanDirection="pingpong"
+              scanGlow={0.6}
+              scanSoftness={2}
+              scanDuration={2.5}
+              scanDelay={1.5}
+              enablePost={true}
+              bloomIntensity={0.3}
+              chromaticAberration={0.002}
+              noiseIntensity={0.02}
+              sensitivity={0.6}
+              scanOnClick={true}
+              enableWebcam={false}
+              showPreview={false}
+            />
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+             
+            </div>
+          </div>
+        </div>
         
         <div id="demo-features" className="mt-16 text-center">
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 max-w-6xl mx-auto">
@@ -884,6 +925,10 @@ public class LLMClient {
               <div>
                 <h3 className="font-semibold text-white mb-2">Image Test Component</h3>
                 <p>Image testing component for debugging</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-white mb-2">GridScan 3D Grid</h3>
+                <p>Interactive 3D WebGL grid with mouse tracking and scan effects</p>
               </div>
             </div>
           </div>
