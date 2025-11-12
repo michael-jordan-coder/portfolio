@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useScrollToTopOnNavigation } from '../../../lib/utils'
 import NextProjectButton from '../../../components/NextProjectButton'
+import { CodeBlock } from '../../../components/CodeBlock'
 
 // Asset configuration
 const ASSETS = {
@@ -18,6 +19,7 @@ const ASSETS = {
     tablist: '/keychain/Tablist.svg',
     alex: '/keychain/alex.svg',
     jonathan: '/keychain/jonathan.svg',
+    total: '/keychain/total.png',
   },
   videos: {
     fullHero: '/keychain/full-hero.mp4',
@@ -295,25 +297,28 @@ const DataFlowVisualization = memo(function DataFlowVisualization() {
           className="relative rounded-2xl overflow-hidden bg-gray-900 border border-gray-700 shadow-lg focus-within:ring-2 focus-within:ring-gray-400/50 focus-within:ring-offset-2 focus-within:ring-offset-black transition-all duration-300 hover:shadow-xl"
           tabIndex={0}
         >
-          <div className="bg-gray-800/50 px-4 py-2 flex items-center gap-2 border-b border-gray-700/50">
-            <div className="flex gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-gray-600"></div>
-              <div className="w-2.5 h-2.5 rounded-full bg-gray-600"></div>
-              <div className="w-2.5 h-2.5 rounded-full bg-gray-600"></div>
+          <div className="aspect-[3/2] relative w-full h-full">
+            <div className="absolute inset-0">
+              <CodeBlock
+                language="ts"
+                filename=""
+                tabs={[
+                  {
+                    name: "KPI Calculation",
+                    code: `// KPI calculation logic
+
+const costChange = prevCost > 0 ? ((totalCost - prevCost) / prevCost) * 100 : 0;
+
+const kpis: KPIMetric[] = [
+  { label: 'Total Cost', value: totalCost, change: costChange, format: 'currency' },
+  { label: 'Tokens Used', value: totalTokens, format: 'number' },
+];`,
+                    language: "ts"
+                  }
+                ]}
+                editable={false}
+              />
             </div>
-            <span className="text-xs text-gray-400 font-mono ml-2">Cost Distribution</span>
-          </div>
-          <div className="aspect-[3/2] relative">
-            <Image
-              src={ASSETS.images.code}
-              alt="KPI code snippet showing cost metrics"
-              width={1200}
-              height={800}
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="w-full h-full object-cover"
-              loading="lazy"
-              quality={85}
-            />
           </div>
         </div>
 
@@ -324,21 +329,20 @@ const DataFlowVisualization = memo(function DataFlowVisualization() {
           style={{ boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.3)' }}
           tabIndex={0}
         >
-          <div className="aspect-[3/2] relative p-4">
+          <div className="aspect-[3/2] relative p-2">
             <Image
-              src={ASSETS.images.section3}
+              src={ASSETS.images.total}
               alt="LLM card rendering total cost insight"
               width={1200}
               height={800}
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="w-full h-full object-cover rounded-lg"
               loading="lazy"
-              quality={85}
+              quality={90}
+              objectFit="fill"
             />
           </div>
-          <div className="absolute bottom-2 right-2 text-xs text-gray-500 px-2 py-1">
-            Example: Total Cost insight with delta vs. last period
-          </div>
+         
         </div>
       </div>
 
