@@ -7,8 +7,6 @@ import { Button } from '../../components/Button';
 import { SectionWrapper, NeonBlob } from './_shared';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // Project data structure
 interface Project {
@@ -323,83 +321,9 @@ const SmoothCarousel: React.FC = () => {
     useTransform(scrollYProgress, [0, 1], [0, -200 - element.delay])
   );
 
-  // Refs for GSAP reveal animations
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const headingRef = useRef<HTMLHeadingElement>(null);
-  const descriptionRef = useRef<HTMLParagraphElement>(null);
-
   useEffect(() => {
     setIsClient(true);
   }, []);
-
-  // GSAP ScrollTrigger reveal animation
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    if (!sectionRef.current || !headingRef.current || !descriptionRef.current) return;
-
-    if (!shouldAnimate) {
-      // Simple mobile version - just show content
-      gsap.set([headingRef.current, descriptionRef.current], { opacity: 1, y: 0 });
-      return;
-    }
-
-    // Split heading into characters manually
-    const headingText = headingRef.current.textContent || '';
-    headingRef.current.innerHTML = headingText.split('').map(char => 
-      char === ' ' ? ' ' : `<span class="char">${char}</span>`
-    ).join('');
-
-    // Get character elements
-    const chars = headingRef.current.querySelectorAll('.char');
-
-    // Set initial states for characters
-    gsap.set(chars, {
-      y: 80,
-      opacity: 0,
-      rotationX: 70,
-      transformOrigin: "center bottom"
-    });
-
-    // Set initial state for description
-    gsap.set(descriptionRef.current, {
-      y: 40,
-      opacity: 0
-    });
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top 80%",
-        end: "bottom 20%",
-        toggleActions: "play reverse play reverse"
-      }
-    });
-
-    // Animate heading characters with wave effect
-    tl
-      .to(chars, {
-        y: 0,
-        opacity: 1,
-        rotationX: 0,
-        duration: 0.8,
-        ease: "back.out(1.7)",
-        stagger: {
-          amount: 0.6,
-          from: "start"
-        }
-      })
-      .to(descriptionRef.current, {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.out"
-      }, "-=0.4");
-
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-  }, [isMobile, prefersReducedMotion, shouldAnimate]);
   
   return (
     <SectionWrapper id="smooth">
@@ -425,24 +349,26 @@ const SmoothCarousel: React.FC = () => {
         </motion.div>
       )}
       
-      <motion.div 
-        ref={sectionRef}
-        className="text-center text-white pt-4 px-4" 
-        style={{ y: transforms.y2, opacity: transforms.opacity }}
-      >
-        <h2 
-          ref={headingRef}
+      <motion.div className="text-center text-white pt-4 px-4" style={{ y: transforms.y2, opacity: transforms.opacity }}>
+        <motion.h2 
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 sm:mb-4" 
           aria-live="polite"
+          initial={shouldAnimate ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
+          whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
+          viewport={shouldAnimate ? { once: false, margin: "-100px" } : undefined}
+          transition={shouldAnimate ? { duration: 0.7, ease: "easeOut" } : undefined}
         >
           Project Showcase
-        </h2>
-        <p 
-          ref={descriptionRef}
+        </motion.h2>
+        <motion.p 
           className="text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-6 max-w-2xl mx-auto"
+          initial={shouldAnimate ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
+          whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
+          viewport={shouldAnimate ? { once: false, margin: "-100px" } : undefined}
+          transition={shouldAnimate ? { duration: 0.7, ease: "easeOut", delay: 0.1 } : undefined}
         >
           Experience the last projects i worked on
-        </p>
+        </motion.p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center py-6 sm:py-10">
           <div className="text-white/80 text-xs sm:text-sm">{PROJECTS.length} projects</div>
         </div>

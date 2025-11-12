@@ -150,6 +150,10 @@ const HeroSection: React.FC = () => {
       <motion.div 
         className="text-center text-white w-full px-4 sm:px-4 md:px-6 lg:px-8 max-w-7xl mx-auto relative z-30"
         style={{ y: transforms.y2, opacity: transforms.opacity, scale: transforms.scale }}
+        initial={shouldAnimate ? { opacity: 0, y: 30 } : undefined}
+        whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
+        viewport={shouldAnimate ? { once: false, margin: "-100px" } : undefined}
+        transition={shouldAnimate ? { duration: 0.7, ease: "easeOut" } : undefined}
       >
         {/* Main heading with improved responsive typography */}
         <h1 
