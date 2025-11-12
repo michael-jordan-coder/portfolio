@@ -2,10 +2,8 @@
 
 import DomeGallery from '../../components/DomeGallery';
 import { SectionWrapper, NeonBlob } from './_shared';
-import { useIsMobile } from '../../hooks/useIsMobile';
 
 export default function GsapSection() {
-  const isMobile = useIsMobile();
   
   // Responsive opened image dimensions based on screen size
   const getOpenedImageDimensions = () => {
@@ -13,6 +11,7 @@ export default function GsapSection() {
       return { width: '900px', height: '500px' };
     }
     
+    const isMobile = window.innerWidth < 640;
     const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024;
     
     if (isMobile) {
@@ -44,8 +43,8 @@ export default function GsapSection() {
         </p>
       </div>
 
-      <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] max-w-6xl mx-auto px-4">
-        <div className="h-full rounded-2xl overflow-hidden bg-black backdrop-blur-sm">
+      <div className="relative w-full h-[600px] max-w-6xl mx-auto px-4">
+        <div className="h-full rounded-2xl overflow-hidden bg-black backdrop-blur-sm border border-white/10">
           <DomeGallery 
             images={[
               { src: '/imagetrail/claude.svg', alt: 'Claude AI - Advanced AI assistant by Anthropic for coding and creative tasks' },
@@ -58,10 +57,10 @@ export default function GsapSection() {
               { src: '/imagetrail/swift.svg', alt: 'Swift - Apple programming language for iOS and macOS development' },
               { src: '/imagetrail/tailwind.svg', alt: 'Tailwind CSS - Utility-first CSS framework for rapid UI development' }
             ]}
-            fit={isMobile ? 0.5 : 0.6}
-            segments={isMobile ? 15 : 30}
+            fit={0.6}
+            segments={30}
             maxVerticalRotationDeg={8}
-            dragSensitivity={isMobile ? 35 : 25}
+            dragSensitivity={25}
             grayscale={false}
             imageBorderRadius="20px"
             openedImageBorderRadius="30px"

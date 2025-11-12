@@ -244,23 +244,6 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
                   )}
                 </motion.div>
               ))}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: navItems.length * 0.1 }}
-                className="pt-4"
-              >
-                <Button
-                  variant="primary"
-                  className="w-full bg-white text-black font-semibold py-3 rounded-full hover:bg-gray-100 transition-all duration-300"
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    onOpenContact();
-                  }}
-                >
-                  Explore Projects
-                </Button>
-              </motion.div>
             </div>
           </motion.div>
         )}
