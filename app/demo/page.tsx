@@ -58,9 +58,9 @@ const kpis: KPIMetric[] = [
       <div className="container mx-auto px-4 py-16">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            Complete Component Demo
+           Hello👋 if you are here, you are probably a geek or a very board person, this is a demo of my work.
           </h1>
-          <p className="text-xl text-neutral-300 max-w-2xl mx-auto">
+          <p className="text-xl text-neutral-300 max-w-6xl mx-auto">
             Showcasing all components in the project - both used and unused components. 
             This demo includes 20+ interactive components with various animations and effects.
           </p>
