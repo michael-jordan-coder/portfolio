@@ -68,6 +68,17 @@ const nextConfig: NextConfig = {
       },
     })
     
+    // Fix for node-fetch encoding issue in Vercel builds
+    // This prevents webpack from trying to bundle the encoding module
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        encoding: false,
+        fs: false,
+        path: false,
+      }
+    }
+    
     return config
   },
   
