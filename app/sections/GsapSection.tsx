@@ -43,25 +43,38 @@ export default function GsapSection() {
       />
       
       <div className="text-center text-white max-w-4xl mx-auto mb-8 sm:mb-12 md:mb-16 px-4">
-        <motion.h2 
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-5 md:mb-6"
-          initial={shouldAnimate ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
-          whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
-          viewport={shouldAnimate ? { once: false, margin: "-100px" } : undefined}
-          transition={shouldAnimate ? { duration: 0.7, ease: "easeOut" } : undefined}
-        >
-          My Design & UX Toolkit
-        </motion.h2>
-        <motion.p 
-          className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto"
-          initial={shouldAnimate ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
-          whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
-          viewport={shouldAnimate ? { once: false, margin: "-100px" } : undefined}
-          transition={shouldAnimate ? { duration: 0.7, ease: "easeOut", delay: 0.1 } : undefined}
-        >
-          Discover the tools I use to craft exceptional user experiences. 
-          Click on each tool to learn how it helps create intuitive, accessible designs.
-        </motion.p>
+        {shouldAnimate ? (
+          <motion.h2 
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-5 md:mb-6"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+          >
+            My Design & UX Toolkit
+          </motion.h2>
+        ) : (
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-5 md:mb-6">
+            My Design & UX Toolkit
+          </h2>
+        )}
+        {shouldAnimate ? (
+          <motion.p 
+            className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+          >
+            Discover the tools I use to craft exceptional user experiences. 
+            Click on each tool to learn how it helps create intuitive, accessible designs.
+          </motion.p>
+        ) : (
+          <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
+            Discover the tools I use to craft exceptional user experiences. 
+            Click on each tool to learn how it helps create intuitive, accessible designs.
+          </p>
+        )}
       </div>
 
       <div className="relative w-full h-[600px] max-w-6xl mx-auto px-4">

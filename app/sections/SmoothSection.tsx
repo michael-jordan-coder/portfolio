@@ -350,25 +350,40 @@ const SmoothCarousel: React.FC = () => {
       )}
       
       <motion.div className="text-center text-white pt-4 px-4" style={{ y: transforms.y2, opacity: transforms.opacity }}>
-        <motion.h2 
-          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 sm:mb-4" 
-          aria-live="polite"
-          initial={shouldAnimate ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
-          whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
-          viewport={shouldAnimate ? { once: false, margin: "-100px" } : undefined}
-          transition={shouldAnimate ? { duration: 0.7, ease: "easeOut" } : undefined}
-        >
-          Project Showcase
-        </motion.h2>
-        <motion.p 
-          className="text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-6 max-w-2xl mx-auto"
-          initial={shouldAnimate ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }}
-          whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
-          viewport={shouldAnimate ? { once: false, margin: "-100px" } : undefined}
-          transition={shouldAnimate ? { duration: 0.7, ease: "easeOut", delay: 0.1 } : undefined}
-        >
-          Experience the last projects i worked on
-        </motion.p>
+        {shouldAnimate ? (
+          <motion.h2 
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 sm:mb-4" 
+            aria-live="polite"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+          >
+            Project Showcase
+          </motion.h2>
+        ) : (
+          <h2 
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 sm:mb-4" 
+            aria-live="polite"
+          >
+            Project Showcase
+          </h2>
+        )}
+        {shouldAnimate ? (
+          <motion.p 
+            className="text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-6 max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+          >
+            Experience the last projects i worked on
+          </motion.p>
+        ) : (
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl mb-4 sm:mb-6 max-w-2xl mx-auto">
+            Experience the last projects i worked on
+          </p>
+        )}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center py-6 sm:py-10">
           <div className="text-white/80 text-xs sm:text-sm">{PROJECTS.length} projects</div>
         </div>

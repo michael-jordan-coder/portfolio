@@ -147,14 +147,15 @@ const HeroSection: React.FC = () => {
       {/* Subtle overlay for better text readability */}
       <div className="absolute inset-0 bg-black/20 z-20 pointer-events-none" />
       
-      <motion.div 
-        className="text-center text-white w-full px-4 sm:px-4 md:px-6 lg:px-8 max-w-7xl mx-auto relative z-30"
-        style={{ y: transforms.y2, opacity: transforms.opacity, scale: transforms.scale }}
-        initial={shouldAnimate ? { opacity: 0, y: 30 } : undefined}
-        whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
-        viewport={shouldAnimate ? { once: false, margin: "-100px" } : undefined}
-        transition={shouldAnimate ? { duration: 0.7, ease: "easeOut" } : undefined}
-      >
+      {shouldAnimate ? (
+        <motion.div 
+          className="text-center text-white w-full px-4 sm:px-4 md:px-6 lg:px-8 max-w-7xl mx-auto relative z-30"
+          style={{ y: transforms.y2, opacity: transforms.opacity, scale: transforms.scale }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+        >
         {/* Main heading with improved responsive typography */}
         <h1 
           ref={headingRef} 
@@ -204,7 +205,63 @@ const HeroSection: React.FC = () => {
             About me
           </Button>
         </div>
-      </motion.div>
+        </motion.div>
+      ) : (
+        <div 
+          className="text-center text-white w-full px-4 sm:px-4 md:px-6 lg:px-8 max-w-7xl mx-auto relative z-30"
+          style={{ y: transforms.y2, opacity: transforms.opacity, scale: transforms.scale }}
+        >
+          {/* Main heading with improved responsive typography */}
+          <h1 
+            ref={headingRef} 
+            className="text-center tracking-tight w-full px-2 sm:px-4 md:px-6 lg:px-8 max-w-6xl mx-auto mb-4 sm:mb-6 md:mb-8" 
+            style={{ 
+              wordSpacing: '-0.02em', 
+              lineHeight: '0.9',
+              textShadow: '0 0 30px rgba(255,255,255,0.1)'
+            }}
+          >
+            {/* Main title - optimized for all screen sizes */}
+            <div 
+              className="font-bold mb-2 sm:mb-3 md:mb-4 leading-none"
+              style={{
+                fontSize: 'clamp(1.75rem, 6vw, 6rem)',
+                lineHeight: '1.1'
+              }}
+            >
+              Ai product designer with frontend skills.
+            </div>
+          </h1>
+          
+          {/* Accent underline */}
+          <div ref={accentRef} className="w-16 sm:w-24 h-0.5 bg-white mx-auto mb-6 sm:mb-8" />
+          
+          <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
+            <Button 
+              variant="hero"
+              size="lg"
+              className="w-full sm:w-auto"
+              onClick={() => {
+                if (typeof document !== 'undefined') {
+                  document.getElementById('smooth')?.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+            >
+              Explore Projects
+            </Button>
+            <Button 
+              variant="primary" 
+              size="lg" 
+              className="w-full sm:w-auto"
+              onClick={() => {
+                router.push('/about');
+              }}
+            >
+              About me
+            </Button>
+          </div>
+        </div>
+      )}
     </section>
   )
 }
