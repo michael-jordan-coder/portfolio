@@ -173,20 +173,32 @@ export default function Page() {
 
       <main className="min-h-screen bg-black">
         {/* Hero Section */}
-        <section className="pt-28 pb-16 px-6">
-          <div className="max-w-[80rem] mx-auto">
-            <Reveal>
-              <h1 className="text-3xl sm:text-3xl xl:text-5xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white text-center">
-                Increase sign ups by 23% by a new conversational interface
-              </h1>
-            </Reveal>
+        <section className="pt-32 pb-24 px-6">
+          <div className="max-w-[90rem] mx-auto">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white text-center mb-8 leading-tight">
+              <span className="inline-block">
+                <Reveal>
+                  <span>Increase sign ups by </span>
+                </Reveal>
+              </span>
+              <span className="inline-block">
+                <Reveal delay={200}>
+                  <span className="text-green-400">23%</span>
+                </Reveal>
+              </span>
+              <span className="inline-block">
+                <Reveal delay={100}>
+                  <span> by a new conversational interface</span>
+                </Reveal>
+              </span>
+            </h1>
             <Reveal delay={120}>
-              <p className="mt-4 text-xl text-gray-400 max-w-3xl mx-auto pb-6 text-center">
+              <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto mb-12 text-center leading-relaxed">
                 Clara AI is a 24/7 AI-powered social media manager built to help creators and businesses plan, design, and publish content effortlessly.
               </p>
             </Reveal>
             <Reveal delay={180}>
-              <div className="mt-8 rounded-2xl overflow-hidden border border-gray-700 shadow-lg">
+              <div className="mt-12 rounded-2xl overflow-hidden border border-gray-700 shadow-2xl">
                 <Image
                   src={ASSETS.images.header}
                   alt="Clara AI Header"
@@ -197,18 +209,31 @@ export default function Page() {
                 />
               </div>
             </Reveal>
+            <Reveal delay={240}>
+              <ul className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs sm:text-sm text-gray-400">
+                <li><span className="font-medium text-gray-300">Role:</span> Product Designer</li>
+                <li className="hidden sm:inline text-gray-600">•</li>
+                <li><span className="font-medium text-gray-300">Timeline:</span> 2024</li>
+                <li className="hidden sm:inline text-gray-600">•</li>
+                <li><span className="font-medium text-gray-300">Platform:</span> Web · Mobile</li>
+                <li className="hidden sm:inline text-gray-600">•</li>
+                <li><span className="font-medium text-gray-300">Stack:</span> Figma, React, TypeScript</li>
+              </ul>
+            </Reveal>
           </div>
         </section>
 
         {/* 01. Context */}
-        <section className="px-6 py-32">
+        <section className="px-6 py-48">
           <div className="max-w-[90rem] mx-auto">
-            <SectionHeader eyebrow="01" title="Context" />
             <Reveal>
-              <div className="max-w-4xl mx-auto">
-                <MarkdownText text="Clara AI is a **24/7 AI-powered** social media manager built to help creators and businesses **plan, design, and publish** content effortlessly.
-
-The product blends **AI generation** with real **human-like conversation** — turning everyday content creation into a **creative dialogue**." />
+              <div className="max-w-5xl mx-auto">
+                <p className="text-gray-300 leading-relaxed text-xl sm:text-2xl md:text-3xl text-center">
+                  Clara AI is a <strong className="font-semibold text-white">24/7 AI-powered</strong> social media manager built to help creators and businesses <strong className="font-semibold text-white">plan, design, and publish</strong> content effortlessly.
+                </p>
+                <p className="text-gray-300 leading-relaxed text-xl sm:text-2xl md:text-3xl text-center mt-8">
+                  The product blends <strong className="font-semibold text-white">AI generation</strong> with real <strong className="font-semibold text-white">human-like conversation</strong> — turning everyday content creation into a <strong className="font-semibold text-white">creative dialogue</strong>.
+                </p>
               </div>
             </Reveal>
           </div>
