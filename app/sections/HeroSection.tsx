@@ -32,15 +32,15 @@ const HeroSection: React.FC = () => {
   return (
     <section
       id="hero"
-      className="relative h-auto flex flex-col items-center overflow-hidden bg-black pt-2 sm:pt-4 pb-4 sm:pb-6"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-black pt-2 sm:pt-4 pb-4 sm:pb-6"
     >
       {/* Aurora Background */}
-      <div className="absolute inset-0 z-10 h-[40vh]">
+      <div className="absolute inset-0 z-10 h-[62vh]">
         <Aurora 
           colorStops={["#7CFF67", "#FF2974", "#57BEFF"]}
-          amplitude={0.8}
+          amplitude={0.9}
           blend={0.6}
-          speed={0.3}
+          speed={0.8}
         />
       </div>
 
@@ -68,7 +68,7 @@ const HeroSection: React.FC = () => {
             </div>
           
             <p className="text-gray-300 font-regular text-3xl max-w-3xl mx-auto mb-4">
-            A UX designer mixing AI and UX. A bridge between design and development.
+           Im truly passionate about design products, putting my focus on the user and the product.
             </p>
 
           </h1>

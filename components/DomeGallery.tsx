@@ -250,10 +250,10 @@ export default function DomeGallery({
       root.style.setProperty('--image-filter', grayscale ? 'grayscale(1)' : 'none');
       applyTransform(rotationRef.current.x, rotationRef.current.y);
 
-      const enlargedOverlay = viewerRef.current?.querySelector('.enlarge') as HTMLElement;
-      if (enlargedOverlay && frameRef.current && mainRef.current) {
+      const enlargedOverlay = rootRef.current?.querySelector('.enlarge') as HTMLElement;
+      if (enlargedOverlay && frameRef.current && rootRef.current) {
         const frameR = frameRef.current.getBoundingClientRect();
-        const mainR = mainRef.current.getBoundingClientRect();
+        const rootR = rootRef.current.getBoundingClientRect();
 
         const hasCustomSize = openedImageWidth && openedImageHeight;
         if (hasCustomSize) {
@@ -263,14 +263,14 @@ export default function DomeGallery({
           const tempRect = tempDiv.getBoundingClientRect();
           document.body.removeChild(tempDiv);
 
-          const centeredLeft = frameR.left - mainR.left + (frameR.width - tempRect.width) / 2;
-          const centeredTop = frameR.top - mainR.top + (frameR.height - tempRect.height) / 2;
+          const centeredLeft = frameR.left - rootR.left + (frameR.width - tempRect.width) / 2;
+          const centeredTop = frameR.top - rootR.top + (frameR.height - tempRect.height) / 2;
 
           enlargedOverlay.style.left = `${centeredLeft}px`;
           enlargedOverlay.style.top = `${centeredTop}px`;
         } else {
-          enlargedOverlay.style.left = `${frameR.left - mainR.left}px`;
-          enlargedOverlay.style.top = `${frameR.top - mainR.top}px`;
+          enlargedOverlay.style.left = `${frameR.left - rootR.left}px`;
+          enlargedOverlay.style.top = `${frameR.top - rootR.top}px`;
           enlargedOverlay.style.width = `${frameR.width}px`;
           enlargedOverlay.style.height = `${frameR.height}px`;
         }
@@ -436,7 +436,7 @@ export default function DomeGallery({
       const el = focusedElRef.current;
       if (!el) return;
       const parent = el.parentElement as HTMLElement;
-      const overlay = viewerRef.current?.querySelector('.enlarge') as HTMLElement | null;
+      const overlay = rootRef.current?.querySelector('.enlarge') as HTMLElement | null;
       if (!overlay) return;
 
       const refDiv = parent.querySelector('.item__image--reference') as HTMLElement | null;
@@ -489,8 +489,8 @@ export default function DomeGallery({
         transform: none;
         filter: ${grayscale ? 'grayscale(1)' : 'none'};
         background: rgba(0,0,0,0.4);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(40px);
+        -webkit-backdrop-filter: blur(40px);
       `;
 
       const originalImageContainer = overlay.querySelector('div:last-child');
@@ -605,6 +605,7 @@ export default function DomeGallery({
     parent.appendChild(refDiv);
     const tileR = refDiv.getBoundingClientRect();
     const mainR = mainRef.current!.getBoundingClientRect();
+    const rootR = rootRef.current!.getBoundingClientRect();
     const frameR = frameRef.current!.getBoundingClientRect();
     originalTilePositionRef.current = {
       left: tileR.left,
@@ -616,7 +617,7 @@ export default function DomeGallery({
     (el.style as any).zIndex = 0;
     const overlay = document.createElement('div');
     overlay.className = 'enlarge';
-    overlay.style.cssText = `position:absolute; left:${frameR.left - mainR.left}px; top:${frameR.top - mainR.top}px; width:${frameR.width}px; height:${frameR.height}px; opacity:0; z-index:30; will-change:transform,opacity; transform-origin:top left; transition:transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease; border-radius:${openedImageBorderRadius}; overflow:hidden; background:rgba(0,0,0,0.4); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);`;
+    overlay.style.cssText = `position:absolute; left:${frameR.left - rootR.left}px; top:${frameR.top - rootR.top}px; width:${frameR.width}px; height:${frameR.height}px; opacity:0; z-index:50; will-change:transform,opacity; transform-origin:top left; transition:transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease; border-radius:${openedImageBorderRadius}; overflow:hidden; background:rgba(0,0,0,0.4); backdrop-filter:blur(40px); -webkit-backdrop-filter:blur(40px);`;
     const rawSrc = parent.dataset.src || (el.querySelector('img') as HTMLImageElement)?.src || '';
     const rawAlt = parent.dataset.alt || (el.querySelector('img') as HTMLImageElement)?.alt || '';
     
@@ -684,7 +685,54 @@ export default function DomeGallery({
         overlay.appendChild(imageContainer);
       }
     }
-    viewerRef.current!.appendChild(overlay);
+    
+    // Create close button
+    const closeButton = document.createElement('button');
+    closeButton.className = 'dg-close-button';
+    closeButton.setAttribute('aria-label', 'Close');
+    closeButton.innerHTML = `
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    `;
+    closeButton.style.cssText = `
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    `;
+    closeButton.addEventListener('mouseenter', () => {
+      closeButton.style.background = 'rgba(255, 255, 255, 0.2)';
+      closeButton.style.transform = 'scale(1.1)';
+    });
+    closeButton.addEventListener('mouseleave', () => {
+      closeButton.style.background = 'rgba(255, 255, 255, 0.1)';
+      closeButton.style.transform = 'scale(1)';
+    });
+    closeButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const scrim = scrimRef.current;
+      if (scrim) {
+        scrim.click();
+      }
+    });
+    overlay.appendChild(closeButton);
+    
+    rootRef.current!.appendChild(overlay);
     const tx0 = tileR.left - frameR.left;
     const ty0 = tileR.top - frameR.top;
     const sx0 = tileR.width / frameR.width;
@@ -711,8 +759,8 @@ export default function DomeGallery({
         overlay.style.height = frameR.height + 'px';
         void overlay.offsetWidth;
         overlay.style.transition = `left ${enlargeTransitionMs}ms ease, top ${enlargeTransitionMs}ms ease, width ${enlargeTransitionMs}ms ease, height ${enlargeTransitionMs}ms ease`;
-        const centeredLeft = frameR.left - mainR.left + (frameR.width - newRect.width) / 2;
-        const centeredTop = frameR.top - mainR.top + (frameR.height - newRect.height) / 2;
+        const centeredLeft = frameR.left - rootR.left + (frameR.width - newRect.width) / 2;
+        const centeredTop = frameR.top - rootR.top + (frameR.height - newRect.height) / 2;
         requestAnimationFrame(() => {
           overlay.style.left = `${centeredLeft}px`;
           overlay.style.top = `${centeredTop}px`;
