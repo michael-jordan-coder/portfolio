@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import Navbar from '../components/Navbar'
 import ContactModal from '../components/ContactModal'
@@ -18,17 +18,6 @@ const HeroSection = dynamic(() => import('./sections/HeroSection'), {
   )
 });
 //about section dynamic import
-
-const GsapSection = dynamic(() => import('./sections/GsapSection'), {
-  ssr: false, // Heavy GSAP animations
-  loading: () => (
-    <div className="py-60 bg-black">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="w-64 h-8 bg-white/10 animate-pulse rounded mx-auto"></div>
-      </div>
-    </div>
-  )
-});
 
 // Regular imports for lighter sections
 import SmoothSection from './sections/SmoothSection'
@@ -67,16 +56,6 @@ export default function Home() {
         <SmoothSection />
         
         <AboutCTASection />
-        
-        <Suspense fallback={
-          <div className="py-40 bg-black">
-            <div className="max-w-7xl mx-auto px-4">
-              <div className="w-64 h-8 bg-white/10 animate-pulse rounded mx-auto"></div>
-            </div>
-          </div>
-        }>
-          <GsapSection />
-        </Suspense>
         
         <ResponsiveSection onOpenContact={() => setIsContactModalOpen(true)} />
       </main>

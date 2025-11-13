@@ -488,6 +488,9 @@ export default function DomeGallery({
         margin: 0;
         transform: none;
         filter: ${grayscale ? 'grayscale(1)' : 'none'};
+        background: rgba(0,0,0,0.4);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
       `;
 
       const originalImageContainer = overlay.querySelector('div:last-child');
@@ -613,7 +616,7 @@ export default function DomeGallery({
     (el.style as any).zIndex = 0;
     const overlay = document.createElement('div');
     overlay.className = 'enlarge';
-    overlay.style.cssText = `position:absolute; left:${frameR.left - mainR.left}px; top:${frameR.top - mainR.top}px; width:${frameR.width}px; height:${frameR.height}px; opacity:0; z-index:30; will-change:transform,opacity; transform-origin:top left; transition:transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease; border-radius:${openedImageBorderRadius}; overflow:hidden;`;
+    overlay.style.cssText = `position:absolute; left:${frameR.left - mainR.left}px; top:${frameR.top - mainR.top}px; width:${frameR.width}px; height:${frameR.height}px; opacity:0; z-index:30; will-change:transform,opacity; transform-origin:top left; transition:transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease; border-radius:${openedImageBorderRadius}; overflow:hidden; background:rgba(0,0,0,0.4); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);`;
     const rawSrc = parent.dataset.src || (el.querySelector('img') as HTMLImageElement)?.src || '';
     const rawAlt = parent.dataset.alt || (el.querySelector('img') as HTMLImageElement)?.alt || '';
     
@@ -847,7 +850,9 @@ export default function DomeGallery({
           className="absolute inset-0 grid place-items-center overflow-hidden select-none bg-transparent"
           style={{
             touchAction: 'none',
-            WebkitUserSelect: 'none'
+            WebkitUserSelect: 'none',
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 5%, black 60%, transparent 100%)'
           }}
         >
           <div className="stage">
@@ -910,7 +915,6 @@ export default function DomeGallery({
             </div>
           </div>
 
-
           <div
             ref={viewerRef}
             className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center"
@@ -919,10 +923,6 @@ export default function DomeGallery({
             <div
               ref={scrimRef}
               className="scrim absolute inset-0 z-10 pointer-events-none opacity-0 transition-opacity duration-500"
-              style={{
-                background: 'rgba(0, 0, 0, 0.4)',
-                backdropFilter: 'blur(5px)'
-              }}
             />
             <div
               ref={frameRef}

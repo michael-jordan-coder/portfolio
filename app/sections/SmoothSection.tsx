@@ -392,10 +392,6 @@ const SmoothCarousel: React.FC = () => {
       <motion.div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 50%, transparent 100%)', opacity: useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]) }} />
       <div className="relative w-full max-w-4xl mx-auto" aria-label="Project carousel" role="region" aria-live="polite" aria-atomic="true">
         {PROJECTS.map((project, index) => (<AnimatedCard key={project.id} project={project} index={index} />))}
-        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 text-white/60 text-xs sm:text-sm text-center z-50 px-4">
-          <div className="font-medium">Scroll to explore projects</div>
-          <div className="text-[10px] sm:text-xs">Center-focused animations powered by Framer Motion</div>
-        </div>
       </div>
     </SectionWrapper>
   );
