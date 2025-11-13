@@ -22,6 +22,8 @@ const ASSETS = {
     createPost2Old: '/clara/create-post-2-old.png',
     postNew: '/clara/clara-post-new.png',
     flowFigma: '/clara/flow-figma.svg',
+    pro: '/clara/clara-pro.png',
+    composer: '/clara/clara-composer.png',
   },
   videos: {
     createPostPhone: '/clara/create-post-phone.mp4',
@@ -341,28 +343,63 @@ export default function Page() {
             <SectionHeader eyebrow="04" title="The Shift" />
             <Reveal>
               <div className="max-w-5xl mx-auto mb-12">
-                <div className="space-y-8">
-                  <div>
-                    <h4 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white mb-6 text-center">WEB-FIRST → MOBILE-FIRST</h4>
-                    <div className="space-y-6">
-                      <div>
-                        <h5 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white mb-4 text-center">The Challenge</h5>
-                        <MarkdownText text="Instead of shrinking a desktop experience, we redesigned Clara's flow **from the ground up** for mobile." />
-                      </div>
-                      <div>
-                        <h5 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white mb-4 text-center">The Approach</h5>
-                        <MarkdownText text="We built **mobile-first**, then seamlessly adapted it for web — **intelligently**." />
-                      </div>
-                      <div>
-                        <h5 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white mb-4 text-center">The Result</h5>
-                        <MarkdownText text="An **intuitive** experience everywhere. A **strategic shift**, not just responsive design." />
-                      </div>
+                <h4 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white mb-6 text-center">
+                  From One-Shot Prompts → To Flowing Dialogue
+                </h4>
+                <MarkdownText text="Clara doesn't just take your prompt and run. She asks questions, understands intent, and refines ideas through conversation—making content generation smarter and more aligned with what you actually want." />
+              </div>
+            </Reveal>
+            
+            {/* Forms vs Conversation Comparison */}
+            <Reveal delay={120}>
+              <div className="max-w-6xl mx-auto mb-16">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                  {/* Traditional Forms */}
+                  <div className="flex flex-col">
+                    <div className="mb-6">
+                      <h3 className="text-2xl sm:text-3xl font-semibold text-white mb-2 text-center lg:text-left">
+                        Traditional Forms
+                      </h3>
+                      <p className="text-sm text-gray-400 text-center lg:text-left">
+                        Rigid, structured, and time-consuming
+                      </p>
+                    </div>
+                    <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-lg">
+                      <Image
+                        src={ASSETS.images.composer}
+                        alt="Traditional form-based interface"
+                        width={1200}
+                        height={800}
+                        className="w-full h-auto"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Conversational Interface */}
+                  <div className="flex flex-col">
+                    <div className="mb-6">
+                      <h3 className="text-2xl sm:text-3xl font-semibold text-white mb-2 text-center lg:text-left">
+                        Clara's Conversational Model
+                      </h3>
+                      <p className="text-sm text-gray-400 text-center lg:text-left">
+                        Natural, fluid, and intuitive
+                      </p>
+                    </div>
+                    <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-lg">
+                      <Image
+                        src={ASSETS.images.pro}
+                        alt="Conversational chat interface"
+                        width={1200}
+                        height={800}
+                        className="w-full h-auto"
+                      />
                     </div>
                   </div>
                 </div>
               </div>
             </Reveal>
-            <Reveal delay={120}>
+
+            <Reveal delay={240}>
               <div className="max-w-6xl mx-auto rounded-2xl overflow-hidden border border-gray-700 shadow-lg">
                 <div
                   className="w-full"
