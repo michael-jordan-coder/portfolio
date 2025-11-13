@@ -3,6 +3,7 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useScrollToTopOnNavigation } from '../../../lib/utils'
 import NextProjectButton from '../../../components/NextProjectButton'
 import { CodeBlock } from '../../../components/CodeBlock'
@@ -12,16 +13,17 @@ import ContactModal from '../../../components/ContactModal'
 // Asset configuration
 const ASSETS = {
   images: {
-    overview: '/keychain/overview.png',
-    models: '/keychain/models.png',
-    aiPanel: '/keychain/ai-panel.png',
+    overview: '/keychain/overview.webp',
+    models: '/keychain/models.webp',
+    aiPanel: '/keychain/ai-panel.webp',
     section3: '/keychain/section-3.svg',
     card: '/keychain/card.svg',
     code: '/keychain/code.svg',
     tablist: '/keychain/Tablist.svg',
     alex: '/keychain/alex.svg',
     jonathan: '/keychain/jonathan.svg',
-    total: '/keychain/total.png',
+    total: '/keychain/total.webp',
+    components: '/keychain/components.webp',
   },
   videos: {
     fullHero: '/keychain/full-hero.mp4',
@@ -75,7 +77,7 @@ const SectionHeader = memo(function SectionHeader({
           {eyebrow}
         </span>
       ) : null}
-      <h3 id={id} className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white">{title}</h3>
+      <h3 id={id} className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white">{title}</h3>
       {description ? (
         <p className="text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
           {description}
@@ -128,7 +130,17 @@ const Reveal = memo(function Reveal({ children, delay = 0 }: { children: React.R
   )
 })
 
-const VideoPlayer = memo(function VideoPlayer({ src, poster, className = '' }: { src: string; poster?: string; className?: string }) {
+const VideoPlayer = memo(function VideoPlayer({ 
+  src, 
+  poster, 
+  className = '',
+  onOpenModal 
+}: { 
+  src: string
+  poster?: string
+  className?: string
+  onOpenModal?: (videoSrc: string) => void
+}) {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
@@ -149,15 +161,19 @@ const VideoPlayer = memo(function VideoPlayer({ src, poster, className = '' }: {
   }, [])
 
   const handleClick = useCallback(() => {
-    const video = videoRef.current
-    if (!video) return
-    
-    if (video.paused) {
-      video.play().catch(() => {})
+    if (onOpenModal) {
+      onOpenModal(src)
     } else {
-      video.pause()
+      const video = videoRef.current
+      if (!video) return
+      
+      if (video.paused) {
+        video.play().catch(() => {})
+      } else {
+        video.pause()
+      }
     }
-  }, [])
+  }, [src, onOpenModal])
 
   return (
     <video
@@ -178,11 +194,105 @@ const VideoPlayer = memo(function VideoPlayer({ src, poster, className = '' }: {
   )
 })
 
+const VideoModal = memo(function VideoModal({ 
+  isOpen, 
+  videoSrc, 
+  onClose 
+}: { 
+  isOpen: boolean
+  videoSrc: string | null
+  onClose: () => void
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    if (isOpen && videoRef.current) {
+      videoRef.current.play().catch(() => {})
+    }
+  }, [isOpen])
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose()
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape)
+      document.body.style.overflow = 'hidden'
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+      document.body.style.overflow = 'unset'
+    }
+  }, [isOpen, onClose])
+
+  if (!videoSrc) return null
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+          {/* Backdrop with glass blur */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 bg-black/60 backdrop-blur-xl"
+            onClick={onClose}
+          />
+          
+          {/* Modal Content */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.2 }}
+            className="relative w-full max-w-6xl max-h-[90vh] bg-black/40 backdrop-blur-2xl border border-white/20 rounded-2xl overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center bg-black/50 hover:bg-black/70 backdrop-blur-sm border border-white/20 rounded-full text-white/80 hover:text-white transition-all duration-200"
+              aria-label="Close video"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Video */}
+            <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
+              <video
+                ref={videoRef}
+                className="w-full h-full object-contain"
+                controls
+                autoPlay
+                loop
+                muted
+                playsInline
+              >
+                <source src={videoSrc} type="video/mp4" />
+                <source src={videoSrc} type="video/quicktime" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  )
+})
+
 const MarkdownText = memo(function MarkdownText({ text }: { text: string }) {
   const parts = useMemo(() => text.split(MARKDOWN_BOLD_REGEX), [text])
   
   return (
-    <p className="text-gray-300 leading-relaxed text-base sm:text-lg text-center">
+    <p className="text-gray-300 leading-relaxed text-lg sm:text-xl text-center">
       {parts.map((part, i) => {
         if (part.startsWith('**') && part.endsWith('**')) {
           return <strong key={i} className="font-semibold text-white">{part.slice(2, -2)}</strong>
@@ -190,6 +300,54 @@ const MarkdownText = memo(function MarkdownText({ text }: { text: string }) {
         return <span key={i}>{part}</span>
       })}
     </p>
+  )
+})
+
+const AnimatedCheckmark = memo(function AnimatedCheckmark({ delay = 0 }: { delay?: number }) {
+  const { ref, inView } = useInView()
+  
+  return (
+    <div ref={ref} className="flex-shrink-0 w-8 h-8 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center mt-1 relative overflow-hidden">
+      {/* Background circle */}
+      <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        animate={inView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+        transition={{ 
+          duration: 0.3, 
+          delay: delay,
+          ease: "easeOut"
+        }}
+        className="absolute inset-0 rounded-full bg-green-500/10"
+      />
+      
+      {/* Checkmark SVG */}
+      <svg
+        className="w-5 h-5 text-green-400 relative z-10"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <motion.path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2.5}
+          d="M5 13l4 4L19 7"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={inView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
+          transition={{
+            pathLength: { 
+              duration: 0.4, 
+              delay: delay + 0.15,
+              ease: "easeOut"
+            },
+            opacity: { 
+              duration: 0.2, 
+              delay: delay + 0.15 
+            }
+          }}
+        />
+      </svg>
+    </div>
   )
 })
 
@@ -341,7 +499,6 @@ const kpis: KPIMetric[] = [
               className="w-full h-full object-cover rounded-lg"
               loading="lazy"
               quality={90}
-              objectFit="fill"
             />
           </div>
          
@@ -410,6 +567,18 @@ const kpis: KPIMetric[] = [
 export default function Page() {
   useScrollToTopOnNavigation();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [videoModalSrc, setVideoModalSrc] = useState<string | null>(null);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+
+  const handleOpenVideoModal = useCallback((videoSrc: string) => {
+    setVideoModalSrc(videoSrc);
+    setIsVideoModalOpen(true);
+  }, []);
+
+  const handleCloseVideoModal = useCallback(() => {
+    setIsVideoModalOpen(false);
+    setVideoModalSrc(null);
+  }, []);
 
   return (
     <>
@@ -444,8 +613,20 @@ export default function Page() {
                 <VideoPlayer
                   src={ASSETS.videos.fullHero}
                   className="w-full"
+                  onOpenModal={handleOpenVideoModal}
                 />
               </div>
+            </Reveal>
+            <Reveal delay={240}>
+              <ul className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs sm:text-base bg-[#171717] text-gray-400 rounded-2xl p-4">
+                <li><span className="font-medium text-gray-300">Role:</span> Product Designer & Frontend Engineer</li>
+                <li className="hidden sm:inline text-gray-600">•</li>
+                <li><span className="font-medium text-gray-300">Timeline:</span> 2025</li>
+                <li className="hidden sm:inline text-gray-600">•</li>
+                <li><span className="font-medium text-gray-300">Platform:</span> Web · SaaS Dashboard</li>
+                <li className="hidden sm:inline text-gray-600">•</li>
+                <li><span className="font-medium text-gray-300">Stack:</span> Next.js, React, TypeScript, Tailwind CSS, Framer Motion</li>
+              </ul>
             </Reveal>
           </div>
         </section>
@@ -456,7 +637,7 @@ export default function Page() {
             <SectionHeader eyebrow="01" title="Overview" />
             <Reveal>
               <div className="max-w-4xl mx-auto mb-12">
-                <MarkdownText text="KEYCHAIN is an **advanced SaaS dashboard** solution designed for modern business applications. Built with cutting-edge design principles and scalability in mind, it features innovative workspace management, secure authentication systems, and comprehensive analytics for enterprise-level SaaS products." />
+                <MarkdownText text="KEYCHAIN is a powerful tool that enables companies using **AI models** to track **cumulative costs** of their models and gain insights into **model usage**. Built with cutting-edge design principles and scalability in mind, it provides comprehensive analytics and cost monitoring for enterprise-level AI operations." />
               </div>
             </Reveal>
             <Reveal delay={120}>
@@ -476,88 +657,78 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 02. Workspace Management */}
-        <section className="px-6 py-32 bg-black">
-          <div className="max-w-7xl mx-auto">
-            <SectionHeader eyebrow="02" title="Key Components" />
-            <Reveal>
-              <div className="max-w-4xl mx-auto mb-12">
-                <MarkdownText text="The dashboard provides intuitive workspace management capabilities, allowing teams to organize their work efficiently. Features include customizable layouts, team collaboration tools, and seamless integration with existing business workflows." />
-              </div>
-            </Reveal>
-            <Reveal delay={120}>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto">
-                <div className="rounded-2xl overflow-hidden shadow-sm">
-                  <Image
-                    src={ASSETS.images.card}
-                    alt="Workspace Card"
-                    width={1200}
-                    height={800}
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="w-full h-auto"
-                    loading="lazy"
-                    quality={85}
-                  />
+        {/* 03. Intelligence in action */}
+        <section className="relative py-32 bg-[#0c0c0c]">
+          <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+            <div className="max-w-[90rem] mx-auto px-6 sm:px-10 lg:px-16">
+              <SectionHeader eyebrow="03" title="Intelligence in action" />
+              <Reveal>
+                <div className="max-w-4xl mx-auto mb-12 text-neutral-200">
+                  <MarkdownText text="KEYCHAIN integrates **advanced AI capabilities** to enhance productivity and decision-making. The AI panel provides intelligent insights, automated workflows, and predictive analytics to help teams work smarter." />
                 </div>
-                <div className="rounded-2xl overflow-hidden shadow-sm">
-                  <Image
-                    src={ASSETS.images.tablist}
-                    alt="Tab List Interface"
-                    width={1200}
-                    height={800}
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="w-full h-auto"
-                    loading="lazy"
-                    quality={85}
-                  />
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </section>
-
-        {/* 03. AI-Powered Features */}
-        <section className="px-6 py-32">
-          <div className="max-w-7xl mx-auto">
-            <SectionHeader eyebrow="03" title="AI-Powered Features" />
-            <Reveal>
-              <div className="max-w-4xl mx-auto mb-12">
-                <MarkdownText text="KEYCHAIN integrates **advanced AI capabilities** to enhance productivity and decision-making. The AI panel provides intelligent insights, automated workflows, and predictive analytics to help teams work smarter." />
-              </div>
-            </Reveal>
-            <Reveal delay={120}>
-              <div className="space-y-20 max-w-7xl mx-auto mt-16">
-                {/* First Row: Models Video + Text */}
-                <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-8 items-center">
-                  <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-sm">
-                    <VideoPlayer
-                      src={ASSETS.videos.models}
-                      className="w-full"
-                    />
+              </Reveal>
+              <Reveal delay={120}>
+                <div className="space-y-24">
+                  {/* First Row: Models Video + Text */}
+                  <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 items-center">
+                    <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.8)] lg:-ml-12">
+                      <VideoPlayer
+                        src={ASSETS.videos.models}
+                        className="w-full h-full object-cover"
+                        onOpenModal={handleOpenVideoModal}
+                      />
+                    </div>
+                    <div className="text-neutral-200">
+                      <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-6 leading-tight">
+                        Scalable Architecture
+                      </h3>
+                      <p className="text-xl leading-[1.7] mb-6">
+                        Built for <strong className="text-white">scalability and performance</strong>. Advanced data models support complex business logic.
+                      </p>
+                      <button
+                        onClick={() => handleOpenVideoModal(ASSETS.videos.models)}
+                        className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full text-white text-sm font-medium transition-all duration-200 hover:scale-105"
+                        aria-label="Open video"
+                      >
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                        <span>Open Video</span>
+                      </button>
+                    </div>
                   </div>
-                  <div className="text-gray-300">
-                    <p className="text-xl leading-relaxed">
-                      Built for <strong className="text-white">scalability and performance</strong>. Advanced data models support complex business logic.
-                    </p>
-                  </div>
-                </div>
-                
-                {/* Second Row: Text + AI Video */}
-                <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-8 items-center">
-                  <div className="text-gray-300 lg:order-1 order-2">
-                    <p className="text-xl leading-relaxed">
-                      <strong className="text-white">Advanced AI capabilities</strong> that enhance productivity with intelligent insights and automated workflows.
-                    </p>
-                  </div>
-                  <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-sm lg:order-2 order-1">
-                    <VideoPlayer
-                      src={ASSETS.videos.ai}
-                      className="w-full"
-                    />
+                  
+                  {/* Second Row: Text + AI Video */}
+                  <div className="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-10 items-center">
+                    <div className="text-neutral-200 order-2 lg:order-1">
+                      <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-6 leading-tight">
+                        AI-Powered Intelligence
+                      </h3>
+                      <p className="text-xl leading-[1.7] mb-6">
+                        <strong className="text-white">Advanced AI capabilities</strong> that enhance productivity with intelligent insights and automated workflows.
+                      </p>
+                      <button
+                        onClick={() => handleOpenVideoModal(ASSETS.videos.ai)}
+                        className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full text-white text-sm font-medium transition-all duration-200 hover:scale-105"
+                        aria-label="Open video"
+                      >
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                        <span>Open Video</span>
+                      </button>
+                    </div>
+                    <div className="rounded-2xl overflow-hidden border border-gray-700 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.8)] order-1 lg:order-2 lg:-mr-12">
+                      <VideoPlayer
+                        src={ASSETS.videos.ai}
+                        className="w-full h-full object-cover"
+                        onOpenModal={handleOpenVideoModal}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Reveal>
+              </Reveal>
+            </div>
           </div>
         </section>
 
@@ -567,7 +738,7 @@ export default function Page() {
             <SectionHeader eyebrow="04" title="Data delivery and integration" id="data-integration-title" />
             <Reveal>
               <div className="max-w-4xl mx-auto mb-12">
-                <p className="text-gray-300 leading-relaxed text-base sm:text-lg text-center">
+                <p className="text-gray-300 leading-relaxed text-lg sm:text-xl text-center">
                   We transform raw KPI metrics into structured context the LLM can reason about—so it can explain the numbers and recommend next steps.
                 </p>
               </div>
@@ -578,7 +749,101 @@ export default function Page() {
           </div>
         </section>
 
-        
+        {/* 05. Key Components */}
+        <section className="px-6 py-32 bg-black">
+          <div className="max-w-7xl mx-auto">
+            <SectionHeader eyebrow="05" title="Key Components" />
+            <Reveal>
+              <div className="max-w-4xl mx-auto mb-12">
+                <MarkdownText text="The dashboard provides intuitive workspace management capabilities, allowing teams to organize their work efficiently. Features include customizable layouts, team collaboration tools, and seamless integration with existing business workflows." />
+              </div>
+            </Reveal>
+            <Reveal delay={120}>
+              <div className="max-w-6xl mx-auto">
+                {/* Desktop/Laptop frame */}
+                <div className="relative mx-auto rounded-2xl overflow-hidden border border-gray-700 shadow-lg bg-gray-900">
+                  {/* Browser chrome */}
+                  <div className="bg-gray-800 px-4 py-3 flex items-center gap-2 border-b border-gray-700">
+                    <div className="flex gap-1.5">
+                      <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+                    </div>
+                    <div className="flex-1 mx-4 bg-gray-700/50 rounded-lg px-4 py-1.5 text-xs text-gray-400 text-center">
+                      keychain.app/dashboard
+                    </div>
+                  </div>
+                  {/* Screen area */}
+                  <div className="relative w-full bg-black">
+                    <Image
+                      src={ASSETS.images.components}
+                      alt="Key Components Dashboard"
+                      width={1920}
+                      height={1080}
+                      className="w-full h-auto"
+                      loading="lazy"
+                      quality={90}
+                    />
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Closing Section */}
+        <section className="px-6 py-32 bg-[#0c0c0c]">
+          <div className="max-w-5xl mx-auto">
+            <Reveal delay={120}>
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white text-center mb-16">
+               Keychain benefits in TLDR:
+              </h3>
+            </Reveal>
+            <Reveal delay={180}>
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent rounded-3xl border border-white/5"></div>
+                <ul className="relative space-y-8 p-8 sm:p-12 lg:p-16">
+                  <motion.li
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: false, margin: "-50px" }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    className="flex items-start gap-6 group"
+                  >
+                    <AnimatedCheckmark delay={0.4} />
+                    <p className="text-gray-300 text-lg sm:text-xl leading-relaxed flex-1 pt-1 group-hover:text-white transition-colors duration-200">
+                      A single place to track spend across providers.
+                    </p>
+                  </motion.li>
+                  <motion.li
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: false, margin: "-50px" }}
+                    transition={{ duration: 0.5, delay: 0.4 }}
+                    className="flex items-start gap-6 group"
+                  >
+                    <AnimatedCheckmark delay={0.6} />
+                    <p className="text-gray-300 text-lg sm:text-xl leading-relaxed flex-1 pt-1 group-hover:text-white transition-colors duration-200">
+                      AI-generated explanations for unusual spikes.
+                    </p>
+                  </motion.li>
+                  <motion.li
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: false, margin: "-50px" }}
+                    transition={{ duration: 0.5, delay: 0.6 }}
+                    className="flex items-start gap-6 group"
+                  >
+                    <AnimatedCheckmark delay={0.8} />
+                    <p className="text-gray-300 text-lg sm:text-xl leading-relaxed flex-1 pt-1 group-hover:text-white transition-colors duration-200">
+                      Clear KPIs to decide which models to optimize, downgrade, or remove.
+                    </p>
+                  </motion.li>
+                </ul>
+              </div>
+            </Reveal>
+          </div>
+        </section>
 
         {/* Next Project Button */}
         <div className="pb-12">
@@ -593,6 +858,11 @@ export default function Page() {
       <ContactModal 
         isOpen={isContactModalOpen} 
         onClose={() => setIsContactModalOpen(false)} 
+      />
+      <VideoModal
+        isOpen={isVideoModalOpen}
+        videoSrc={videoModalSrc}
+        onClose={handleCloseVideoModal}
       />
     </>
   )
