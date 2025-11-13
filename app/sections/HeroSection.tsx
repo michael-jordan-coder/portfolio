@@ -80,15 +80,15 @@ const HeroSection: React.FC = () => {
         <div className="relative w-full h-[600px] max-w-5xl mx-auto">
           <DomeGallery 
             images={[
-              { src: '/imagetrail/claude.svg', alt: 'Claude AI - Advanced AI assistant by Anthropic for coding and creative tasks' },
-              { src: '/imagetrail/cursor.svg', alt: 'Cursor - AI-powered code editor with intelligent autocomplete and chat' },
-              { src: '/imagetrail/figma.svg', alt: 'Figma - Collaborative design tool for UI/UX and prototyping' },
-              { src: '/imagetrail/gemini.svg', alt: 'Google Gemini - Multimodal AI model for text and image generation' },
-              { src: '/imagetrail/gpt.svg', alt: 'ChatGPT - OpenAI conversational AI for various creative and analytical tasks' },
-              { src: '/imagetrail/gsap.svg', alt: 'GSAP - High-performance JavaScript animation library for web' },
-              { src: '/imagetrail/next.svg', alt: 'Next.js - React framework for production with SSR and static generation' },
-              { src: '/imagetrail/swift.svg', alt: 'Swift - Apple programming language for iOS and macOS development' },
-              { src: '/imagetrail/tailwind.svg', alt: 'Tailwind CSS - Utility-first CSS framework for rapid UI development' }
+              { src: '/imagetrail/claude.svg', alt: 'Claude AI - My favorite copywriting tool, used for most of my projects' },
+              { src: '/imagetrail/cursor.svg', alt: 'Cursor - the future of product design tools, used it for buildin this website, and building my own apps' },
+              { src: '/imagetrail/figma.svg', alt: 'Figma - fun fact, i spend more time in figma then with my own family' },
+              { src: '/imagetrail/gemini.svg', alt: 'Google Gemini - my favorite code assistant for 3d modeling' },
+              { src: '/imagetrail/gpt.svg', alt: 'ChatGPT - literally my second brain' },
+              { src: '/imagetrail/gsap.svg', alt: 'GSAP - The best animation library that i ever used' },
+              { src: '/imagetrail/next.svg', alt: 'Next.js - favorite framework for websites, and saaS applications' },
+              { src: '/imagetrail/swift.svg', alt: 'SwiftUI - The standart way to build iOS apps, with an amazing design system, that is insparation for me' },
+              { src: '/imagetrail/tailwind.svg', alt: 'my life saver for styling when i want my code to be clean and readable' }
             ]}
             fit={0.5}
             segments={30}
