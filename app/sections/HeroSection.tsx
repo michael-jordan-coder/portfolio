@@ -67,8 +67,8 @@ const HeroSection: React.FC = () => {
               Ai/UX product Designer.
             </div>
           
-            <p className="text-gray-300 font-regular text-3xl max-w-3xl mx-auto mb-4">
-           Im truly passionate about design products, putting my focus on the user and the product.
+            <p className="text-gray-400 font-regular text-2xl max-w-4xl mx-auto mb-4">
+           A true designer finds the right questions to makes the right decisions, im passionate about this process. so please join me on this journey. its messy, evolving, and fun.
             </p>
 
           </h1>
