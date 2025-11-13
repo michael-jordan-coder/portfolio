@@ -47,9 +47,9 @@ function SectionHeader({
           {eyebrow}
         </span>
       ) : null}
-      <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white mb-4">{title}</h3>
+      <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-4">{title}</h3>
       {description ? (
-        <p className="text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
+        <p className="text-gray-400 text-xl sm:text-2xl md:text-3xl leading-relaxed max-w-3xl mx-auto">
           {description}
         </p>
       ) : null}
@@ -138,16 +138,24 @@ function VideoPlayer({ src, poster, className = '' }: { src: string; poster?: st
 
 function MarkdownText({ text }: { text: string }) {
   const regex = /(\*\*.*?\*\*)/g
-  const parts = text.split(regex)
+  const paragraphs = text.split('\n\n').filter(p => p.trim())
+  
   return (
-    <p className="text-gray-300 leading-relaxed text-base sm:text-lg text-center">
-      {parts.map((part, i) => {
-        if (part.startsWith('**') && part.endsWith('**')) {
-          return <strong key={i} className="font-semibold text-white">{part.slice(2, -2)}</strong>
-        }
-        return <span key={i}>{part}</span>
+    <div className="text-gray-300 leading-relaxed text-xl sm:text-2xl md:text-3xl text-center space-y-6">
+      {paragraphs.map((paragraph, pIdx) => {
+        const parts = paragraph.split(regex)
+        return (
+          <p key={pIdx}>
+            {parts.map((part, i) => {
+              if (part.startsWith('**') && part.endsWith('**')) {
+                return <strong key={i} className="font-semibold text-white">{part.slice(2, -2)}</strong>
+              }
+              return <span key={i}>{part}</span>
+            })}
+          </p>
+        )
       })}
-    </p>
+    </div>
   )
 }
 
@@ -175,26 +183,14 @@ export default function Page() {
         {/* Hero Section */}
         <section className="pt-32 pb-24 px-6">
           <div className="max-w-[90rem] mx-auto">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white text-center mb-8 leading-tight">
-              <span className="inline-block">
-                <Reveal>
-                  <span>Increase sign ups by </span>
-                </Reveal>
-              </span>
-              <span className="inline-block">
-                <Reveal delay={200}>
-                  <span className="text-green-400">23%</span>
-                </Reveal>
-              </span>
-              <span className="inline-block">
-                <Reveal delay={100}>
-                  <span> by a new conversational interface</span>
-                </Reveal>
-              </span>
-            </h1>
+            <Reveal>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white text-left mb-6 leading-tight">
+                Increase sign ups by 23% by a new conversational interface
+              </h1>
+            </Reveal>
             <Reveal delay={120}>
-              <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto mb-12 text-center leading-relaxed">
-                Clara AI is a 24/7 AI-powered social media manager built to help creators and businesses plan, design, and publish content effortlessly.
+              <p className="text-xl sm:text-2xl md:text-3xl text-gray-300 max-w-5xl mb-12 text-left leading-relaxed">
+                A case study demonstrating how a <strong className="font-semibold text-white">smart decision</strong> transformed the product experience and drove <strong className="font-semibold text-white">measurable business results</strong>.
               </p>
             </Reveal>
             <Reveal delay={180}>
@@ -227,7 +223,7 @@ export default function Page() {
         <section className="px-6 py-48">
           <div className="max-w-[90rem] mx-auto">
             <Reveal>
-              <div className="max-w-5xl mx-auto">
+              <div className="max-w-5xl mx-auto ">
                 <p className="text-gray-300 leading-relaxed text-xl sm:text-2xl md:text-3xl text-center">
                   Clara AI is a <strong className="font-semibold text-white">24/7 AI-powered</strong> social media manager built to help creators and businesses <strong className="font-semibold text-white">plan, design, and publish</strong> content effortlessly.
                 </p>
@@ -244,8 +240,27 @@ export default function Page() {
           <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="02" title="The Challenge" />
             <Reveal>
-              <div className="max-w-4xl mx-auto mb-12">
-                <MarkdownText text={'The first version of Clara worked — but **it didn\'t feel right**.\n\nUsers had to type captions, upload images, click "generate," and wait.\n\nThe process was **functional**, yet completely **detached** from the real rhythm of how people create content together.\n\nSocial media management is, at its core, a **conversation** — not a form.\n\nAnd Clara **wasn\'t speaking that language** yet.'} />
+              <div className="max-w-5xl mx-auto mb-12">
+                <div className="space-y-8">
+                  <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 rounded-2xl p-8 md:p-10 border border-gray-700/50">
+                    <p className="text-xl sm:text-2xl md:text-3xl text-gray-300 leading-relaxed mb-6">
+                      The first version of Clara worked — but <strong className="font-semibold text-white">it didn't feel right</strong>.
+                    </p>
+                    <div className="space-y-4 text-lg sm:text-xl md:text-2xl text-gray-400">
+                      <p>Users had to type captions, upload images, click "generate," and wait.</p>
+                      <p>The process was <strong className="font-semibold text-gray-300">functional</strong>, yet completely <strong className="font-semibold text-gray-300">detached</strong> from the real rhythm of how people create content together.</p>
+                    </div>
+                  </div>
+                  
+                  <div className="relative pl-6 md:pl-8 border-l-2 border-gray-700">
+                    <p className="text-xl sm:text-2xl md:text-3xl text-gray-300 leading-relaxed italic">
+                      Social media management is, at its core, a <strong className="font-semibold text-white not-italic">conversation</strong> — not a form.
+                    </p>
+                    <p className="text-lg sm:text-xl md:text-2xl text-gray-400 mt-4">
+                      And Clara <strong className="font-semibold text-gray-300">wasn't speaking that language</strong> yet.
+                    </p>
+                  </div>
+                </div>
               </div>
             </Reveal>
             <Reveal delay={120}>
@@ -294,9 +309,9 @@ export default function Page() {
         {/* 03. The Insight */}
         <section className="px-6 py-32">
           <div className="max-w-[90rem] mx-auto">
-            <SectionHeader eyebrow="03" title="The Insight" />
+            <SectionHeader eyebrow="03" title="What led us to the decision?" />
             <Reveal>
-              <div className="max-w-4xl mx-auto mb-12">
+              <div className="max-w-5xl mx-auto mb-12">
                 <MarkdownText text={'Real creators don\'t think in **inputs and outputs** — they think in **ideas**.\n\nThey say things like "make this feel more playful" or "try a darker tone."\n\nSo instead of forcing users into rigid fields, I wanted to design a space that **listens, understands, and responds**.\n\nThe insight: make AI creation feel as natural as **texting your social media manager on WhatsApp**.'} />
               </div>
             </Reveal>
@@ -325,21 +340,21 @@ export default function Page() {
           <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="04" title="The Shift" />
             <Reveal>
-              <div className="max-w-4xl mx-auto mb-12">
-                <div className="space-y-6">
+              <div className="max-w-5xl mx-auto mb-12">
+                <div className="space-y-8">
                   <div>
-                    <h4 className="text-xl font-semibold text-white mb-3 text-center">WEB-FIRST → MOBILE-FIRST</h4>
-                    <div className="space-y-4">
+                    <h4 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white mb-6 text-center">WEB-FIRST → MOBILE-FIRST</h4>
+                    <div className="space-y-6">
                       <div>
-                        <h5 className="font-semibold text-white mb-2 text-center">The Challenge</h5>
+                        <h5 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white mb-4 text-center">The Challenge</h5>
                         <MarkdownText text="Instead of shrinking a desktop experience, we redesigned Clara's flow **from the ground up** for mobile." />
                       </div>
                       <div>
-                        <h5 className="font-semibold text-white mb-2 text-center">The Approach</h5>
+                        <h5 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white mb-4 text-center">The Approach</h5>
                         <MarkdownText text="We built **mobile-first**, then seamlessly adapted it for web — **intelligently**." />
                       </div>
                       <div>
-                        <h5 className="font-semibold text-white mb-2 text-center">The Result</h5>
+                        <h5 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white mb-4 text-center">The Result</h5>
                         <MarkdownText text="An **intuitive** experience everywhere. A **strategic shift**, not just responsive design." />
                       </div>
                     </div>
@@ -377,7 +392,7 @@ export default function Page() {
           <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="Live Preview" title="Try the conversational interface yourself" />
             <Reveal>
-              <div className="max-w-4xl mx-auto mb-12">
+              <div className="max-w-5xl mx-auto mb-12">
                 <MarkdownText text="Experience how Clara transforms ideas into fully-designed social posts through natural conversation." />
               </div>
             </Reveal>
@@ -426,7 +441,7 @@ export default function Page() {
           <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="05" title="Responsive for Web as Well" />
             <Reveal>
-              <div className="max-w-4xl mx-auto mb-12">
+              <div className="max-w-5xl mx-auto mb-12">
                 <MarkdownText text="The interface is fully responsive and works seamlessly across all devices, ensuring a consistent experience whether you're on desktop, tablet, or mobile." />
               </div>
             </Reveal>
@@ -498,7 +513,7 @@ export default function Page() {
           <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="06" title="The Impact" />
             <Reveal>
-              <div className="max-w-4xl mx-auto mb-12">
+              <div className="max-w-5xl mx-auto mb-12">
                 <MarkdownText text="Since launching the conversational experience, **engagement and retention** have grown dramatically:
 
 +37% completion rate — more users finish their posts
@@ -533,7 +548,7 @@ A conversational experience didn't just make Clara friendlier — it made **the 
           <div className="max-w-[90rem] mx-auto">
             <SectionHeader eyebrow="07" title="Reflection" />
             <Reveal>
-              <div className="max-w-4xl mx-auto">
+              <div className="max-w-5xl mx-auto">
                 <MarkdownText text="Designing for AI means designing for **trust**.
 
 When an interface **talks like a person**, people treat it like one — they **open up, explore, and create**.
@@ -542,7 +557,7 @@ This project reminded me that the future of AI isn't about replacing people — 
               </div>
             </Reveal>
             <Reveal delay={120}>
-              <div className="mt-8 text-center font-semibold text-white">— Daniel Gur Arye</div>
+              <div className="mt-8 text-center text-xl sm:text-2xl md:text-3xl font-semibold text-white">— Daniel Gur Arye</div>
             </Reveal>
           </div>
         </section>
