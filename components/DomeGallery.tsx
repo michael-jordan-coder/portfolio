@@ -985,9 +985,6 @@ export default function DomeGallery({
           ref={mainRef}
           className="absolute inset-0 grid place-items-center sm:overflow-hidden overflow-visible select-none bg-transparent"
           style={{
-            // MOBILE-ONLY: Allow pan-y (vertical scroll) on mobile, keep none on desktop
-            // Desktop: touch-action: none for drag behavior (unchanged)
-            touchAction: isMobile ? 'pan-y' : 'none',
             // MOBILE-ONLY: Disable all pointer events to prevent interaction
             // Desktop: Allow pointer events for drag and tap
             pointerEvents: isMobile ? 'none' : 'auto',
