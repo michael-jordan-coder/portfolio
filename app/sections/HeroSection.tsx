@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Aurora from '../../components/Aurora';
 import { Button } from '../../components/Button';
 import DomeGallery from '../../components/DomeGallery';
+import { useIsMobileDevice } from '../../lib/utils';
 
 type OpenedImageDimensions = {
   width: string;
@@ -26,6 +27,7 @@ const getDimensionsForWidth = (viewportWidth: number): OpenedImageDimensions => 
 
 const HeroSection: React.FC = () => {
   const router = useRouter();
+  const isMobile = useIsMobileDevice();
 
   // Mobile-first default (for SSR + first paint)
   const [openedDimensions, setOpenedDimensions] = useState<OpenedImageDimensions>({
@@ -142,7 +144,7 @@ const HeroSection: React.FC = () => {
         </div>
 
         {/* DomeGallery */}
-        <div className="relative w-full max-w-5xl mx-auto h-[300px] sm:h-[400px] md:h-[480px] order-3 sm:order-2">
+        <div className="relative w-full max-w-5xl mx-auto h-[45vh] min-h-[260px] sm:h-[48vh] sm:min-h-[340px] md:h-[52vh] md:min-h-[420px] order-3 sm:order-2">
           <DomeGallery
             images={[
               {
@@ -184,7 +186,7 @@ const HeroSection: React.FC = () => {
               },
             ]}
             fit={0.5}
-            segments={30}
+            segments={isMobile ? 20 : 30}
             maxVerticalRotationDeg={8}
             dragSensitivity={25}
             grayscale={false}
@@ -192,6 +194,10 @@ const HeroSection: React.FC = () => {
             openedImageBorderRadius="30px"
             openedImageWidth={openedDimensions.width}
             openedImageHeight={openedDimensions.height}
+            disableInteractions={isMobile}
+            reduceAnimations={isMobile}
+            autoRotate={isMobile}
+            autoRotateSpeed={0.05}
           />
         </div>
       </div>

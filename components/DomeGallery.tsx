@@ -21,6 +21,10 @@ type DomeGalleryProps = {
   imageBorderRadius?: string;
   openedImageBorderRadius?: string;
   grayscale?: boolean;
+  disableInteractions?: boolean;
+  reduceAnimations?: boolean;
+  autoRotate?: boolean;
+  autoRotateSpeed?: number;
 };
 
 type ItemDef = {
@@ -155,7 +159,11 @@ export default function DomeGallery({
   openedImageHeight = '400px',
   imageBorderRadius = '30px',
   openedImageBorderRadius = '30px',
-  grayscale = true
+  grayscale = true,
+  disableInteractions = false,
+  reduceAnimations = false,
+  autoRotate = false,
+  autoRotateSpeed = 0.15
 }: DomeGalleryProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLDivElement>(null);
@@ -197,7 +205,9 @@ export default function DomeGallery({
     document.body.classList.remove('dg-scroll-lock');
   }, []);
 
-  const items = useMemo(() => buildItems(images, segments), [images, segments]);
+  // Reduce segments on mobile for better performance
+  const effectiveSegments = reduceAnimations ? Math.max(15, Math.floor(segments * 0.65)) : segments;
+  const items = useMemo(() => buildItems(images, effectiveSegments), [images, effectiveSegments]);
 
   const applyTransform = (xDeg: number, yDeg: number) => {
     const el = sphereRef.current;
@@ -296,6 +306,30 @@ export default function DomeGallery({
     applyTransform(rotationRef.current.x, rotationRef.current.y);
   }, []);
 
+  // Auto-rotation for mobile (only when interactions are disabled)
+  useEffect(() => {
+    if (!autoRotate || !disableInteractions) return;
+    
+    let raf: number | null = null;
+    
+    const tick = () => {
+      // Only rotate on Y axis (horizontal rotation) for smooth spinning
+      const currentY = rotationRef.current.y;
+      const newY = wrapAngleSigned(currentY + (autoRotateSpeed || 0.15));
+      rotationRef.current = { ...rotationRef.current, y: newY };
+      applyTransform(rotationRef.current.x, newY);
+      raf = requestAnimationFrame(tick);
+    };
+    
+    raf = requestAnimationFrame(tick);
+    
+    return () => {
+      if (raf !== null) {
+        cancelAnimationFrame(raf);
+      }
+    };
+  }, [autoRotate, disableInteractions, autoRotateSpeed]);
+
   const stopInertia = useCallback(() => {
     if (inertiaRAF.current) {
       cancelAnimationFrame(inertiaRAF.current);
@@ -339,7 +373,7 @@ export default function DomeGallery({
   useGesture(
     {
       onDragStart: ({ event }) => {
-        if (focusedElRef.current) return;
+        if (disableInteractions || focusedElRef.current) return;
         stopInertia();
 
         const evt = event as PointerEvent;
@@ -355,7 +389,7 @@ export default function DomeGallery({
         tapTargetRef.current = potential || null;
       },
       onDrag: ({ event, last, velocity: velArr = [0, 0], direction: dirArr = [0, 0], movement }) => {
-        if (focusedElRef.current || !draggingRef.current || !startPosRef.current) return;
+        if (disableInteractions || focusedElRef.current || !draggingRef.current || !startPosRef.current) return;
 
         const evt = event as PointerEvent;
         if (pointerTypeRef.current === 'touch') evt.preventDefault();
@@ -406,7 +440,7 @@ export default function DomeGallery({
             vy = (my / dragSensitivity) * 0.02;
           }
 
-          if (!isTap && (Math.abs(vx) > 0.005 || Math.abs(vy) > 0.005)) {
+          if (!isTap && !disableInteractions && (Math.abs(vx) > 0.005 || Math.abs(vy) > 0.005)) {
             startInertia(vx, vy);
           }
           startPosRef.current = null;
@@ -424,7 +458,7 @@ export default function DomeGallery({
         }
       }
     },
-    { target: mainRef, eventOptions: { passive: false } }
+    { target: disableInteractions ? undefined : mainRef, eventOptions: { passive: false } }
   );
 
   useEffect(() => {
@@ -779,8 +813,8 @@ export default function DomeGallery({
         className="sphere-root relative w-full h-full"
         style={
           {
-            ['--segments-x' as any]: segments,
-            ['--segments-y' as any]: segments,
+            ['--segments-x' as any]: effectiveSegments,
+            ['--segments-y' as any]: effectiveSegments,
             ['--overlay-blur-color' as any]: overlayBlurColor,
             ['--tile-radius' as any]: imageBorderRadius,
             ['--enlarge-radius' as any]: openedImageBorderRadius,
@@ -792,7 +826,7 @@ export default function DomeGallery({
           ref={mainRef}
           className="absolute inset-0 grid place-items-center overflow-hidden select-none bg-transparent"
           style={{
-            touchAction: 'none',
+            touchAction: disableInteractions ? 'auto' : 'none',
             WebkitUserSelect: 'none'
           }}
         >
