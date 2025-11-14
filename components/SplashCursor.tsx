@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
+import { isMobileDevice } from "../lib/utils";
 
 interface ColorRGB {
   r: number;
@@ -71,6 +72,12 @@ export default function SplashCursor({
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    // MOBILE-ONLY: Disable SplashCursor on mobile to prevent scroll interference
+    // Desktop: Full SplashCursor functionality as before
+    if (typeof window !== 'undefined' && isMobileDevice()) {
+      return; // Early return on mobile - no touch listeners attached
+    }
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 

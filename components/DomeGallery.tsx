@@ -352,6 +352,8 @@ export default function DomeGallery({
     [dragDampening, maxVerticalRotationDeg, stopInertia]
   );
 
+  // MOBILE-ONLY: Skip useGesture entirely on mobile to prevent any handler attachment
+  // Desktop: Full gesture handling enabled
   useGesture(
     // MOBILE: Disable all gesture interactions - component is visual-only
     // DESKTOP: Full drag and tap interactions enabled

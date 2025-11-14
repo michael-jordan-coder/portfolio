@@ -49,6 +49,26 @@
     touch-action: pan-y !important;
   }
 
+  /* MOBILE-ONLY: Ensure hero section and all interactive elements allow native scroll */
+  html.mobile-device section#hero,
+  html.mobile-device section#hero * {
+    touch-action: pan-y !important;
+  }
+
+  /* MOBILE-ONLY: Prevent any gesture capture on mobile */
+  html.mobile-device [data-gesture-enabled="true"],
+  html.mobile-device [data-static-mode="true"] {
+    pointer-events: none !important;
+    touch-action: pan-y !important;
+  }
+
+  /* MOBILE-ONLY: Ensure DomeGallery container allows native scroll */
+  /* Note: pointer-events are handled inline in DomeGallery component */
+  html.mobile-device .sphere-root,
+  html.mobile-device .sphere-root main {
+    touch-action: pan-y !important;
+  }
+
   /* Desktop device specific styles */
   html.desktop-device {
     /* Lenis smooth scrolling will handle this */
