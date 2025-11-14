@@ -874,26 +874,6 @@ export default function DomeGallery({
     .sphere-root * { box-sizing: border-box; }
     .sphere, .sphere-item, .item__image { transform-style: preserve-3d; }
     
-    /* MOBILE-ONLY: Ensure all child elements allow scroll-through */
-    @media (max-width: 1024px) {
-      .sphere-root > *,
-      .sphere-root > * > *,
-      .sphere-root .stage,
-      .sphere-root .stage *,
-      .sphere-root .sphere,
-      .sphere-root .sphere *,
-      .sphere-root .sphere-item,
-      .sphere-root .sphere-item * {
-        pointer-events: none !important;
-        touch-action: pan-y !important;
-      }
-      
-      /* Keep the root container functional for layout */
-      .sphere-root {
-        pointer-events: auto !important;
-        touch-action: pan-y !important;
-      }
-    }
     
     .stage {
       width: 100%;
@@ -970,6 +950,15 @@ export default function DomeGallery({
       inset: 10px;
       pointer-events: none;
     }
+    
+    /* Mobile static mode: disable interaction in static mode */
+    .sphere-root[data-static-mode="true"] .sphere-item,
+    .sphere-root[data-static-mode="true"] .sphere-item *,
+    .sphere-root[data-static-mode="true"] .item__image {
+      pointer-events: none;
+      touch-action: pan-y;
+      cursor: default;
+    }
   `;
 
   return (
@@ -978,6 +967,7 @@ export default function DomeGallery({
       <div
         ref={rootRef}
         className="sphere-root relative w-full h-full"
+        data-static-mode={isMobile ? 'true' : 'false'}
         style={
           {
             ['--segments-x' as any]: segments,
