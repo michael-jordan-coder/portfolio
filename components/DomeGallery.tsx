@@ -193,20 +193,25 @@ export default function DomeGallery({
   // Mobile-only: Only lock scroll when image is enlarged, not during drag
   // Desktop: Lock scroll during drag as before
   const lockScroll = useCallback(() => {
-    // On mobile, only lock when enlarging an image, not during drag
-    if (isMobile && rootRef.current?.getAttribute('data-enlarging') !== 'true') {
+    // MOBILE: Never lock scroll on mobile - always allow native scrolling
+    if (isMobile) {
       return;
     }
+    // Desktop: Lock scroll during drag as before
     if (scrollLockedRef.current) return;
     scrollLockedRef.current = true;
     document.body.classList.add('dg-scroll-lock');
   }, [isMobile]);
   const unlockScroll = useCallback(() => {
+    // MOBILE: No-op on mobile since we never lock
+    if (isMobile) {
+      return;
+    }
     if (!scrollLockedRef.current) return;
     if (rootRef.current?.getAttribute('data-enlarging') === 'true') return;
     scrollLockedRef.current = false;
     document.body.classList.remove('dg-scroll-lock');
-  }, []);
+  }, [isMobile]);
 
   const items = useMemo(() => buildItems(images, segments), [images, segments]);
 
@@ -965,7 +970,7 @@ export default function DomeGallery({
       >
         <main
           ref={mainRef}
-          className="absolute inset-0 grid place-items-center overflow-hidden select-none bg-transparent"
+          className="absolute inset-0 grid place-items-center sm:overflow-hidden overflow-visible select-none bg-transparent"
           style={{
             // MOBILE-ONLY: Allow pan-y (vertical scroll) on mobile, keep none on desktop
             // Desktop: touch-action: none for drag behavior (unchanged)

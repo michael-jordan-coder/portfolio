@@ -39,6 +39,14 @@
     overflow-x: hidden !important;
     overflow-y: auto !important;
     height: auto !important;
+    position: relative !important; /* Prevent fixed positioning issues */
+  }
+  
+  /* CRITICAL: Never allow scroll lock on mobile */
+  html.mobile-device body.dg-scroll-lock {
+    position: relative !important;
+    overflow-y: auto !important;
+    touch-action: pan-y !important;
   }
 
   /* Desktop device specific styles */
