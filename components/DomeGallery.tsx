@@ -874,6 +874,27 @@ export default function DomeGallery({
     .sphere-root * { box-sizing: border-box; }
     .sphere, .sphere-item, .item__image { transform-style: preserve-3d; }
     
+    /* MOBILE-ONLY: Ensure all child elements allow scroll-through */
+    @media (max-width: 1024px) {
+      .sphere-root > *,
+      .sphere-root > * > *,
+      .sphere-root .stage,
+      .sphere-root .stage *,
+      .sphere-root .sphere,
+      .sphere-root .sphere *,
+      .sphere-root .sphere-item,
+      .sphere-root .sphere-item * {
+        pointer-events: none !important;
+        touch-action: pan-y !important;
+      }
+      
+      /* Keep the root container functional for layout */
+      .sphere-root {
+        pointer-events: auto !important;
+        touch-action: pan-y !important;
+      }
+    }
+    
     .stage {
       width: 100%;
       height: 100%;
@@ -978,6 +999,8 @@ export default function DomeGallery({
             // MOBILE-ONLY: Disable all pointer events to prevent interaction
             // Desktop: Allow pointer events for drag and tap
             pointerEvents: isMobile ? 'none' : 'auto',
+            // MOBILE-ONLY: Allow scroll to pass through without chaining
+            overscrollBehavior: isMobile ? 'contain' : 'auto',
             WebkitUserSelect: 'none',
             // SAFARI-ONLY: Remove mask images to reduce repaints
             // Chrome: Keep mask for visual effect
