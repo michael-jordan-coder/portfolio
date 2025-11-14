@@ -719,7 +719,9 @@ export default function DomeGallery({
       overlay.style.justifyContent = 'center'; // Changed from conditional to always center
       overlay.style.gap = isMobile ? '16px' : isTablet ? '24px' : '40px';
       overlay.style.padding = isMobile ? '16px' : isTablet ? '24px' : '40px';
-      overlay.style.overflowY = isMobile ? 'auto' : 'visible';
+      // MOBILE-ONLY: Prevent nested scroll container - use visible to allow document scroll
+      // Desktop: Keep auto for overlay scrolling when needed
+      overlay.style.overflowY = isMobile ? 'visible' : 'visible';
       
       // Create image container with responsive sizing
       const imageContainer = document.createElement('div');
@@ -983,13 +985,17 @@ export default function DomeGallery({
       >
         <main
           ref={mainRef}
-          className="absolute inset-0 grid place-items-center sm:overflow-hidden overflow-visible select-none bg-transparent"
+          className={`absolute inset-0 grid place-items-center select-none bg-transparent ${isMobile ? 'overflow-hidden' : 'sm:overflow-hidden overflow-visible'}`}
           style={{
             // MOBILE-ONLY: Disable all pointer events to prevent interaction
             // Desktop: Allow pointer events for drag and tap
             pointerEvents: isMobile ? 'none' : 'auto',
-            // MOBILE-ONLY: Allow scroll to pass through without chaining
-            overscrollBehavior: isMobile ? 'contain' : 'auto',
+            // MOBILE-ONLY: Prevent nested scroll container - use auto to allow document scroll
+            // Desktop: Keep default behavior
+            overscrollBehavior: isMobile ? 'auto' : 'auto',
+            // MOBILE-ONLY: Allow native touch actions (scroll, zoom, etc.)
+            // Desktop: Keep none for drag behavior
+            touchAction: isMobile ? 'auto' : 'none',
             WebkitUserSelect: 'none',
             // SAFARI-ONLY: Remove mask images to reduce repaints
             // Chrome: Keep mask for visual effect

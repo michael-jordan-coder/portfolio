@@ -41,6 +41,8 @@ export function useScrollToTop() {
 }
 
 // Helper to get Lenis instance from window (if available)
+// NOTE: Lenis is temporarily disabled in SmoothScrollProvider for diagnostic testing
+// This will always return null until Lenis is re-enabled
 function getLenisInstance(): any {
   if (typeof window === 'undefined') return null;
   
@@ -54,10 +56,12 @@ function getLenisInstance(): any {
 }
 
 // Enhanced scroll restoration for Next.js navigation
+// NOTE: Currently using native scroll fallback since Lenis is temporarily disabled
 export function ensureScrollToTop() {
   if (typeof window === 'undefined') return;
   
   // Try to use Lenis if available (for smooth scrolling)
+  // Currently disabled - will always use native scroll fallback
   const lenis = getLenisInstance();
   
   if (lenis) {
