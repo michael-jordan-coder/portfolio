@@ -93,27 +93,24 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
     }
   }, [])
 
-  // Add mobile-specific scroll behavior
+  // MOBILE-ONLY: Add mobile-specific scroll behavior
+  // Desktop: No changes to scroll behavior
   useEffect(() => {
     if (isMobile) {
-      // Add class to indicate mobile device
+      // Add class to indicate mobile device (used by CSS for mobile-only overrides)
       document.body.classList.add('mobile-device')
       document.documentElement.classList.add('mobile-device')
       
-      // Ensure native scrolling behavior on mobile
-      document.body.style.overflow = 'auto'
-      document.documentElement.style.overflow = 'auto'
-      
-      // Remove any smooth scroll CSS that might interfere
-      document.documentElement.style.scrollBehavior = 'auto'
-      document.body.style.scrollBehavior = 'auto'
+      // MOBILE-ONLY: Ensure native scrolling behavior on mobile
+      // Use CSS classes instead of direct style manipulation to avoid conflicts
+      // The CSS in globals.css already handles mobile scroll behavior
       
       return () => {
         document.body.classList.remove('mobile-device')
         document.documentElement.classList.remove('mobile-device')
       }
     } else {
-      // Add class to indicate desktop device
+      // Desktop: Add class to indicate desktop device (for CSS targeting if needed)
       document.body.classList.add('desktop-device')
       document.documentElement.classList.add('desktop-device')
       

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from './Button';
 import ContactModal from './ContactModal';
+import { useIsMobileDevice } from '../lib/utils';
 
 interface NavbarProps {
   onOpenContact: () => void;
@@ -14,6 +15,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const isMobile = useIsMobileDevice();
   
   // Refs for better performance
   const lastScrollY = useRef(0);
@@ -21,8 +23,12 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
   const isScrolling = useRef(false);
 
   // Handle scroll with proper throttling
+  // MOBILE-ONLY: Lighter scroll handling on mobile to reduce lag
+  // Desktop: Full scroll behavior as before
   useEffect(() => {
     let ticking = false;
+    // MOBILE-ONLY: Throttle more aggressively on mobile
+    const throttleDelay = isMobile ? 100 : 16; // ~60fps on desktop, ~10fps on mobile
     
     const handleScroll = () => {
       if (!ticking) {
@@ -41,21 +47,25 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
             return;
           }
           
-          // Clear any existing timeout
-          if (scrollTimeout.current) {
-            clearTimeout(scrollTimeout.current);
-          }
-          
-          // Determine scroll direction and distance
-          if (Math.abs(scrollDelta) > 5) {
-            if (scrollDelta > 0) {
-              // Scrolling down - hide navbar
-              scrollTimeout.current = setTimeout(() => {
-                setIsVisible(false);
-              }, 150);
-            } else {
-              // Scrolling up - show navbar immediately
-              setIsVisible(true);
+          // MOBILE-ONLY: Skip hide/show logic on mobile to reduce JS overhead
+          // Desktop: Full hide/show behavior as before
+          if (!isMobile) {
+            // Clear any existing timeout
+            if (scrollTimeout.current) {
+              clearTimeout(scrollTimeout.current);
+            }
+            
+            // Determine scroll direction and distance
+            if (Math.abs(scrollDelta) > 5) {
+              if (scrollDelta > 0) {
+                // Scrolling down - hide navbar
+                scrollTimeout.current = setTimeout(() => {
+                  setIsVisible(false);
+                }, 150);
+              } else {
+                // Scrolling up - show navbar immediately
+                setIsVisible(true);
+              }
             }
           }
           
@@ -75,7 +85,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
         clearTimeout(scrollTimeout.current);
       }
     };
-  }, []);
+  }, [isMobile]);
 
   // Navigation items
   const navItems = [

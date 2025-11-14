@@ -1398,8 +1398,35 @@ export default function ImageTrail({
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const instanceRef = useRef<any>(null);
+  
+  // MOBILE-ONLY: Detect mobile to disable ImageTrail on mobile (heavy touchmove processing)
+  // Desktop: Full ImageTrail functionality as before
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const mobileKeywords = ['android', 'webos', 'iphone', 'ipad', 'ipod', 'blackberry', 'windows phone'];
+      const isMobileUserAgent = mobileKeywords.some(keyword => userAgent.includes(keyword));
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isSmallScreen = window.innerWidth <= 1024;
+      setIsMobile(isMobileUserAgent || (isTouchDevice && isSmallScreen));
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const initializeImageTrail = useCallback(async () => {
+    // MOBILE-ONLY: Skip ImageTrail initialization on mobile to prevent scroll lag
+    // Desktop: Full ImageTrail functionality as before
+    if (isMobile) {
+      setIsLoaded(true);
+      setError(null);
+      return;
+    }
+    
     if (!containerRef.current || !items || items.length === 0) {
       return;
     }
@@ -1421,7 +1448,7 @@ export default function ImageTrail({
       setError('Failed to initialize image trail');
       setIsLoaded(false);
     }
-  }, [variant, items]);
+  }, [variant, items, isMobile]);
 
   useEffect(() => {
     // Only initialize on client side

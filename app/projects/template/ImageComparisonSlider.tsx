@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { useIsMobileDevice } from '../../../lib/utils';
 
 interface ImageComparisonSliderProps {
   beforeImage: {
@@ -33,30 +34,73 @@ export default function ImageComparisonSlider({
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState(initialPosition);
   const [isDragging, setIsDragging] = useState(false);
+  const isMobile = useIsMobileDevice();
+  const startPosRef = useRef<{ x: number; y: number } | null>(null);
 
   const updatePositionFromEvent = useCallback(
-    (e: MouseEvent | React.MouseEvent) => {
+    (e: MouseEvent | React.MouseEvent | TouchEvent) => {
       if (!containerRef.current) return;
 
       const rect = containerRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
+      // MOBILE-ONLY: Handle touch events, Desktop: Handle mouse events
+      let clientX = 0;
+      if ('touches' in e && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+      } else if ('clientX' in e) {
+        clientX = e.clientX;
+      }
+      const x = clientX - rect.left;
       const newPosition = Math.max(0, Math.min(100, (x / rect.width) * 100));
       setPosition(newPosition);
     },
     []
   );
 
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
+  const handleMouseDown = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    // MOBILE-ONLY: Don't preventDefault on mobile to allow native scroll
+    // Desktop: Keep preventDefault for drag behavior
+    if (!isMobile) {
+      e.preventDefault();
+    }
+    
+    // Track start position for gesture detection on mobile
+    if (isMobile && 'touches' in e && e.touches.length > 0) {
+      startPosRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    } else if (isMobile && 'clientX' in e) {
+      startPosRef.current = { x: e.clientX, y: e.clientY };
+    }
+    
     setIsDragging(true);
-  }, []);
+  }, [isMobile]);
 
   const handleMouseMove = useCallback(
-    (e: MouseEvent) => {
+    (e: MouseEvent | TouchEvent) => {
       if (!isDragging) return;
+      
+      // MOBILE-ONLY: Detect if user is scrolling vertically vs dragging horizontally
+      // Desktop: Process all drag events as before
+      if (isMobile && startPosRef.current) {
+        let currentX = 0, currentY = 0;
+        if ('touches' in e && e.touches.length > 0) {
+          currentX = e.touches[0].clientX;
+          currentY = e.touches[0].clientY;
+        } else if ('clientX' in e) {
+          currentX = e.clientX;
+          currentY = e.clientY;
+        }
+        
+        const dx = Math.abs(currentX - startPosRef.current.x);
+        const dy = Math.abs(currentY - startPosRef.current.y);
+        
+        // If vertical movement is greater, user is scrolling - don't update slider
+        if (dy > dx && dy > 10) {
+          return; // User is scrolling, not dragging slider
+        }
+      }
+      
       updatePositionFromEvent(e);
     },
-    [isDragging, updatePositionFromEvent]
+    [isDragging, updatePositionFromEvent, isMobile]
   );
 
   const handleMouseUp = useCallback(() => {
@@ -75,17 +119,37 @@ export default function ImageComparisonSlider({
   useEffect(() => {
     if (isDragging) {
       const handleGlobalMouseMove = (e: MouseEvent) => handleMouseMove(e);
-      const handleGlobalMouseUp = () => handleMouseUp();
+      const handleGlobalMouseUp = () => {
+        startPosRef.current = null;
+        handleMouseUp();
+      };
+      const handleGlobalTouchMove = (e: TouchEvent) => handleMouseMove(e);
+      const handleGlobalTouchEnd = () => {
+        startPosRef.current = null;
+        handleMouseUp();
+      };
 
-      window.addEventListener('mousemove', handleGlobalMouseMove);
-      window.addEventListener('mouseup', handleGlobalMouseUp);
+      // MOBILE-ONLY: Add touch listeners on mobile, mouse listeners on desktop
+      // Desktop: Keep mouse listeners as before
+      if (isMobile) {
+        window.addEventListener('touchmove', handleGlobalTouchMove, { passive: true });
+        window.addEventListener('touchend', handleGlobalTouchEnd);
+      } else {
+        window.addEventListener('mousemove', handleGlobalMouseMove);
+        window.addEventListener('mouseup', handleGlobalMouseUp);
+      }
 
       return () => {
-        window.removeEventListener('mousemove', handleGlobalMouseMove);
-        window.removeEventListener('mouseup', handleGlobalMouseUp);
+        if (isMobile) {
+          window.removeEventListener('touchmove', handleGlobalTouchMove);
+          window.removeEventListener('touchend', handleGlobalTouchEnd);
+        } else {
+          window.removeEventListener('mousemove', handleGlobalMouseMove);
+          window.removeEventListener('mouseup', handleGlobalMouseUp);
+        }
       };
     }
-  }, [isDragging, handleMouseMove, handleMouseUp]);
+  }, [isDragging, handleMouseMove, handleMouseUp, isMobile]);
 
   return (
     <div
@@ -95,6 +159,7 @@ export default function ImageComparisonSlider({
       } ${className}`}
       onClick={handleClick}
       onMouseDown={handleMouseDown}
+      onTouchStart={handleMouseDown}
       role="slider"
       aria-valuenow={position}
       aria-valuemin={0}
@@ -141,6 +206,7 @@ export default function ImageComparisonSlider({
           transform: `translateX(-${dividerWidth / 2}px)`,
         }}
         onMouseDown={handleMouseDown}
+        onTouchStart={handleMouseDown}
       />
 
       {/* Draggable Handle */}
@@ -153,10 +219,11 @@ export default function ImageComparisonSlider({
             height: `${handleSize}px`,
             backgroundColor: handleColor,
             borderColor: handleColor,
-            transform: `translate(-${handleSize / 2}px, -${handleSize / 2}px)`,
-          }}
-          onMouseDown={handleMouseDown}
-        >
+          transform: `translate(-${handleSize / 2}px, -${handleSize / 2}px)`,
+        }}
+        onMouseDown={handleMouseDown}
+        onTouchStart={handleMouseDown}
+      >
           <svg
             width={handleSize * 0.5}
             height={handleSize * 0.5}

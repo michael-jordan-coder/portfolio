@@ -249,7 +249,15 @@ const AnimatedCard: React.FC<{ project: Project; index: number }> = ({ project }
   const shouldAnimate = !isMobile && !prefersReducedMotion;
   
   const cardRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: cardRef, offset: ["start end", "end start"] });
+  // MOBILE-ONLY: Use simpler scroll tracking on mobile to reduce JS overhead
+  // Desktop: Keep full scroll-bound animations as before
+  const { scrollYProgress } = useScroll({ 
+    target: cardRef, 
+    offset: ["start end", "end start"],
+    // MOBILE-ONLY: Disable smooth scroll updates on mobile to reduce lag
+    // Desktop: Keep default smooth updates
+    layoutEffect: isMobile ? false : undefined
+  });
   const centerProgress = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
   
   // Always call all hooks unconditionally to follow Rules of Hooks
@@ -259,10 +267,14 @@ const AnimatedCard: React.FC<{ project: Project; index: number }> = ({ project }
   const zIndexAnimated = useTransform(centerProgress, [0, 1], [1, 10]);
   const filterAnimated = useTransform(centerProgress, [0, 1], ['blur(3px)', 'blur(0px)']);
   
+  // MOBILE-ONLY: Simplified transforms for mobile (minimal JS overhead)
+  // Desktop: Full animations as before
   const ySimple = useTransform(centerProgress, [0, 1], [20, 0]);
   const opacitySimple = useTransform(centerProgress, [0, 1], [0.5, 1]);
   
   // Conditionally use the transforms based on shouldAnimate
+  // MOBILE: Uses simplified animations to reduce scroll lag
+  // Desktop: Full animations unchanged
   const animations = shouldAnimate ? {
     y: yAnimated,
     opacity: opacityAnimated,
@@ -309,7 +321,14 @@ const SmoothCarousel: React.FC = () => {
   const prefersReducedMotion = usePrefersReducedMotion();
   const shouldAnimate = !isMobile && !prefersReducedMotion;
   const [isClient, setIsClient] = useState(false);
-  const { scrollYProgress } = useScroll({ offset: ["start end", "end start"] });
+  // MOBILE-ONLY: Disable layoutEffect on mobile to reduce scroll lag
+  // Desktop: Keep default smooth scroll updates
+  const { scrollYProgress } = useScroll({ 
+    offset: ["start end", "end start"],
+    layoutEffect: isMobile ? false : undefined
+  });
+  // MOBILE-ONLY: Reduced transform ranges on mobile for better performance
+  // Desktop: Full transform ranges as before
   const transforms = {
     y1: useTransform(scrollYProgress, [0, 1], [isMobile ? 50 : 200, isMobile ? -25 : -100]),
     y2: useTransform(scrollYProgress, [0, 1], [isMobile ? 25 : 100, isMobile ? -12 : -50]),

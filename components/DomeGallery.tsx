@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useCallback } from 'react';
 import { useGesture } from '@use-gesture/react';
+import { useIsMobileDevice } from '../lib/utils';
 
 type ImageItem = string | { src: string; alt?: string };
 
@@ -185,11 +186,19 @@ export default function DomeGallery({
   const lastDragEndAt = useRef(0);
 
   const scrollLockedRef = useRef(false);
+  const isMobile = useIsMobileDevice();
+  
+  // Mobile-only: Only lock scroll when image is enlarged, not during drag
+  // Desktop: Lock scroll during drag as before
   const lockScroll = useCallback(() => {
+    // On mobile, only lock when enlarging an image, not during drag
+    if (isMobile && rootRef.current?.getAttribute('data-enlarging') !== 'true') {
+      return;
+    }
     if (scrollLockedRef.current) return;
     scrollLockedRef.current = true;
     document.body.classList.add('dg-scroll-lock');
-  }, []);
+  }, [isMobile]);
   const unlockScroll = useCallback(() => {
     if (!scrollLockedRef.current) return;
     if (rootRef.current?.getAttribute('data-enlarging') === 'true') return;
@@ -344,8 +353,16 @@ export default function DomeGallery({
 
         const evt = event as PointerEvent;
         pointerTypeRef.current = (evt.pointerType as any) || 'mouse';
-        if (pointerTypeRef.current === 'touch') evt.preventDefault();
-        if (pointerTypeRef.current === 'touch') lockScroll();
+        // MOBILE-ONLY: Don't preventDefault on mobile to allow native scroll
+        // Desktop: Keep preventDefault for drag behavior
+        if (pointerTypeRef.current === 'touch' && !isMobile) {
+          evt.preventDefault();
+        }
+        // MOBILE-ONLY: Don't lock scroll during drag on mobile
+        // Desktop: Lock scroll during drag as before
+        if (pointerTypeRef.current === 'touch' && !isMobile) {
+          lockScroll();
+        }
         draggingRef.current = true;
         cancelTapRef.current = false;
         movedRef.current = false;
@@ -358,7 +375,11 @@ export default function DomeGallery({
         if (focusedElRef.current || !draggingRef.current || !startPosRef.current) return;
 
         const evt = event as PointerEvent;
-        if (pointerTypeRef.current === 'touch') evt.preventDefault();
+        // MOBILE-ONLY: Don't preventDefault on mobile to allow native scroll
+        // Desktop: Keep preventDefault for drag behavior
+        if (pointerTypeRef.current === 'touch' && !isMobile) {
+          evt.preventDefault();
+        }
 
         const dxTotal = evt.clientX - startPosRef.current.x;
         const dyTotal = evt.clientY - startPosRef.current.y;
@@ -418,13 +439,19 @@ export default function DomeGallery({
           tapTargetRef.current = null;
 
           if (cancelTapRef.current) setTimeout(() => (cancelTapRef.current = false), 120);
-          if (pointerTypeRef.current === 'touch') unlockScroll();
+          // MOBILE-ONLY: Only unlock if we locked (which we don't on mobile during drag)
+          // Desktop: Unlock scroll as before
+          if (pointerTypeRef.current === 'touch' && !isMobile) {
+            unlockScroll();
+          }
           if (movedRef.current) lastDragEndAt.current = performance.now();
           movedRef.current = false;
         }
       }
     },
-    { target: mainRef, eventOptions: { passive: false } }
+    // MOBILE-ONLY: Use passive listeners on mobile to allow native scroll
+    // Desktop: Keep non-passive for drag behavior
+    { target: mainRef, eventOptions: { passive: isMobile } }
   );
 
   useEffect(() => {
@@ -897,7 +924,9 @@ export default function DomeGallery({
           ref={mainRef}
           className="absolute inset-0 grid place-items-center overflow-hidden select-none bg-transparent"
           style={{
-            touchAction: 'none',
+            // MOBILE-ONLY: Allow pan-y (vertical scroll) on mobile, keep none on desktop
+            // Desktop: touch-action: none for drag behavior (unchanged)
+            touchAction: isMobile ? 'pan-y' : 'none',
             WebkitUserSelect: 'none',
             maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
             WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 5%, black 60%, transparent 100%)'

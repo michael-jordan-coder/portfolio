@@ -323,4 +323,47 @@ export const useHydrated = () => {
   }, []);
   
   return hydrated;
+}
+
+/**
+ * Mobile detection utility for iOS Safari and mobile WebViews
+ * Returns true only for mobile devices (iOS Safari, Android Chrome, mobile WebViews)
+ * Desktop behavior remains completely unchanged
+ */
+export const isMobileDevice = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  
+  // Check user agent for mobile devices
+  const userAgent = navigator.userAgent.toLowerCase();
+  const mobileKeywords = ['android', 'webos', 'iphone', 'ipad', 'ipod', 'blackberry', 'windows phone'];
+  const isMobileUserAgent = mobileKeywords.some(keyword => userAgent.includes(keyword));
+  
+  // Check for touch capability and screen size
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const isSmallScreen = window.innerWidth <= 1024; // Consider tablets as mobile for scroll behavior
+  
+  // Mobile = mobile user agent OR (touch device AND small screen)
+  return isMobileUserAgent || (isTouchDevice && isSmallScreen);
+}
+
+/**
+ * Hook for mobile detection in React components
+ * Only returns true on mobile devices, desktop always returns false
+ */
+export const useIsMobileDevice = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    setIsMobile(isMobileDevice());
+    
+    // Optional: listen for resize to handle device rotation
+    const handleResize = () => {
+      setIsMobile(isMobileDevice());
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  return isMobile;
 } 

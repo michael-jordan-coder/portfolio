@@ -155,10 +155,16 @@ function DraggableBeforeAfter() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [pos, setPos] = useState(50)
   const [dragging, setDragging] = useState(false)
-  const onDown = useCallback((e: React.MouseEvent) => {
-    e.preventDefault()
+  const isMobile = typeof window !== 'undefined' && (window.innerWidth <= 1024 || 'ontouchstart' in window)
+  
+  const onDown = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    // MOBILE-ONLY: Don't preventDefault on mobile to allow native scroll
+    // Desktop: Keep preventDefault for drag behavior
+    if (!isMobile) {
+      e.preventDefault()
+    }
     setDragging(true)
-  }, [])
+  }, [isMobile])
   const onMove = useCallback((e: MouseEvent) => {
     if (!dragging || !containerRef.current) return
     const rect = containerRef.current.getBoundingClientRect()
@@ -182,6 +188,7 @@ function DraggableBeforeAfter() {
       ref={containerRef}
       className={`relative w-full overflow-hidden select-none ${dragging ? 'cursor-ew-resize' : 'cursor-pointer'} rounded-2xl border border-gray-200 bg-white`}
       onMouseDown={onDown}
+      onTouchStart={onDown}
       role="slider"
       aria-valuemin={0}
       aria-valuemax={100}
@@ -199,12 +206,14 @@ function DraggableBeforeAfter() {
         className="absolute top-0 h-full shadow-lg"
         style={{ left: `${pos}%`, width: 3, backgroundColor: ACCENT, transform: `translateX(-1.5px)` }}
         onMouseDown={onDown}
+        onTouchStart={onDown}
         aria-hidden
       />
       <div
         className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 grid place-items-center rounded-full shadow-lg border-2"
         style={{ left: `${pos}%`, width: 48, height: 48, backgroundColor: ACCENT, borderColor: ACCENT }}
         onMouseDown={onDown}
+        onTouchStart={onDown}
         aria-hidden
       >
         <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
