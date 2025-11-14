@@ -249,14 +249,11 @@ const AnimatedCard: React.FC<{ project: Project; index: number }> = ({ project }
   const shouldAnimate = !isMobile && !prefersReducedMotion;
   
   const cardRef = useRef<HTMLDivElement>(null);
-  // MOBILE-ONLY: Use simpler scroll tracking on mobile to reduce JS overhead
-  // Desktop: Keep full scroll-bound animations as before
+  // Mobile optimization handled via conditional transforms (shouldAnimate), not useScroll options
+  // Desktop: Full scroll-bound animations as before
   const { scrollYProgress } = useScroll({ 
     target: cardRef, 
-    offset: ["start end", "end start"],
-    // MOBILE-ONLY: Disable smooth scroll updates on mobile to reduce lag
-    // Desktop: Keep default smooth updates
-    layoutEffect: isMobile ? false : undefined
+    offset: ["start end", "end start"]
   });
   const centerProgress = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
   
@@ -321,11 +318,10 @@ const SmoothCarousel: React.FC = () => {
   const prefersReducedMotion = usePrefersReducedMotion();
   const shouldAnimate = !isMobile && !prefersReducedMotion;
   const [isClient, setIsClient] = useState(false);
-  // MOBILE-ONLY: Disable layoutEffect on mobile to reduce scroll lag
-  // Desktop: Keep default smooth scroll updates
+  // Mobile optimization handled via conditional transforms and reduced ranges, not useScroll options
+  // Desktop: Full scroll-bound animations as before
   const { scrollYProgress } = useScroll({ 
-    offset: ["start end", "end start"],
-    layoutEffect: isMobile ? false : undefined
+    offset: ["start end", "end start"]
   });
   // MOBILE-ONLY: Reduced transform ranges on mobile for better performance
   // Desktop: Full transform ranges as before
