@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'KEYCHAIN SaaS Dashboard',
     description: 'An advanced SaaS dashboard solution designed for modern business applications.',
-    images: ['/keychain/overview.png'],
+    images: ['/keychain/overview.webp'],
   },
 }
 
