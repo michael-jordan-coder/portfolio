@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useRef, useCallback } from 'react';
 import { useGesture } from '@use-gesture/react';
-import { useIsMobileDevice } from '../lib/utils';
-import { getIsSafari } from '../lib/safari-detection';
 
 type ImageItem = string | { src: string; alt?: string };
 
@@ -56,11 +54,11 @@ const DEFAULT_IMAGES: ImageItem[] = [
     alt: 'Geometric pattern'
   },
   {
-    src: ' ',
+    src: 'https://images.unsplash.com/photo-1752588975228-21f44630bb3c?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     alt: 'Textured surface'
   },
   {
-    src: '/imagetrail/tuqqi.png',
+    src: 'https://pbs.twimg.com/media/Gyla7NnXMAAXSo_?format=jpg&name=large',
     alt: 'Social media image'
   }
 ];
@@ -153,8 +151,8 @@ export default function DomeGallery({
   enlargeTransitionMs = DEFAULTS.enlargeTransitionMs,
   segments = DEFAULTS.segments,
   dragDampening = 2,
-  openedImageWidth = '900px',
-  openedImageHeight = '500px',
+  openedImageWidth = '400px',
+  openedImageHeight = '400px',
   imageBorderRadius = '30px',
   openedImageBorderRadius = '30px',
   grayscale = true
@@ -187,31 +185,17 @@ export default function DomeGallery({
   const lastDragEndAt = useRef(0);
 
   const scrollLockedRef = useRef(false);
-  const isMobile = useIsMobileDevice();
-  const isSafari = getIsSafari();
-  
-  // Mobile-only: Only lock scroll when image is enlarged, not during drag
-  // Desktop: Lock scroll during drag as before
   const lockScroll = useCallback(() => {
-    // MOBILE: Never lock scroll on mobile - always allow native scrolling
-    if (isMobile) {
-      return;
-    }
-    // Desktop: Lock scroll during drag as before
     if (scrollLockedRef.current) return;
     scrollLockedRef.current = true;
     document.body.classList.add('dg-scroll-lock');
-  }, [isMobile]);
+  }, []);
   const unlockScroll = useCallback(() => {
-    // MOBILE: No-op on mobile since we never lock
-    if (isMobile) {
-      return;
-    }
     if (!scrollLockedRef.current) return;
     if (rootRef.current?.getAttribute('data-enlarging') === 'true') return;
     scrollLockedRef.current = false;
     document.body.classList.remove('dg-scroll-lock');
-  }, [isMobile]);
+  }, []);
 
   const items = useMemo(() => buildItems(images, segments), [images, segments]);
 
@@ -266,10 +250,10 @@ export default function DomeGallery({
       root.style.setProperty('--image-filter', grayscale ? 'grayscale(1)' : 'none');
       applyTransform(rotationRef.current.x, rotationRef.current.y);
 
-      const enlargedOverlay = rootRef.current?.querySelector('.enlarge') as HTMLElement;
-      if (enlargedOverlay && frameRef.current && rootRef.current) {
+      const enlargedOverlay = viewerRef.current?.querySelector('.enlarge') as HTMLElement;
+      if (enlargedOverlay && frameRef.current && mainRef.current) {
         const frameR = frameRef.current.getBoundingClientRect();
-        const rootR = rootRef.current.getBoundingClientRect();
+        const mainR = mainRef.current.getBoundingClientRect();
 
         const hasCustomSize = openedImageWidth && openedImageHeight;
         if (hasCustomSize) {
@@ -279,14 +263,14 @@ export default function DomeGallery({
           const tempRect = tempDiv.getBoundingClientRect();
           document.body.removeChild(tempDiv);
 
-          const centeredLeft = frameR.left - rootR.left + (frameR.width - tempRect.width) / 2;
-          const centeredTop = frameR.top - rootR.top + (frameR.height - tempRect.height) / 2;
+          const centeredLeft = frameR.left - mainR.left + (frameR.width - tempRect.width) / 2;
+          const centeredTop = frameR.top - mainR.top + (frameR.height - tempRect.height) / 2;
 
           enlargedOverlay.style.left = `${centeredLeft}px`;
           enlargedOverlay.style.top = `${centeredTop}px`;
         } else {
-          enlargedOverlay.style.left = `${frameR.left - rootR.left}px`;
-          enlargedOverlay.style.top = `${frameR.top - rootR.top}px`;
+          enlargedOverlay.style.left = `${frameR.left - mainR.left}px`;
+          enlargedOverlay.style.top = `${frameR.top - mainR.top}px`;
           enlargedOverlay.style.width = `${frameR.width}px`;
           enlargedOverlay.style.height = `${frameR.height}px`;
         }
@@ -352,28 +336,16 @@ export default function DomeGallery({
     [dragDampening, maxVerticalRotationDeg, stopInertia]
   );
 
-  // MOBILE-ONLY: Skip useGesture entirely on mobile to prevent any handler attachment
-  // Desktop: Full gesture handling enabled
   useGesture(
-    // MOBILE: Disable all gesture interactions - component is visual-only
-    // DESKTOP: Full drag and tap interactions enabled
-    isMobile ? {} : {
+    {
       onDragStart: ({ event }) => {
         if (focusedElRef.current) return;
         stopInertia();
 
         const evt = event as PointerEvent;
         pointerTypeRef.current = (evt.pointerType as any) || 'mouse';
-        // MOBILE-ONLY: Don't preventDefault on mobile to allow native scroll
-        // Desktop: Keep preventDefault for drag behavior
-        if (pointerTypeRef.current === 'touch' && !isMobile) {
-          evt.preventDefault();
-        }
-        // MOBILE-ONLY: Don't lock scroll during drag on mobile
-        // Desktop: Lock scroll during drag as before
-        if (pointerTypeRef.current === 'touch' && !isMobile) {
-          lockScroll();
-        }
+        if (pointerTypeRef.current === 'touch') evt.preventDefault();
+        if (pointerTypeRef.current === 'touch') lockScroll();
         draggingRef.current = true;
         cancelTapRef.current = false;
         movedRef.current = false;
@@ -386,11 +358,7 @@ export default function DomeGallery({
         if (focusedElRef.current || !draggingRef.current || !startPosRef.current) return;
 
         const evt = event as PointerEvent;
-        // MOBILE-ONLY: Don't preventDefault on mobile to allow native scroll
-        // Desktop: Keep preventDefault for drag behavior
-        if (pointerTypeRef.current === 'touch' && !isMobile) {
-          evt.preventDefault();
-        }
+        if (pointerTypeRef.current === 'touch') evt.preventDefault();
 
         const dxTotal = evt.clientX - startPosRef.current.x;
         const dyTotal = evt.clientY - startPosRef.current.y;
@@ -450,55 +418,14 @@ export default function DomeGallery({
           tapTargetRef.current = null;
 
           if (cancelTapRef.current) setTimeout(() => (cancelTapRef.current = false), 120);
-          // MOBILE-ONLY: Only unlock if we locked (which we don't on mobile during drag)
-          // Desktop: Unlock scroll as before
-          if (pointerTypeRef.current === 'touch' && !isMobile) {
-            unlockScroll();
-          }
+          if (pointerTypeRef.current === 'touch') unlockScroll();
           if (movedRef.current) lastDragEndAt.current = performance.now();
           movedRef.current = false;
         }
       }
     },
-    // SAFARI-ONLY: Always use passive listeners in Safari to improve scroll performance
-    // MOBILE: Use passive listeners to allow native scroll (gestures disabled above)
-    // Chrome Desktop: Keep non-passive for drag behavior
-    { target: isMobile ? null : mainRef, eventOptions: { passive: isSafari || isMobile } }
+    { target: mainRef, eventOptions: { passive: false } }
   );
-
-  // MOBILE-ONLY: Subtle auto-rotation animation for visual interest without interaction
-  useEffect(() => {
-    if (!isMobile) return; // Only on mobile
-    
-    // Stop any existing inertia animation
-    stopInertia();
-    
-    // Subtle auto-rotation for visual interest without interaction
-    let animationFrame: number;
-    let startTime = performance.now();
-    const rotationSpeed = 0.015; // degrees per frame (very slow - ~1 full rotation per 4 minutes)
-    
-    const animate = (currentTime: number) => {
-      const elapsed = (currentTime - startTime) / 1000; // Convert to seconds
-      const newY = elapsed * rotationSpeed;
-      
-      rotationRef.current = { 
-        x: 0, // Keep vertical rotation at 0 for stability
-        y: newY 
-      };
-      applyTransform(rotationRef.current.x, rotationRef.current.y);
-      
-      animationFrame = requestAnimationFrame(animate);
-    };
-    
-    animationFrame = requestAnimationFrame(animate);
-    
-    return () => {
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-      }
-    };
-  }, [isMobile, stopInertia]);
 
   useEffect(() => {
     const scrim = scrimRef.current;
@@ -509,7 +436,7 @@ export default function DomeGallery({
       const el = focusedElRef.current;
       if (!el) return;
       const parent = el.parentElement as HTMLElement;
-      const overlay = rootRef.current?.querySelector('.enlarge') as HTMLElement | null;
+      const overlay = viewerRef.current?.querySelector('.enlarge') as HTMLElement | null;
       if (!overlay) return;
 
       const refDiv = parent.querySelector('.item__image--reference') as HTMLElement | null;
@@ -556,31 +483,19 @@ export default function DomeGallery({
         z-index: 9999;
         border-radius: ${openedImageBorderRadius};
         overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,.35);
         transition: all ${enlargeTransitionMs}ms ease-out;
         pointer-events: none;
         margin: 0;
         transform: none;
         filter: ${grayscale ? 'grayscale(1)' : 'none'};
-        background: ${isSafari ? 'rgba(0,0,0,0.8)' : 'rgba(0,0,0,0.4)'};
-        ${!isSafari ? 'backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);' : ''}
       `;
 
-      const originalImageContainer = overlay.querySelector('div:last-child');
-      if (originalImageContainer) {
-        const img = originalImageContainer.querySelector('img');
-        if (img) {
-          const clonedImg = img.cloneNode() as HTMLImageElement;
-          clonedImg.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
-          animatingOverlay.appendChild(clonedImg);
-        }
-      } else {
-        // Fallback for simple image layout
-        const originalImg = overlay.querySelector('img');
-        if (originalImg) {
-          const img = originalImg.cloneNode() as HTMLImageElement;
-          img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
-          animatingOverlay.appendChild(img);
-        }
+      const originalImg = overlay.querySelector('img');
+      if (originalImg) {
+        const img = originalImg.cloneNode() as HTMLImageElement;
+        img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
+        animatingOverlay.appendChild(img);
       }
 
       overlay.remove();
@@ -651,7 +566,6 @@ export default function DomeGallery({
   }, [enlargeTransitionMs, openedImageBorderRadius, grayscale]);
 
   const openItemFromElement = (el: HTMLElement) => {
-    if (cancelTapRef.current) return;
     if (openingRef.current) return;
     openingRef.current = true;
     openStartedAtRef.current = performance.now();
@@ -675,10 +589,21 @@ export default function DomeGallery({
     refDiv.className = 'item__image item__image--reference opacity-0';
     refDiv.style.transform = `rotateX(${-parentRot.rotateX}deg) rotateY(${-parentRot.rotateY}deg)`;
     parent.appendChild(refDiv);
+
+    void refDiv.offsetHeight;
+
     const tileR = refDiv.getBoundingClientRect();
-    const mainR = mainRef.current!.getBoundingClientRect();
-    const rootR = rootRef.current!.getBoundingClientRect();
-    const frameR = frameRef.current!.getBoundingClientRect();
+    const mainR = mainRef.current?.getBoundingClientRect();
+    const frameR = frameRef.current?.getBoundingClientRect();
+
+    if (!mainR || !frameR || tileR.width <= 0 || tileR.height <= 0) {
+      openingRef.current = false;
+      focusedElRef.current = null;
+      parent.removeChild(refDiv);
+      unlockScroll();
+      return;
+    }
+
     originalTilePositionRef.current = {
       left: tileR.left,
       top: tileR.top,
@@ -689,139 +614,30 @@ export default function DomeGallery({
     (el.style as any).zIndex = 0;
     const overlay = document.createElement('div');
     overlay.className = 'enlarge';
-    // SAFARI-ONLY: Replace backdrop-filter with solid background to reduce GPU pressure
-    // Chrome: backdrop-filter blur for glass effect
-    // Safari: Solid background for better performance
-    const backdropStyle = isSafari 
-      ? 'background: rgba(0,0,0,0.8);'
-      : 'background: rgba(0,0,0,0.4); backdrop-filter:blur(40px); -webkit-backdrop-filter:blur(40px);';
-    overlay.style.cssText = `position:absolute; left:${frameR.left - rootR.left}px; top:${frameR.top - rootR.top}px; width:${frameR.width}px; height:${frameR.height}px; opacity:0; z-index:50; will-change:transform,opacity; transform-origin:top left; transition:transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease; border-radius:${openedImageBorderRadius}; overflow:hidden; ${backdropStyle}`;
+    overlay.style.cssText = `position:absolute; left:${frameR.left - mainR.left}px; top:${frameR.top - mainR.top}px; width:${frameR.width}px; height:${frameR.height}px; opacity:0; z-index:30; will-change:transform,opacity; transform-origin:top left; transition:transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease; border-radius:${openedImageBorderRadius}; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.35);`;
     const rawSrc = parent.dataset.src || (el.querySelector('img') as HTMLImageElement)?.src || '';
     const rawAlt = parent.dataset.alt || (el.querySelector('img') as HTMLImageElement)?.alt || '';
-    
-    // Create image
     const img = document.createElement('img');
     img.src = rawSrc;
     img.alt = rawAlt;
     img.style.cssText = `width:100%; height:100%; object-fit:cover; filter:${grayscale ? 'grayscale(1)' : 'none'};`;
     overlay.appendChild(img);
-    
-    // Create text description to the left of image
-    if (rawAlt) {
-      // Detect mobile screen size
-      const isMobile = window.innerWidth < 640;
-      const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024;
-      
-      // Modify overlay to be a flex container with responsive direction
-      overlay.style.display = 'flex';
-      overlay.style.flexDirection = isMobile ? 'column' : 'row';
-      overlay.style.alignItems = isMobile ? 'stretch' : 'center';
-      overlay.style.justifyContent = 'center'; // Changed from conditional to always center
-      overlay.style.gap = isMobile ? '16px' : isTablet ? '24px' : '40px';
-      overlay.style.padding = isMobile ? '16px' : isTablet ? '24px' : '40px';
-      // MOBILE-ONLY: Prevent nested scroll container - use visible to allow document scroll
-      // Desktop: Keep auto for overlay scrolling when needed
-      overlay.style.overflowY = isMobile ? 'visible' : 'visible';
-      
-      // Create image container with responsive sizing
-      const imageContainer = document.createElement('div');
-      const imageSize = isMobile ? '200px' : isTablet ? '280px' : '350px';
-      imageContainer.style.cssText = `
-        flex: 0 0 auto;
-        width: ${imageSize};
-        height: ${imageSize};
-        ${isMobile ? 'width: 100%; max-width: 280px; aspect-ratio: 1; margin: 0 auto;' : ''}
-        border-radius: ${openedImageBorderRadius};
-        overflow: hidden;
-      `;
-      
-      // Move image to container
-      overlay.removeChild(img);
-      img.style.cssText = `width: 100%; height: 100%; object-fit: cover; filter: ${grayscale ? 'grayscale(1)' : 'none'};`;
-      imageContainer.appendChild(img);
-      
-      // Create text container with responsive typography
-      const textContainer = document.createElement('div');
-      const fontSize = isMobile ? '16px' : isTablet ? '20px' : '24px';
-      const maxWidth = isMobile ? '100%' : isTablet ? '400px' : '500px';
-      textContainer.style.cssText = `
-        flex: ${isMobile ? '0 0 auto' : '1'};
-        color: white;
-        font-size: ${fontSize};
-        line-height: 1.5;
-        font-weight: 500;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        max-width: ${maxWidth};
-        ${isMobile ? 'text-align: center; width: 100%;' : ''}
-      `;
-      textContainer.textContent = rawAlt;
-      
-      // Add containers to overlay - order changes for mobile
-      if (isMobile) {
-        overlay.appendChild(imageContainer);
-        overlay.appendChild(textContainer);
-      } else {
-        overlay.appendChild(textContainer);
-        overlay.appendChild(imageContainer);
-      }
-    }
-    
-    // Create close button
-    const closeButton = document.createElement('button');
-    closeButton.className = 'dg-close-button';
-    closeButton.setAttribute('aria-label', 'Close');
-    closeButton.innerHTML = `
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
-    `;
-    closeButton.style.cssText = `
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: white;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-      transition: all 0.2s ease;
-      ${isSafari ? 'background: rgba(255, 255, 255, 0.15);' : 'backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);'}
-    `;
-    closeButton.addEventListener('mouseenter', () => {
-      closeButton.style.background = 'rgba(255, 255, 255, 0.2)';
-      closeButton.style.transform = 'scale(1.1)';
-    });
-    closeButton.addEventListener('mouseleave', () => {
-      closeButton.style.background = 'rgba(255, 255, 255, 0.1)';
-      closeButton.style.transform = 'scale(1)';
-    });
-    closeButton.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const scrim = scrimRef.current;
-      if (scrim) {
-        scrim.click();
-      }
-    });
-    overlay.appendChild(closeButton);
-    
-    rootRef.current!.appendChild(overlay);
+    viewerRef.current!.appendChild(overlay);
     const tx0 = tileR.left - frameR.left;
     const ty0 = tileR.top - frameR.top;
     const sx0 = tileR.width / frameR.width;
     const sy0 = tileR.height / frameR.height;
-    overlay.style.transform = `translate(${tx0}px, ${ty0}px) scale(${sx0}, ${sy0})`;
-    requestAnimationFrame(() => {
+
+    const validSx0 = isFinite(sx0) && sx0 > 0 ? sx0 : 1;
+    const validSy0 = isFinite(sy0) && sy0 > 0 ? sy0 : 1;
+
+    overlay.style.transform = `translate(${tx0}px, ${ty0}px) scale(${validSx0}, ${validSy0})`;
+    setTimeout(() => {
+      if (!overlay.parentElement) return;
       overlay.style.opacity = '1';
       overlay.style.transform = 'translate(0px, 0px) scale(1, 1)';
       rootRef.current?.setAttribute('data-enlarging', 'true');
-    });
+    }, 16);
     const wantsResize = openedImageWidth || openedImageHeight;
     if (wantsResize) {
       const onFirstEnd = (ev: TransitionEvent) => {
@@ -838,8 +654,8 @@ export default function DomeGallery({
         overlay.style.height = frameR.height + 'px';
         void overlay.offsetWidth;
         overlay.style.transition = `left ${enlargeTransitionMs}ms ease, top ${enlargeTransitionMs}ms ease, width ${enlargeTransitionMs}ms ease, height ${enlargeTransitionMs}ms ease`;
-        const centeredLeft = frameR.left - rootR.left + (frameR.width - newRect.width) / 2;
-        const centeredTop = frameR.top - rootR.top + (frameR.height - newRect.height) / 2;
+        const centeredLeft = frameR.left - mainR.left + (frameR.width - newRect.width) / 2;
+        const centeredTop = frameR.top - mainR.top + (frameR.height - newRect.height) / 2;
         requestAnimationFrame(() => {
           overlay.style.left = `${centeredLeft}px`;
           overlay.style.top = `${centeredTop}px`;
@@ -877,7 +693,6 @@ export default function DomeGallery({
     
     .sphere-root * { box-sizing: border-box; }
     .sphere, .sphere-item, .item__image { transform-style: preserve-3d; }
-    
     
     .stage {
       width: 100%;
@@ -954,15 +769,6 @@ export default function DomeGallery({
       inset: 10px;
       pointer-events: none;
     }
-    
-    /* Mobile static mode: disable interaction in static mode */
-    .sphere-root[data-static-mode="true"] .sphere-item,
-    .sphere-root[data-static-mode="true"] .sphere-item *,
-    .sphere-root[data-static-mode="true"] .item__image {
-      pointer-events: none;
-      touch-action: pan-y;
-      cursor: default;
-    }
   `;
 
   return (
@@ -971,7 +777,6 @@ export default function DomeGallery({
       <div
         ref={rootRef}
         className="sphere-root relative w-full h-full"
-        data-static-mode={isMobile ? 'true' : 'false'}
         style={
           {
             ['--segments-x' as any]: segments,
@@ -985,25 +790,10 @@ export default function DomeGallery({
       >
         <main
           ref={mainRef}
-          className={`absolute inset-0 grid place-items-center select-none bg-transparent ${isMobile ? 'overflow-visible' : 'sm:overflow-hidden overflow-visible'}`}
+          className="absolute inset-0 grid place-items-center overflow-hidden select-none bg-transparent"
           style={{
-            // MOBILE-ONLY: Disable all pointer events to prevent interaction
-            // Desktop: Allow pointer events for drag and tap
-            pointerEvents: isMobile ? 'none' : 'auto',
-            // MOBILE-ONLY: Prevent nested scroll container - use auto to allow document scroll
-            // Desktop: Keep default behavior
-            overscrollBehavior: isMobile ? 'auto' : 'auto',
-            // MOBILE-ONLY: Allow native touch actions (scroll, zoom, etc.)
-            // Desktop: Keep none for drag behavior
-            touchAction: isMobile ? 'auto' : 'none',
-            WebkitUserSelect: 'none',
-            // SAFARI-ONLY: Remove mask images to reduce repaints
-            // Chrome: Keep mask for visual effect
-            // Safari: No mask for better performance
-            ...(isSafari ? {} : {
-              maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 5%, black 60%, transparent 100%)'
-            })
+            touchAction: 'none',
+            WebkitUserSelect: 'none'
           }}
         >
           <div className="stage">
@@ -1033,23 +823,28 @@ export default function DomeGallery({
                 >
                   <div
                     className="item__image absolute block overflow-hidden cursor-pointer bg-gray-200 transition-transform duration-300"
-                    role={isMobile ? 'img' : 'button'} // Change role on mobile to indicate non-interactive
-                    tabIndex={isMobile ? -1 : 0} // Remove from tab order on mobile
-                    aria-label={it.alt || (isMobile ? 'Image' : 'Open image')}
-                    onClick={isMobile ? undefined : (e => {
+                    role="button"
+                    tabIndex={0}
+                    aria-label={it.alt || 'Open image'}
+                    onClick={e => {
+                      if (draggingRef.current) return;
+                      if (movedRef.current) return;
                       if (performance.now() - lastDragEndAt.current < 80) return;
+                      if (openingRef.current) return;
                       openItemFromElement(e.currentTarget as HTMLElement);
-                    })}
-                    onTouchEnd={isMobile ? undefined : (e => {
+                    }}
+                    onPointerUp={e => {
+                      if ((e.nativeEvent as PointerEvent).pointerType !== 'touch') return;
+                      if (draggingRef.current) return;
+                      if (movedRef.current) return;
                       if (performance.now() - lastDragEndAt.current < 80) return;
-                      openItemFromElement(e.currentTarget);
-                    })}
+                      if (openingRef.current) return;
+                      openItemFromElement(e.currentTarget as HTMLElement);
+                    }}
                     style={{
                       inset: '10px',
                       borderRadius: `var(--tile-radius, ${imageBorderRadius})`,
-                      backfaceVisibility: 'hidden',
-                      cursor: isMobile ? 'default' : 'pointer', // Remove pointer cursor on mobile
-                      pointerEvents: isMobile ? 'none' : 'auto' // Disable pointer events on mobile
+                      backfaceVisibility: 'hidden'
                     }}
                   >
                     <img
@@ -1069,6 +864,35 @@ export default function DomeGallery({
           </div>
 
           <div
+            className="absolute inset-0 m-auto z-[3] pointer-events-none"
+            style={{
+              backgroundImage: `radial-gradient(rgba(235, 235, 235, 0) 65%, var(--overlay-blur-color, ${overlayBlurColor}) 100%)`
+            }}
+          />
+
+          <div
+            className="absolute inset-0 m-auto z-[3] pointer-events-none"
+            style={{
+              WebkitMaskImage: `radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, ${overlayBlurColor}) 90%)`,
+              maskImage: `radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, ${overlayBlurColor}) 90%)`,
+              backdropFilter: 'blur(3px)'
+            }}
+          />
+
+          <div
+            className="absolute left-0 right-0 top-0 h-[120px] z-[5] pointer-events-none rotate-180"
+            style={{
+              background: `linear-gradient(to bottom, transparent, var(--overlay-blur-color, ${overlayBlurColor}))`
+            }}
+          />
+          <div
+            className="absolute left-0 right-0 bottom-0 h-[120px] z-[5] pointer-events-none"
+            style={{
+              background: `linear-gradient(to bottom, transparent, var(--overlay-blur-color, ${overlayBlurColor}))`
+            }}
+          />
+
+          <div
             ref={viewerRef}
             className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center"
             style={{ padding: 'var(--viewer-pad)' }}
@@ -1076,6 +900,10 @@ export default function DomeGallery({
             <div
               ref={scrimRef}
               className="scrim absolute inset-0 z-10 pointer-events-none opacity-0 transition-opacity duration-500"
+              style={{
+                background: 'rgba(0, 0, 0, 0.4)',
+                backdropFilter: 'blur(3px)'
+              }}
             />
             <div
               ref={frameRef}
