@@ -9,7 +9,7 @@ import ContactModal from '../components/ContactModal'
 const HeroSection = dynamic(() => import('./sections/HeroSection'), {
   ssr: false, // Disable SSR for GSAP animations
   loading: () => (
-    <div className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-black">
+    <div className="relative min-h-[100vh] flex items-center justify-center overflow-visible sm:overflow-hidden bg-black">
       <div className="text-center">
         <div className="w-32 h-8 bg-white/10 animate-pulse rounded mb-4"></div>
         <div className="w-48 h-12 bg-white/5 animate-pulse rounded"></div>
@@ -39,7 +39,7 @@ export default function Home() {
   return (
     <>
       <main 
-        className="min-h-[100svh] overflow-x-hidden"
+        className="relative min-h-[100vh] sm:min-h-[100svh] overflow-visible sm:overflow-x-hidden"
         style={{
           paddingTop: 'env(safe-area-inset-top)',
           paddingLeft: 'env(safe-area-inset-left)',

@@ -297,7 +297,7 @@ const AnimatedCard: React.FC<{ project: Project; index: number }> = ({ project }
   return (
     <motion.div 
       ref={cardRef} 
-      className={`h-[50vh] sm:h-[60vh] md:h-[70vh] flex items-center justify-center px-3 sm:px-4 ${isSafari ? 'safari-no-blur' : ''}`}
+      className={`relative h-[50vh] sm:h-[60vh] md:h-[70vh] flex items-center justify-center px-3 sm:px-4 ${isSafari ? 'safari-no-blur' : ''}`}
       style={animations}
     >
       <ProjectCard project={project} />

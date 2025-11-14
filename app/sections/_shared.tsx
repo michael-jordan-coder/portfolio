@@ -11,7 +11,9 @@ interface SectionWrapperProps {
 }
 
 export const SectionWrapper = ({ id, children, className = '', variant = 'default' }: SectionWrapperProps) => {
-  const baseClasses = "relative overflow-hidden";
+  // MOBILE-ONLY: overflow-visible to prevent scroll trapping
+  // Desktop: overflow-hidden for layout clipping
+  const baseClasses = "relative overflow-visible sm:overflow-hidden";
   
   const variantClasses = {
     default: "py-20 bg-gradient-to-b from-black via-[#000000] to-black",

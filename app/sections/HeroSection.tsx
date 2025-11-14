@@ -32,7 +32,7 @@ const HeroSection: React.FC = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-x-hidden sm:overflow-hidden bg-black pt-2 sm:pt-4 pb-4 sm:pb-6"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-visible sm:overflow-hidden bg-black pt-2 sm:pt-4 pb-4 sm:pb-6"
     >
       {/* Aurora Background */}
       <div className="absolute inset-0 z-10 h-[62vh]">

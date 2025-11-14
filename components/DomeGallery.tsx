@@ -985,7 +985,7 @@ export default function DomeGallery({
       >
         <main
           ref={mainRef}
-          className={`absolute inset-0 grid place-items-center select-none bg-transparent ${isMobile ? 'overflow-hidden' : 'sm:overflow-hidden overflow-visible'}`}
+          className={`absolute inset-0 grid place-items-center select-none bg-transparent ${isMobile ? 'overflow-visible' : 'sm:overflow-hidden overflow-visible'}`}
           style={{
             // MOBILE-ONLY: Disable all pointer events to prevent interaction
             // Desktop: Allow pointer events for drag and tap
