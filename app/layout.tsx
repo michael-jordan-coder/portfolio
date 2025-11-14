@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { SmoothScrollProvider } from '../components/SmoothScrollProvider'
+// import { SmoothScrollProvider } from '../components/SmoothScrollProvider'
 import { ScrollRestoration } from '../components/ScrollRestoration'
 import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/next'
@@ -172,10 +172,8 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <SmoothScrollProvider>
           <ScrollRestoration />
           {children}
-        </SmoothScrollProvider>
         <Analytics />
         <SpeedInsights />
       </body>
