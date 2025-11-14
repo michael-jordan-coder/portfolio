@@ -9,6 +9,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import { useIsSafari } from '../../hooks/useIsSafari';
 
 const AboutPage: React.FC = () => {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -16,7 +17,10 @@ const AboutPage: React.FC = () => {
   const [splashCursorKey, setSplashCursorKey] = useState(0);
   const isMobile = useIsMobile();
   const prefersReducedMotion = usePrefersReducedMotion();
-  const shouldAnimate = !isMobile && !prefersReducedMotion;
+  const isSafari = useIsSafari();
+  // SAFARI-ONLY: Disable GSAP animations in Safari to ensure headers are visible
+  // Chrome/Mobile: Use existing animation logic
+  const shouldAnimate = !isMobile && !prefersReducedMotion && !isSafari;
 
   // Refs for GSAP animations
   const aboutSectionRef = useRef<HTMLDivElement>(null);
@@ -107,7 +111,7 @@ const AboutPage: React.FC = () => {
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
-  }, [isMobile, prefersReducedMotion, shouldAnimate]);
+  }, [isMobile, prefersReducedMotion, isSafari, shouldAnimate]);
 
   // Refresh splash cursor every 30 seconds
   useEffect(() => {
