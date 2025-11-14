@@ -7,6 +7,7 @@ import { Button } from '../../components/Button';
 import { SectionWrapper, NeonBlob } from './_shared';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import { useIsSafari } from '../../hooks/useIsSafari';
 
 // Project data structure
 interface Project {
@@ -246,7 +247,12 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
 const AnimatedCard: React.FC<{ project: Project; index: number }> = ({ project }) => {
   const isMobile = useIsMobile();
   const prefersReducedMotion = usePrefersReducedMotion();
-  const shouldAnimate = !isMobile && !prefersReducedMotion;
+  const isSafari = useIsSafari();
+  // SAFARI-ONLY: Use lite motion in Safari to reduce GPU pressure
+  // Chrome: Full animations (y + scale + blur + zIndex)
+  // Safari: Only opacity + minimal y shift
+  const shouldUseLiteMotion = isSafari || prefersReducedMotion;
+  const shouldAnimate = !isMobile && !prefersReducedMotion && !isSafari;
   
   const cardRef = useRef<HTMLDivElement>(null);
   // Mobile optimization handled via conditional transforms (shouldAnimate), not useScroll options
@@ -258,36 +264,42 @@ const AnimatedCard: React.FC<{ project: Project; index: number }> = ({ project }
   const centerProgress = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
   
   // Always call all hooks unconditionally to follow Rules of Hooks
+  // Full motion (Chrome): Multiple simultaneous transforms
   const yAnimated = useTransform(centerProgress, [0, 1], [50, 0]);
   const opacityAnimated = useTransform(centerProgress, [0, 1], [0.3, 1]);
   const scaleAnimated = useTransform(centerProgress, [0, 1], [0.3, 1.1]);
   const zIndexAnimated = useTransform(centerProgress, [0, 1], [1, 10]);
   const filterAnimated = useTransform(centerProgress, [0, 1], ['blur(3px)', 'blur(0px)']);
   
-  // MOBILE-ONLY: Simplified transforms for mobile (minimal JS overhead)
-  // Desktop: Full animations as before
+  // Lite motion (Safari/Mobile): Only opacity + minimal y shift
   const ySimple = useTransform(centerProgress, [0, 1], [20, 0]);
   const opacitySimple = useTransform(centerProgress, [0, 1], [0.5, 1]);
   
-  // Conditionally use the transforms based on shouldAnimate
-  // MOBILE: Uses simplified animations to reduce scroll lag
-  // Desktop: Full animations unchanged
-  const animations = shouldAnimate ? {
+  // Conditionally use the transforms based on shouldUseLiteMotion
+  // SAFARI/MOBILE: Uses simplified animations to reduce scroll lag and GPU pressure
+  // Chrome: Full animations unchanged
+  const animations = shouldUseLiteMotion ? {
+    y: ySimple,
+    opacity: opacitySimple,
+    scale: 1, // No scale animation in Safari
+    zIndex: 1, // No zIndex animation in Safari
+    // SAFARI-ONLY: Use 'none' instead of 'blur(0px)' to completely disable filter and fix permanent blur bug
+    // Chrome: Full animated blur (blur(3px) → blur(0px))
+    filter: isSafari ? 'none' : 'blur(0px)' // Safari: no filter, Mobile: no blur animation
+  } : {
     y: yAnimated,
     opacity: opacityAnimated,
     scale: scaleAnimated,
     zIndex: zIndexAnimated,
-    filter: filterAnimated
-  } : {
-    y: ySimple,
-    opacity: opacitySimple,
-    scale: 1,
-    zIndex: 1,
-    filter: 'blur(0px)'
+    filter: filterAnimated // Chrome: Full animated blur
   };
 
   return (
-    <motion.div ref={cardRef} className="h-[50vh] sm:h-[60vh] md:h-[70vh] flex items-center justify-center px-3 sm:px-4" style={animations}>
+    <motion.div 
+      ref={cardRef} 
+      className={`h-[50vh] sm:h-[60vh] md:h-[70vh] flex items-center justify-center px-3 sm:px-4 ${isSafari ? 'safari-no-blur' : ''}`}
+      style={animations}
+    >
       <ProjectCard project={project} />
     </motion.div>
   );
@@ -316,18 +328,26 @@ const FLOATING_ELEMENTS = [
 const SmoothCarousel: React.FC = () => {
   const isMobile = useIsMobile();
   const prefersReducedMotion = usePrefersReducedMotion();
-  const shouldAnimate = !isMobile && !prefersReducedMotion;
+  const isSafari = useIsSafari();
+  const shouldAnimate = !isMobile && !prefersReducedMotion && !isSafari;
   const [isClient, setIsClient] = useState(false);
   // Mobile optimization handled via conditional transforms and reduced ranges, not useScroll options
   // Desktop: Full scroll-bound animations as before
   const { scrollYProgress } = useScroll({ 
     offset: ["start end", "end start"]
   });
-  // MOBILE-ONLY: Reduced transform ranges on mobile for better performance
-  // Desktop: Full transform ranges as before
+  // SAFARI-ONLY: Reduced transform ranges (70% reduction) to reduce GPU pressure
+  // MOBILE: Reduced ranges for better performance
+  // Chrome Desktop: Full transform ranges as before
   const transforms = {
-    y1: useTransform(scrollYProgress, [0, 1], [isMobile ? 50 : 200, isMobile ? -25 : -100]),
-    y2: useTransform(scrollYProgress, [0, 1], [isMobile ? 25 : 100, isMobile ? -12 : -50]),
+    y1: useTransform(scrollYProgress, [0, 1], [
+      isSafari ? 60 : (isMobile ? 50 : 200), 
+      isSafari ? -30 : (isMobile ? -25 : -100)
+    ]),
+    y2: useTransform(scrollYProgress, [0, 1], [
+      isSafari ? 30 : (isMobile ? 25 : 100), 
+      isSafari ? -15 : (isMobile ? -12 : -50)
+    ]),
     opacity: useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0])
   };
 
@@ -344,8 +364,9 @@ const SmoothCarousel: React.FC = () => {
     <SectionWrapper id="smooth">
       <NeonBlob position="custom" customClass="right-1/3 bottom-1/4 -rotate-12" size="md" colors={['#a855f7', '#ec4899', '#ef4444']} opacity={0.4} animated={shouldAnimate} />
       <NeonBlob position="custom" customClass="left-1/3 top-1/2 rotate-6" size="sm" colors={['#06b6d4', '#3b82f6', '#6366f1']} opacity={0.3} animated={shouldAnimate} />
-      {/* Only render floating elements on client and if not mobile to avoid hydration issues */}
-      {isClient && !isMobile && (
+      {/* SAFARI-ONLY: Disable floating elements in Safari to reduce compositor pressure */}
+      {/* Only render floating elements on client, not mobile, and not Safari to avoid hydration issues */}
+      {isClient && !isMobile && !isSafari && (
         <motion.div className="absolute inset-0 pointer-events-none" style={{ opacity: transforms.opacity }}>
           {FLOATING_ELEMENTS.map((element, i) => (
             <motion.div 

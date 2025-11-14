@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState, useCallback } from "react";
 import "./ImageTrail.css";
+import { getIsSafari } from '../lib/safari-detection';
 
 // Import GSAP dynamically to avoid SSR issues
 let gsap: any;
@@ -1399,9 +1400,11 @@ export default function ImageTrail({
   const [error, setError] = useState<string | null>(null);
   const instanceRef = useRef<any>(null);
   
+  // SAFARI-ONLY: Disable ImageTrail in Safari to reduce GPU pressure and scroll jank
   // MOBILE-ONLY: Detect mobile to disable ImageTrail on mobile (heavy touchmove processing)
-  // Desktop: Full ImageTrail functionality as before
+  // Chrome Desktop: Full ImageTrail functionality as before
   const [isMobile, setIsMobile] = useState(false);
+  const isSafari = getIsSafari();
   
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -1419,9 +1422,11 @@ export default function ImageTrail({
   }, []);
 
   const initializeImageTrail = useCallback(async () => {
+    // SAFARI-ONLY: Skip ImageTrail initialization in Safari to prevent scroll lag and GPU pressure
     // MOBILE-ONLY: Skip ImageTrail initialization on mobile to prevent scroll lag
-    // Desktop: Full ImageTrail functionality as before
-    if (isMobile) {
+    // Chrome Desktop: Full ImageTrail functionality as before
+    const shouldDisable = isMobile || isSafari;
+    if (shouldDisable) {
       setIsLoaded(true);
       setError(null);
       return;
@@ -1448,7 +1453,7 @@ export default function ImageTrail({
       setError('Failed to initialize image trail');
       setIsLoaded(false);
     }
-  }, [variant, items, isMobile]);
+  }, [variant, items, isMobile, isSafari]);
 
   useEffect(() => {
     // Only initialize on client side

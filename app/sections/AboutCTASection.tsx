@@ -7,11 +7,13 @@ import { SectionWrapper, NeonBlob } from './_shared';
 import { Button } from '../../components/Button';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import { getIsSafari } from '../../lib/safari-detection';
 
 const AboutCTASection: React.FC = () => {
   const isMobile = useIsMobile();
   const prefersReducedMotion = usePrefersReducedMotion();
-  const shouldAnimate = !isMobile && !prefersReducedMotion;
+  const isSafari = getIsSafari();
+  const shouldAnimate = !isMobile && !prefersReducedMotion && !isSafari;
   
   const sectionRef = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ 
@@ -20,7 +22,13 @@ const AboutCTASection: React.FC = () => {
   });
   
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
-  const y = useTransform(scrollYProgress, [0, 1], [isMobile ? 25 : 50, isMobile ? -25 : -50]);
+  // SAFARI-ONLY: Reduced transform ranges (70% reduction) to reduce GPU pressure
+  // MOBILE: Reduced ranges for better performance
+  // Chrome Desktop: Full transform ranges as before
+  const y = useTransform(scrollYProgress, [0, 1], [
+    isSafari ? 15 : (isMobile ? 25 : 50), 
+    isSafari ? -15 : (isMobile ? -25 : -50)
+  ]);
 
   return (
     <SectionWrapper id="about-cta" variant="default">

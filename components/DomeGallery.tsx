@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useCallback } from 'react';
 import { useGesture } from '@use-gesture/react';
 import { useIsMobileDevice } from '../lib/utils';
+import { getIsSafari } from '../lib/safari-detection';
 
 type ImageItem = string | { src: string; alt?: string };
 
@@ -187,6 +188,7 @@ export default function DomeGallery({
 
   const scrollLockedRef = useRef(false);
   const isMobile = useIsMobileDevice();
+  const isSafari = getIsSafari();
   
   // Mobile-only: Only lock scroll when image is enlarged, not during drag
   // Desktop: Lock scroll during drag as before
@@ -449,9 +451,10 @@ export default function DomeGallery({
         }
       }
     },
-    // MOBILE-ONLY: Use passive listeners on mobile to allow native scroll
-    // Desktop: Keep non-passive for drag behavior
-    { target: mainRef, eventOptions: { passive: isMobile } }
+    // SAFARI-ONLY: Always use passive listeners in Safari to improve scroll performance
+    // MOBILE: Use passive listeners to allow native scroll
+    // Chrome Desktop: Keep non-passive for drag behavior
+    { target: mainRef, eventOptions: { passive: isSafari || isMobile } }
   );
 
   useEffect(() => {
@@ -515,9 +518,8 @@ export default function DomeGallery({
         margin: 0;
         transform: none;
         filter: ${grayscale ? 'grayscale(1)' : 'none'};
-        background: rgba(0,0,0,0.4);
-        backdrop-filter: blur(40px);
-        -webkit-backdrop-filter: blur(40px);
+        background: ${isSafari ? 'rgba(0,0,0,0.8)' : 'rgba(0,0,0,0.4)'};
+        ${!isSafari ? 'backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);' : ''}
       `;
 
       const originalImageContainer = overlay.querySelector('div:last-child');
@@ -644,7 +646,13 @@ export default function DomeGallery({
     (el.style as any).zIndex = 0;
     const overlay = document.createElement('div');
     overlay.className = 'enlarge';
-    overlay.style.cssText = `position:absolute; left:${frameR.left - rootR.left}px; top:${frameR.top - rootR.top}px; width:${frameR.width}px; height:${frameR.height}px; opacity:0; z-index:50; will-change:transform,opacity; transform-origin:top left; transition:transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease; border-radius:${openedImageBorderRadius}; overflow:hidden; background:rgba(0,0,0,0.4); backdrop-filter:blur(40px); -webkit-backdrop-filter:blur(40px);`;
+    // SAFARI-ONLY: Replace backdrop-filter with solid background to reduce GPU pressure
+    // Chrome: backdrop-filter blur for glass effect
+    // Safari: Solid background for better performance
+    const backdropStyle = isSafari 
+      ? 'background: rgba(0,0,0,0.8);'
+      : 'background: rgba(0,0,0,0.4); backdrop-filter:blur(40px); -webkit-backdrop-filter:blur(40px);';
+    overlay.style.cssText = `position:absolute; left:${frameR.left - rootR.left}px; top:${frameR.top - rootR.top}px; width:${frameR.width}px; height:${frameR.height}px; opacity:0; z-index:50; will-change:transform,opacity; transform-origin:top left; transition:transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease; border-radius:${openedImageBorderRadius}; overflow:hidden; ${backdropStyle}`;
     const rawSrc = parent.dataset.src || (el.querySelector('img') as HTMLImageElement)?.src || '';
     const rawAlt = parent.dataset.alt || (el.querySelector('img') as HTMLImageElement)?.alt || '';
     
@@ -739,8 +747,7 @@ export default function DomeGallery({
       justify-content: center;
       z-index: 100;
       transition: all 0.2s ease;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      ${isSafari ? 'background: rgba(255, 255, 255, 0.15);' : 'backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);'}
     `;
     closeButton.addEventListener('mouseenter', () => {
       closeButton.style.background = 'rgba(255, 255, 255, 0.2)';
@@ -928,8 +935,13 @@ export default function DomeGallery({
             // Desktop: touch-action: none for drag behavior (unchanged)
             touchAction: isMobile ? 'pan-y' : 'none',
             WebkitUserSelect: 'none',
-            maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 5%, black 60%, transparent 100%)'
+            // SAFARI-ONLY: Remove mask images to reduce repaints
+            // Chrome: Keep mask for visual effect
+            // Safari: No mask for better performance
+            ...(isSafari ? {} : {
+              maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 5%, black 60%, transparent 100%)'
+            })
           }}
         >
           <div className="stage">

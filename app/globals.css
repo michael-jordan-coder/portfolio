@@ -108,3 +108,46 @@
     }
   }
 }
+
+/* SAFARI-ONLY: Performance optimizations to reduce GPU pressure */
+/* These optimizations only apply to Safari (desktop + iOS) */
+/* Chrome, Edge, Brave, and Firefox are unaffected */
+@supports (-webkit-touch-callout: none) {
+  /* Remove backdrop filters globally in Safari (expensive GPU operation) */
+  * {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  
+  /* Replace backdrop blur utilities with solid backgrounds */
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl {
+    background: rgba(0, 0, 0, 0.8) !important;
+  }
+  
+  /* Simplify blur filters (expensive in Safari) */
+  [style*="filter: blur"],
+  [style*="filter:blur"],
+  /* SAFARI-ONLY: Force remove blur from animated cards to fix permanent blur bug */
+  /* Target motion.div elements that contain project cards */
+  .safari-no-blur,
+  section#smooth [style*="filter"],
+  section#smooth > div > div[style*="filter"] {
+    filter: none !important;
+  }
+  
+  /* Remove complex masks (trigger repaints in Safari) */
+  [style*="mask-image"],
+  [style*="-webkit-mask-image"],
+  [style*="mask-image:"] {
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+  
+  /* Reduce will-change hints (let Safari decide layer promotion) */
+  [style*="will-change"] {
+    will-change: auto !important;
+  }
+}
