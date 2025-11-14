@@ -348,7 +348,9 @@ export default function DomeGallery({
   );
 
   useGesture(
-    {
+    // MOBILE: Disable all gesture interactions - component is visual-only
+    // DESKTOP: Full drag and tap interactions enabled
+    isMobile ? {} : {
       onDragStart: ({ event }) => {
         if (focusedElRef.current) return;
         stopInertia();
@@ -452,10 +454,44 @@ export default function DomeGallery({
       }
     },
     // SAFARI-ONLY: Always use passive listeners in Safari to improve scroll performance
-    // MOBILE: Use passive listeners to allow native scroll
+    // MOBILE: Use passive listeners to allow native scroll (gestures disabled above)
     // Chrome Desktop: Keep non-passive for drag behavior
-    { target: mainRef, eventOptions: { passive: isSafari || isMobile } }
+    { target: isMobile ? null : mainRef, eventOptions: { passive: isSafari || isMobile } }
   );
+
+  // MOBILE-ONLY: Subtle auto-rotation animation for visual interest without interaction
+  useEffect(() => {
+    if (!isMobile) return; // Only on mobile
+    
+    // Stop any existing inertia animation
+    stopInertia();
+    
+    // Subtle auto-rotation for visual interest without interaction
+    let animationFrame: number;
+    let startTime = performance.now();
+    const rotationSpeed = 0.015; // degrees per frame (very slow - ~1 full rotation per 4 minutes)
+    
+    const animate = (currentTime: number) => {
+      const elapsed = (currentTime - startTime) / 1000; // Convert to seconds
+      const newY = elapsed * rotationSpeed;
+      
+      rotationRef.current = { 
+        x: 0, // Keep vertical rotation at 0 for stability
+        y: newY 
+      };
+      applyTransform(rotationRef.current.x, rotationRef.current.y);
+      
+      animationFrame = requestAnimationFrame(animate);
+    };
+    
+    animationFrame = requestAnimationFrame(animate);
+    
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [isMobile, stopInertia]);
 
   useEffect(() => {
     const scrim = scrimRef.current;
@@ -934,6 +970,9 @@ export default function DomeGallery({
             // MOBILE-ONLY: Allow pan-y (vertical scroll) on mobile, keep none on desktop
             // Desktop: touch-action: none for drag behavior (unchanged)
             touchAction: isMobile ? 'pan-y' : 'none',
+            // MOBILE-ONLY: Disable all pointer events to prevent interaction
+            // Desktop: Allow pointer events for drag and tap
+            pointerEvents: isMobile ? 'none' : 'auto',
             WebkitUserSelect: 'none',
             // SAFARI-ONLY: Remove mask images to reduce repaints
             // Chrome: Keep mask for visual effect
@@ -971,21 +1010,23 @@ export default function DomeGallery({
                 >
                   <div
                     className="item__image absolute block overflow-hidden cursor-pointer bg-gray-200 transition-transform duration-300"
-                    role="button"
-                    tabIndex={0}
-                    aria-label={it.alt || 'Open image'}
-                    onClick={e => {
+                    role={isMobile ? 'img' : 'button'} // Change role on mobile to indicate non-interactive
+                    tabIndex={isMobile ? -1 : 0} // Remove from tab order on mobile
+                    aria-label={it.alt || (isMobile ? 'Image' : 'Open image')}
+                    onClick={isMobile ? undefined : (e => {
                       if (performance.now() - lastDragEndAt.current < 80) return;
                       openItemFromElement(e.currentTarget as HTMLElement);
-                    }}
-                    onTouchEnd={e => {
+                    })}
+                    onTouchEnd={isMobile ? undefined : (e => {
                       if (performance.now() - lastDragEndAt.current < 80) return;
                       openItemFromElement(e.currentTarget);
-                    }}
+                    })}
                     style={{
                       inset: '10px',
                       borderRadius: `var(--tile-radius, ${imageBorderRadius})`,
-                      backfaceVisibility: 'hidden'
+                      backfaceVisibility: 'hidden',
+                      cursor: isMobile ? 'default' : 'pointer', // Remove pointer cursor on mobile
+                      pointerEvents: isMobile ? 'none' : 'auto' // Disable pointer events on mobile
                     }}
                   >
                     <img

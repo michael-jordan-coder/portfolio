@@ -60,15 +60,22 @@ const HeroSection: React.FC = () => {
             <div 
               className="font-bold mb-1.5 leading-none"
               style={{
-                fontSize: 'clamp(1.8rem, 5vw, 5rem)',
+                fontSize: 'clamp(2.5rem, 6vw, 5rem)', // Larger on mobile: increased from 1.8rem to 2.5rem
                 lineHeight: '1.1'
               }}
             >
               Ai/UX product Designer.
             </div>
           
-            <p className="text-gray-400 font-regular text-2xl max-w-4xl mx-auto mb-4">
-           A true designer finds the right questions to makes the right decisions, im passionate about this process. so please join me on this journey. its messy, evolving, and fun.
+            <p className="text-gray-400 font-regular text-lg sm:text-2xl max-w-4xl mx-auto mb-4">
+              {/* Mobile: Shorter version */}
+              <span className="sm:hidden">
+                A true designer finds the right questions to make the right decisions. Join me on this journey—it's messy, evolving, and fun.
+              </span>
+              {/* Desktop: Full version */}
+              <span className="hidden sm:inline">
+                A true designer finds the right questions to makes the right decisions, im passionate about this process. so please join me on this journey. its messy, evolving, and fun.
+              </span>
             </p>
 
           </h1>
