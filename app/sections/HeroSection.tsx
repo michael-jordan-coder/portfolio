@@ -120,8 +120,29 @@ const HeroSection: React.FC = () => {
           </h1>
         </header>
 
+        {/* CTA Buttons - Mobile: above DomeGallery, Desktop: below */}
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mb-6 sm:mb-0 mt-6 sm:mt-8 w-full sm:w-auto order-2 sm:order-3">
+          <Button
+            variant="hero"
+            size="default"
+            className="w-full sm:w-auto"
+            onClick={handleScrollToProjects}
+          >
+            Explore Projects
+          </Button>
+
+          <Button
+            variant="primary"
+            size="default"
+            className="w-full sm:w-auto"
+            onClick={handleGoToAbout}
+          >
+            About me
+          </Button>
+        </div>
+
         {/* DomeGallery */}
-        <div className="relative w-full max-w-5xl mx-auto h-[300px] sm:h-[400px] md:h-[480px]">
+        <div className="relative w-full max-w-5xl mx-auto h-[300px] sm:h-[400px] md:h-[480px] order-3 sm:order-2">
           <DomeGallery
             images={[
               {
@@ -172,27 +193,6 @@ const HeroSection: React.FC = () => {
             openedImageWidth={openedDimensions.width}
             openedImageHeight={openedDimensions.height}
           />
-        </div>
-
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mt-6 sm:mt-8 w-full sm:w-auto">
-          <Button
-            variant="hero"
-            size="default"
-            className="w-full sm:w-auto"
-            onClick={handleScrollToProjects}
-          >
-            Explore Projects
-          </Button>
-
-          <Button
-            variant="primary"
-            size="default"
-            className="w-full sm:w-auto"
-            onClick={handleGoToAbout}
-          >
-            About me
-          </Button>
         </div>
       </div>
     </section>

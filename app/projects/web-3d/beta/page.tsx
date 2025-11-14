@@ -93,7 +93,7 @@ export default function HandTrackingComponentPage() {
       </Link>
 
       {/* Main Content */}
-      <main className="min-h-screen bg-semantic-dark-bg-primary relative overflow-hidden">
+      <div className="min-h-screen bg-semantic-dark-bg-primary relative overflow-hidden">
         {/* Dot Pattern Background */}
         <DotPattern 
           width={25} 
@@ -569,7 +569,7 @@ class GestureProcessor {
             ← Back to Project Overview
           </Link>
         </div>
-      </main>
+      </div>
       <ContactModal 
         isOpen={isContactModalOpen} 
         onClose={() => setIsContactModalOpen(false)} 

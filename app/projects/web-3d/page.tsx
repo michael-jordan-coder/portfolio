@@ -157,7 +157,7 @@ export default function HandTrackingPage() {
       </Link>
 
       {/* Main Content */}
-      <main className="min-h-[100svh] bg-semantic-dark-bg-primary relative overflow-hidden">
+      <div className="min-h-[100svh] bg-semantic-dark-bg-primary relative overflow-hidden">
         {/* Dot Pattern Background */}
         <DotPattern 
           width={25} 
@@ -419,7 +419,7 @@ export default function HandTrackingPage() {
             className="bg-black"
           />
         </div>
-      </main>
+      </div>
 
       {/* Camera Permission Modal */}
       <CameraPermissionModal

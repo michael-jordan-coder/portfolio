@@ -320,7 +320,7 @@ export default function Page() {
         <span className="text-white font-medium">back</span>
       </Link>
 
-      <main className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white">
         {/* 1) Hero */}
         <section className="pt-28 pb-16 px-6">
           <div className="max-w-[90rem] mx-auto">
@@ -566,7 +566,7 @@ export default function Page() {
             className="bg-white"
           />
         </div>
-      </main>
+      </div>
       <ContactModal 
         isOpen={isContactModalOpen} 
         onClose={() => setIsContactModalOpen(false)} 

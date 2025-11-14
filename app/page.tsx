@@ -38,7 +38,7 @@ export default function Home() {
 
   return (
     <>
-      <main 
+      <div 
         className="relative min-h-[100vh] sm:min-h-[100svh] overflow-visible sm:overflow-x-hidden"
         style={{
           paddingTop: 'env(safe-area-inset-top)',
@@ -58,7 +58,7 @@ export default function Home() {
         <AboutCTASection />
         
         <ResponsiveSection onOpenContact={() => setIsContactModalOpen(true)} />
-      </main>
+      </div>
       <ContactModal 
         isOpen={isContactModalOpen} 
         onClose={() => setIsContactModalOpen(false)} 

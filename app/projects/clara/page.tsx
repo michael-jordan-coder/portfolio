@@ -181,7 +181,7 @@ export default function Page() {
         <span className="text-white font-medium">back</span>
       </Link>
 
-      <main className="min-h-screen bg-black">
+      <div className="min-h-screen bg-black">
         {/* Hero Section */}
         <section className="pt-32 pb-24 px-6">
           <div className="max-w-[90rem] mx-auto">
@@ -608,7 +608,7 @@ This project reminded me that the future of AI isn't about replacing people — 
             className="bg-black"
           />
         </div>
-      </main>
+      </div>
       <ContactModal 
         isOpen={isContactModalOpen} 
         onClose={() => setIsContactModalOpen(false)} 

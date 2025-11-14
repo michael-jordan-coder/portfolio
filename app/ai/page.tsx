@@ -246,7 +246,7 @@ export default function Page() {
         </Link>
       </nav>
 
-      <main className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white">
         {/* 1) Hero */}
         <section className="pt-28 pb-16 px-6">
           <div className="max-w-6xl mx-auto">
@@ -740,7 +740,7 @@ export default function Page() {
             </Reveal>
           </div>
         </section>
-      </main>
+      </div>
     </>
   )
 }
