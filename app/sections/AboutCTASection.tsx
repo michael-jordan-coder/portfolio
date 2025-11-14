@@ -7,12 +7,12 @@ import { SectionWrapper, NeonBlob } from './_shared';
 import { Button } from '../../components/Button';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
-import { getIsSafari } from '../../lib/safari-detection';
+import { useIsSafari } from '../../hooks/useIsSafari';
 
 const AboutCTASection: React.FC = () => {
   const isMobile = useIsMobile();
   const prefersReducedMotion = usePrefersReducedMotion();
-  const isSafari = getIsSafari();
+  const isSafari = useIsSafari();
   const shouldAnimate = !isMobile && !prefersReducedMotion && !isSafari;
   
   const sectionRef = React.useRef<HTMLDivElement>(null);
@@ -21,7 +21,11 @@ const AboutCTASection: React.FC = () => {
     offset: ["start end", "end start"] 
   });
   
-  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
+  // Always call useTransform (React hooks must be called unconditionally)
+  const opacityTransform = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
+  // SAFARI-ONLY: Always visible (opacity: 1) to ensure section appears
+  // Chrome/Mobile: Scroll-based opacity animation as before
+  const opacity = isSafari ? 1 : opacityTransform;
   // SAFARI-ONLY: Reduced transform ranges (70% reduction) to reduce GPU pressure
   // MOBILE: Reduced ranges for better performance
   // Chrome Desktop: Full transform ranges as before
