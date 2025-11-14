@@ -121,7 +121,7 @@ const HeroSection: React.FC = () => {
         </header>
 
         {/* DomeGallery */}
-        <div className="relative w-full max-w-5xl mx-auto h-[420px] sm:h-[520px] md:h-[600px]">
+        <div className="relative w-full max-w-5xl mx-auto h-[300px] sm:h-[400px] md:h-[480px]">
           <DomeGallery
             images={[
               {
