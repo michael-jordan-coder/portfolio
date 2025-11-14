@@ -35,20 +35,26 @@ const HeroSection: React.FC = () => {
     height: '50vh',
   });
 
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     const handleResize = () => {
       const viewportWidth = window.innerWidth;
-      setOpenedDimensions(getDimensionsForWidth(viewportWidth));
+      const newDims = getDimensionsForWidth(viewportWidth);
+      setOpenedDimensions(newDims);
     };
 
     // init on mount
     handleResize();
 
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
+
+
 
   const handleScrollToProjects = () => {
     if (typeof document === 'undefined') return;
@@ -144,7 +150,9 @@ const HeroSection: React.FC = () => {
         </div>
 
         {/* DomeGallery */}
-        <div className="relative w-full max-w-5xl mx-auto h-[45vh] min-h-[260px] sm:h-[48vh] sm:min-h-[340px] md:h-[52vh] md:min-h-[420px] order-3 sm:order-2">
+        <div 
+          className="relative w-full max-w-5xl mx-auto h-[45vh] min-h-[260px] sm:h-[48vh] sm:min-h-[340px] md:h-[52vh] md:min-h-[420px] order-3 sm:order-2"
+        >
           <DomeGallery
             images={[
               {

@@ -165,6 +165,14 @@ export default function DomeGallery({
   autoRotate = false,
   autoRotateSpeed = 0.15
 }: DomeGalleryProps) {
+  console.log('[DomeGallery] RENDER', {
+    disableInteractions,
+    reduceAnimations,
+    autoRotate,
+    autoRotateSpeed,
+    segments,
+    timestamp: performance.now()
+  });
   const rootRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLDivElement>(null);
   const sphereRef = useRef<HTMLDivElement>(null);
@@ -194,13 +202,29 @@ export default function DomeGallery({
 
   const scrollLockedRef = useRef(false);
   const lockScroll = useCallback(() => {
-    if (scrollLockedRef.current) return;
+    if (scrollLockedRef.current) {
+      console.log('[DomeGallery] lockScroll - already locked');
+      return;
+    }
+    console.warn('[DomeGallery] 🔒 LOCKING SCROLL', {
+      timestamp: performance.now(),
+      stack: new Error().stack
+    });
     scrollLockedRef.current = true;
     document.body.classList.add('dg-scroll-lock');
   }, []);
   const unlockScroll = useCallback(() => {
-    if (!scrollLockedRef.current) return;
-    if (rootRef.current?.getAttribute('data-enlarging') === 'true') return;
+    if (!scrollLockedRef.current) {
+      console.log('[DomeGallery] unlockScroll - not locked');
+      return;
+    }
+    if (rootRef.current?.getAttribute('data-enlarging') === 'true') {
+      console.log('[DomeGallery] unlockScroll - enlarging, skipping');
+      return;
+    }
+    console.log('[DomeGallery] 🔓 UNLOCKING SCROLL', {
+      timestamp: performance.now()
+    });
     scrollLockedRef.current = false;
     document.body.classList.remove('dg-scroll-lock');
   }, []);
@@ -212,19 +236,36 @@ export default function DomeGallery({
   const applyTransform = (xDeg: number, yDeg: number) => {
     const el = sphereRef.current;
     if (el) {
+      const startTime = performance.now();
       el.style.transform = `translateZ(calc(var(--radius) * -1)) rotateX(${xDeg}deg) rotateY(${yDeg}deg)`;
+      const endTime = performance.now();
+      const duration = endTime - startTime;
+      if (duration > 5) {
+        console.warn('[DomeGallery] ⚠️ SLOW TRANSFORM', {
+          duration,
+          xDeg,
+          yDeg,
+          timestamp: endTime
+        });
+      }
     }
   };
 
   const lockedRadiusRef = useRef<number | null>(null);
 
   useEffect(() => {
+    console.log('[DomeGallery] ResizeObserver SETUP');
     const root = rootRef.current;
-    if (!root) return;
+    if (!root) {
+      console.warn('[DomeGallery] ResizeObserver - no root element');
+      return;
+    }
     const ro = new ResizeObserver(entries => {
+      const startTime = performance.now();
       const cr = entries[0].contentRect;
       const w = Math.max(1, cr.width),
         h = Math.max(1, cr.height);
+      const vh = typeof window !== 'undefined' ? window.innerHeight : 0;
       const minDim = Math.min(w, h),
         maxDim = Math.max(w, h),
         aspect = w / h;
@@ -252,6 +293,17 @@ export default function DomeGallery({
       lockedRadiusRef.current = Math.round(radius);
 
       const viewerPad = Math.max(8, Math.round(minDim * padFactor));
+      
+      console.log('[DomeGallery] ResizeObserver CALLBACK', {
+        width: w,
+        height: h,
+        vh,
+        vhPercent: h / vh * 100,
+        radius: lockedRadiusRef.current,
+        timestamp: startTime,
+        duration: performance.now() - startTime
+      });
+      
       root.style.setProperty('--radius', `${lockedRadiusRef.current}px`);
       root.style.setProperty('--viewer-pad', `${viewerPad}px`);
       root.style.setProperty('--overlay-blur-color', overlayBlurColor);
@@ -259,6 +311,17 @@ export default function DomeGallery({
       root.style.setProperty('--enlarge-radius', openedImageBorderRadius);
       root.style.setProperty('--image-filter', grayscale ? 'grayscale(1)' : 'none');
       applyTransform(rotationRef.current.x, rotationRef.current.y);
+      
+      const endTime = performance.now();
+      const totalDuration = endTime - startTime;
+      if (totalDuration > 16) {
+        console.warn('[DomeGallery] ⚠️ SLOW ResizeObserver', {
+          duration: totalDuration,
+          width: w,
+          height: h,
+          vh
+        });
+      }
 
       const enlargedOverlay = viewerRef.current?.querySelector('.enlarge') as HTMLElement;
       if (enlargedOverlay && frameRef.current && mainRef.current) {
@@ -308,22 +371,63 @@ export default function DomeGallery({
 
   // Auto-rotation for mobile (only when interactions are disabled)
   useEffect(() => {
-    if (!autoRotate || !disableInteractions) return;
+    if (!autoRotate || !disableInteractions) {
+      console.log('[DomeGallery] Auto-rotate SKIPPED', { autoRotate, disableInteractions });
+      return;
+    }
+    
+    console.log('[DomeGallery] 🔄 AUTO-ROTATE START', {
+      autoRotateSpeed,
+      timestamp: performance.now()
+    });
     
     let raf: number | null = null;
+    let frameCount = 0;
+    let lastLogTime = performance.now();
     
     const tick = () => {
+      const frameStart = performance.now();
+      frameCount++;
+      
       // Only rotate on Y axis (horizontal rotation) for smooth spinning
       const currentY = rotationRef.current.y;
       const newY = wrapAngleSigned(currentY + (autoRotateSpeed || 0.15));
       rotationRef.current = { ...rotationRef.current, y: newY };
       applyTransform(rotationRef.current.x, newY);
+      
+      const frameEnd = performance.now();
+      const frameDuration = frameEnd - frameStart;
+      
+      // Log every 60 frames or if slow
+      if (frameCount % 60 === 0 || frameDuration > 8) {
+        const timeSinceLastLog = frameEnd - lastLogTime;
+        console.log('[DomeGallery] Auto-rotate TICK', {
+          frameCount,
+          frameDuration,
+          fps: 1000 / (timeSinceLastLog / 60),
+          currentY,
+          newY,
+          timestamp: frameEnd
+        });
+        if (frameDuration > 8) {
+          console.warn('[DomeGallery] ⚠️ SLOW AUTO-ROTATE FRAME', {
+            frameDuration,
+            frameCount
+          });
+        }
+        lastLogTime = frameEnd;
+      }
+      
       raf = requestAnimationFrame(tick);
     };
     
     raf = requestAnimationFrame(tick);
     
     return () => {
+      console.log('[DomeGallery] 🔄 AUTO-ROTATE STOP', {
+        totalFrames: frameCount,
+        timestamp: performance.now()
+      });
       if (raf !== null) {
         cancelAnimationFrame(raf);
       }
@@ -373,6 +477,11 @@ export default function DomeGallery({
   useGesture(
     {
       onDragStart: ({ event }) => {
+        console.log('[DomeGallery] onDragStart', {
+          disableInteractions,
+          hasFocusedEl: !!focusedElRef.current,
+          timestamp: performance.now()
+        });
         if (disableInteractions || focusedElRef.current) return;
         stopInertia();
 
@@ -389,7 +498,18 @@ export default function DomeGallery({
         tapTargetRef.current = potential || null;
       },
       onDrag: ({ event, last, velocity: velArr = [0, 0], direction: dirArr = [0, 0], movement }) => {
-        if (disableInteractions || focusedElRef.current || !draggingRef.current || !startPosRef.current) return;
+        if (disableInteractions || focusedElRef.current || !draggingRef.current || !startPosRef.current) {
+          if (disableInteractions) {
+            console.log('[DomeGallery] onDrag BLOCKED - disableInteractions=true');
+          }
+          return;
+        }
+        console.log('[DomeGallery] onDrag', {
+          last,
+          velocity: velArr,
+          movement,
+          timestamp: performance.now()
+        });
 
         const evt = event as PointerEvent;
         if (pointerTypeRef.current === 'touch') evt.preventDefault();

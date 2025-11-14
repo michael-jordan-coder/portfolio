@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionValue } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { Button } from '../../components/Button';
 import { SectionWrapper, NeonBlob } from './_shared';
@@ -255,12 +255,17 @@ const AnimatedCard: React.FC<{ project: Project; index: number }> = ({ project }
   const shouldAnimate = !isMobile && !prefersReducedMotion && !isSafari;
   
   const cardRef = useRef<HTMLDivElement>(null);
-  // Mobile optimization handled via conditional transforms (shouldAnimate), not useScroll options
+  // MOBILE FIX: Use static motion value on mobile to prevent scroll blocking
   // Desktop: Full scroll-bound animations as before
-  const { scrollYProgress } = useScroll({ 
-    target: cardRef, 
-    offset: ["start end", "end start"]
+  const staticProgress = useMotionValue(0.5);
+  // CRITICAL FIX: Always call useScroll (Rules of Hooks), but use static value on mobile
+  // On mobile, useScroll causes excessive recalculations (3x per scroll event) that block scrolling
+  const { scrollYProgress: realScrollProgress } = useScroll({ 
+    target: isMobile ? null : cardRef, // null target on mobile = no calculations
+    offset: ["start end", "end start"] 
   });
+  // Use static value on mobile (no calculations), real scroll progress on desktop
+  const scrollYProgress = isMobile ? staticProgress : realScrollProgress;
   const centerProgress = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
   
   // Always call all hooks unconditionally to follow Rules of Hooks
@@ -331,11 +336,19 @@ const SmoothCarousel: React.FC = () => {
   const isSafari = useIsSafari();
   const shouldAnimate = !isMobile && !prefersReducedMotion && !isSafari;
   const [isClient, setIsClient] = useState(false);
-  // Mobile optimization handled via conditional transforms and reduced ranges, not useScroll options
+  // MOBILE FIX: Use static motion value on mobile to prevent scroll blocking
   // Desktop: Full scroll-bound animations as before
-  const { scrollYProgress } = useScroll({ 
-    offset: ["start end", "end start"]
+  const staticProgress = useMotionValue(0.5);
+  // CRITICAL FIX: Always call useScroll (Rules of Hooks), but disable on mobile
+  // On mobile, useScroll causes excessive recalculations (3x per scroll event) that block scrolling
+  const { scrollYProgress: realScrollProgress } = useScroll({ 
+    offset: ["start end", "end start"],
+    // On mobile, pass invalid target to prevent calculations
+    ...(isMobile ? { target: null } : {})
   });
+  // Use static value on mobile (no calculations), real scroll progress on desktop
+  const scrollYProgress = isMobile ? staticProgress : realScrollProgress;
+  
   // SAFARI-ONLY: Reduced transform ranges (70% reduction) to reduce GPU pressure
   // MOBILE: Reduced ranges for better performance
   // Chrome Desktop: Full transform ranges as before
